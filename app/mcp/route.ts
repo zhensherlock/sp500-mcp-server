@@ -1,27 +1,15 @@
 import { createMcpHandler } from "mcp-handler";
-import { z } from "zod";
+import { registerEchoTool } from "./tools";
 
 // StreamableHttp server
 const handler = createMcpHandler(
   async (server) => {
-    server.registerTool(
-      "echo",
-      {
-        title: "echo",
-        description: "Echo a message",
-        inputSchema: z.object({
-          message: z.string().min(1).max(100),
-        }),
-      },
-      async ({ message }) => ({
-        content: [{ type: "text", text: `Tool echo: ${message}` }],
-      })
-    );
+    registerEchoTool(server);
   },
   {},
   {
     basePath: "",
-    verboseLogs: true,
+    verboseLogs: false,
     maxDuration: 60,
     disableSse: true,
   }
