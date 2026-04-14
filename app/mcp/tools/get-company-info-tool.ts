@@ -31,7 +31,7 @@ export function registerGetCompanyInfoTool(server: any) {
     "get_company_info",
     {
       title: "Get Company Info",
-      description: "获取公司完整基本信息，支持 symbol 和公司名两种查询方式。",
+      description: "Get complete company basic info, supports symbol and company name queries.",
       inputSchema: getCompanyInfoParams,
     },
     async (params: z.infer<typeof getCompanyInfoParams>) => {

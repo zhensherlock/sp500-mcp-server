@@ -21,7 +21,7 @@ export function registerSearchCompaniesTool(server: any) {
     "search_companies",
     {
       title: "Search Companies",
-      description: "模糊搜索公司(快速定位工具)，返回匹配公司的精简信息。用户搜索后可得到 symbol，再调用 get_company_info 获取完整信息。",
+      description: "Fuzzy search for companies (quick lookup tool), returns concise info. Use symbol to call get_company_info for full details.",
       inputSchema: searchCompaniesParams,
     },
     async (params: z.infer<typeof searchCompaniesParams>) => {
@@ -68,7 +68,7 @@ export function registerSearchCompaniesTool(server: any) {
             text: JSON.stringify(
               {
                 companies,
-                prompt: "请告诉我您想查询哪家企业？",
+                prompt: "Which company would you like to query?",
               },
               null,
               2
