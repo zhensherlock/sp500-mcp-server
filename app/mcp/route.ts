@@ -1,10 +1,11 @@
 import { createMcpHandler } from "mcp-handler";
-import { registerEchoTool } from "./tools";
+import { registerEchoTool, registerSearchCompaniesTool, registerGetCompanyInfoTool } from "./tools";
 
-// StreamableHttp server
 const handler = createMcpHandler(
   async (server) => {
     registerEchoTool(server);
+    registerSearchCompaniesTool(server);
+    registerGetCompanyInfoTool(server);
   },
   {},
   {
