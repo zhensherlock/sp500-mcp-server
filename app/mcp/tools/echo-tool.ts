@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { supabase } from "../utils/supabase";
 
 export function registerEchoTool(server: any) {
   server.registerTool(
@@ -10,8 +11,13 @@ export function registerEchoTool(server: any) {
         message: z.string().min(1).max(100),
       }),
     },
-    async ({ message }: { message: string }) => ({
-      content: [{ type: "text", text: `Tool echo: ${message}` }],
-    })
+    async ({ message }: { message: string }) => {
+      // Example of using supabase here:
+      // const { data, error } = await supabase.from('your_table').select('*');
+
+      return {
+        content: [{ type: "text", text: `Tool echo: ${message}` }],
+      };
+    }
   );
 }
