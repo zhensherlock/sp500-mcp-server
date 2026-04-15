@@ -21,10 +21,13 @@
   "devDependencies": {
     "@eslint/compat": "^2.0.5",
     "@eslint/eslintrc": "^3.3.5",
+    "@tailwindcss/postcss": "^4.2.2",
     "@types/node": "^22.19.17",
     "@types/react": "^19.2.14",
     "eslint": "^10.2.0",
     "eslint-config-next": "^15.5.15",
+    "postcss": "^8.5.9",
+    "tailwindcss": "^4.2.2",
     "typescript": "^5.9.3"
   }
 }
