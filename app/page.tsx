@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white">
+    <main className="min-h-screen bg-linear-to-b from-gray-950 via-gray-900 to-gray-950 text-white">
       <div className="mx-auto max-w-4xl px-6 py-32">
         <div className="text-center">
           <h1 className="text-6xl font-bold tracking-tight sm:text-7xl">
