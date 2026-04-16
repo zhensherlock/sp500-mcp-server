@@ -10,7 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.103.0",
+    "@supabase/supabase-js": "^2.103.2",
     "mcp-handler": "^1.1.0",
     "next": "^15.5.15",
     "react": "^19.1.6",
@@ -26,7 +26,7 @@
     "@types/react": "^19.2.14",
     "eslint": "^10.2.0",
     "eslint-config-next": "^15.5.15",
-    "postcss": "^8.5.9",
+    "postcss": "^8.5.10",
     "tailwindcss": "^4.2.2",
     "typescript": "^5.9.3"
   }
