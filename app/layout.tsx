@@ -17,9 +17,7 @@ export const metadata: Metadata = {
   description: 'S&P 500 Index data and analysis via MCP',
 };
 
-export default function RootLayout({
-                                     children,
-                                   }: Readonly<{
+export default function RootLayout({ children }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
