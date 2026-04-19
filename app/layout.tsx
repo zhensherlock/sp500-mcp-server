@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,19 +14,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'S&P 500 MCP Server',
-  description: 'S&P 500 Index data and analysis via MCP',
+  title: "S&P 500 MCP",
+  description: "S&P 500 Index data via MCP — AI-powered access to company information",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
-export default function RootLayout({ children }: Readonly<{
+export default function RootLayout({
+  children,
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-    <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className="min-h-screen flex flex-col antialiased">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }
