@@ -17,10 +17,10 @@ export default function Header() {
             Tools
           </Link>
           <a
-            href="https://github.com"
+            href="https://github.com/zhensherlock/sp500-mcp-server"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-muted-foreground no-underline px-3 py-2 rounded-md transition-colors hover:text-foreground hover:bg-accent"
+            className="hidden sm:block text-sm font-medium text-muted-foreground no-underline px-3 py-2 rounded-md transition-colors hover:text-foreground hover:bg-accent"
           >
             GitHub
           </a>

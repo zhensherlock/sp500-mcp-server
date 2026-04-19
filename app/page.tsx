@@ -101,7 +101,7 @@ export default function Home() {
   const { theme } = useTheme();
 
   const auroraColors = theme === "dark"
-    ? { color1: "#7dd3fc", color2: "#38bdf8" }
+    ? { color1: "#f7f7f7", color2: "#e100ff" }
     : { color1: "#ea580c", color2: "#f97316" };
 
   return (
@@ -111,20 +111,20 @@ export default function Home() {
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <SoftAurora
-              speed={0.3}
-              scale={1.0}
-              brightness={0.6}
+              speed={0.6}
+              scale={1.5}
+              brightness={1}
               color1={auroraColors.color1}
               color2={auroraColors.color2}
-              noiseFrequency={2}
-              noiseAmplitude={0.7}
-              bandHeight={0.4}
-              bandSpread={1.5}
-              octaveDecay={0.12}
-              layerOffset={0.3}
-              colorSpeed={0.5}
+              noiseFrequency={2.5}
+              noiseAmplitude={1}
+              bandHeight={0.45}
+              bandSpread={1}
+              octaveDecay={0.1}
+              layerOffset={0}
+              colorSpeed={1}
               enableMouseInteraction={true}
-              mouseInfluence={0.15}
+              mouseInfluence={0.25}
             />
           </div>
           <div className="absolute inset-0 z-10 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,oklch(0.98_0.002_240/0.85)_0%,oklch(0.98_0.002_240/0.7)_50%,oklch(0.98_0.002_240/0.9)_100%)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,oklch(0.15_0.005_265_/_0.7)_0%,oklch(0.15_0.005_265_/_0.5)_50%,oklch(0.15_0.005_265_/_0.8)_100%)]" />
@@ -132,11 +132,10 @@ export default function Home() {
             <h1 className="text-[clamp(3rem,8vw,5rem)] font-bold tracking-tight leading-none mb-6 text-foreground">
               S&P 500 MCP
             </h1>
-            <p className="text-[clamp(1.5rem,4vw,2rem)] leading-relaxed text-muted-foreground max-w-[80ch] mx-auto mb-12">
-              Give your AI assistants access to real-time S&P 500 company data.
-              Search by symbol, name, sector, or industry
+            <p className="text-[clamp(1.5rem,4vw,2rem)] leading-relaxed max-w-[80ch] mx-auto mb-12">
+              <span className="text-foreground">Give your AI assistants access to real-time S&P 500 company data. Search by symbol, name, sector, or industry</span>
             </p>
-            <div className="flex items-center justify-center gap-8 flex-wrap">
+            <div className="flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
               <div className="text-center">
                 <div className="text-2xl font-semibold font-mono text-foreground">500</div>
                 <div className="text-sm text-muted-foreground mt-1">Companies</div>
@@ -185,7 +184,7 @@ export default function Home() {
             <p className="text-base text-muted-foreground max-w-[55ch] leading-relaxed">
               Add S&P 500 MCP to your favorite AI assistant with one click.
             </p>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 mt-8">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-4 mt-8">
               {mcpClients.map((client) => (
                 <button
                   key={client.name}
