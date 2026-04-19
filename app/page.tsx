@@ -1,6 +1,6 @@
 "use client";
 
-import SoftAurora from "@/components/SoftAurora";
+import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
@@ -12,6 +12,11 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useTheme } from "@/components/ThemeProvider";
+
+const SoftAurora = dynamic(() => import("@/components/SoftAurora"), {
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-muted" />
+});
 
 const mcpConfig = {
   mcpServers: {
