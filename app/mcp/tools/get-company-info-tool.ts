@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { supabase } from "../utils/supabase";
 
 const getCompanyInfoParams = z.object({
@@ -26,7 +27,7 @@ interface CompanyInfoRow {
   fullTimeEmployees: number | null;
 }
 
-export function registerGetCompanyInfoTool(server: any) {
+export function registerGetCompanyInfoTool(server: McpServer) {
   server.registerTool(
     "get_company_info",
     {
@@ -51,6 +52,14 @@ export function registerGetCompanyInfoTool(server: any) {
         return {
           content: [
             { type: "text", text: `Error getting company info: ${error.message}` },
+          ],
+        };
+      }
+
+      if (!data) {
+        return {
+          content: [
+            { type: "text", text: "Company not found" },
           ],
         };
       }

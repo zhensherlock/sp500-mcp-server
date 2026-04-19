@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { supabase } from "../utils/supabase";
 
 const searchCompaniesParams = z.object({
@@ -16,7 +17,7 @@ interface CompanyRow {
   industry: string | null;
 }
 
-export function registerSearchCompaniesTool(server: any) {
+export function registerSearchCompaniesTool(server: McpServer) {
   server.registerTool(
     "search_companies",
     {
@@ -49,6 +50,14 @@ export function registerSearchCompaniesTool(server: any) {
         return {
           content: [
             { type: "text", text: `Error searching companies: ${error.message}` },
+          ],
+        };
+      }
+
+      if (!data) {
+        return {
+          content: [
+            { type: "text", text: "No companies found" },
           ],
         };
       }

@@ -10,7 +10,7 @@ const handler = createMcpHandler(
   {
     basePath: "",
     verboseLogs: false,
-    maxDuration: 60,
+    maxDuration: Number(process.env.MCP_MAX_DURATION) || 60,
     disableSse: true,
   }
 );

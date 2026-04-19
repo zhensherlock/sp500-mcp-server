@@ -38,5 +38,5 @@ scripts/
 ## Important Notes
 - **`.env` is gitignored** but credentials were present at some point — never commit secrets
 - No test framework is set up; testing is manual via the client scripts
-- `maxDuration` defaults to 800, configurable via `MCP_MAX_DURATION` env var
+- `maxDuration` defaults to 60, configurable via `MCP_MAX_DURATION` env var
 - For Vercel deployment: requires Fluid compute; SSE requires Redis at `REDIS_URL` and `disableSse: false`
