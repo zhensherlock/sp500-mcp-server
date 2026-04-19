@@ -11,6 +11,7 @@
 |---|---|
 | `pnpm dev` | Start Next.js dev server |
 | `pnpm build` | Production build |
+| `pnpm start` | Start production server |
 | `pnpm type-check` | `tsc --noEmit` (no codegen) |
 | `pnpm lint` | ESLint (extends `next/core-web-vitals`, flat config in `eslint.config.mjs`) |
 
@@ -18,7 +19,7 @@
 
 ```
 app/mcp/
-  route.ts          ← MCP endpoint (GET/POST/DELETE). Streamable HTTP transport, SSE disabled.
+  route.ts          ← MCP endpoint (GET/POST/DELETE). Streamable HTTP transport; SSE disabled (hardcoded).
   tools/
     index.ts              ← Barrel export for tools
     search-companies-tool.ts
@@ -37,4 +38,5 @@ scripts/
 ## Important Notes
 - **`.env` is gitignored** but credentials were present at some point — never commit secrets
 - No test framework is set up; testing is manual via the client scripts
-- For Vercel deployment: requires Fluid compute, set `maxDuration: 800` in route for Pro/Enterprise; SSE requires Redis at `REDIS_URL` and `disableSse: false`
+- `maxDuration` defaults to 800, configurable via `MCP_MAX_DURATION` env var
+- For Vercel deployment: requires Fluid compute; SSE requires Redis at `REDIS_URL` and `disableSse: false`
