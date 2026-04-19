@@ -86,14 +86,16 @@ export default function ToolsPage() {
     <>
       <Header />
       <main>
-        <div className="tools-hero">
-          <h1 className="tools-hero-title">MCP Tools</h1>
-          <p className="tools-hero-subtitle">
+        <div className="pt-[calc(64px+4rem)] pb-16 px-6 text-center border-b border-border">
+          <h1 className="text-[clamp(2rem,5vw,3rem)] font-bold tracking-tight mb-4 text-foreground">
+            MCP Tools
+          </h1>
+          <p className="text-[18px] text-muted-foreground max-w-[50ch] mx-auto leading-relaxed">
             Available tools for querying S&P 500 company data through the MCP
             protocol.
           </p>
         </div>
-        <div className="tools-list">
+        <div className="max-w-[900px] mx-auto py-12 px-6">
           {tools.map((tool) => (
             <ToolCard
               key={tool.name}

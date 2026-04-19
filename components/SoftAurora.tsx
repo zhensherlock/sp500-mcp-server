@@ -3,8 +3,6 @@
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
 import { useEffect, useRef } from 'react';
 
-import './SoftAurora.css';
-
 interface SoftAuroraProps {
   speed?: number;
   scale?: number;
@@ -279,5 +277,5 @@ export default function SoftAurora({
     };
   }, [speed, scale, brightness, color1, color2, noiseFrequency, noiseAmplitude, bandHeight, bandSpread, octaveDecay, layerOffset, colorSpeed, enableMouseInteraction, mouseInfluence]);
 
-  return <div ref={containerRef} className="soft-aurora-container" />;
+  return <div ref={containerRef} className="w-full h-full" />;
 }
