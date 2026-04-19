@@ -20,8 +20,9 @@
 app/mcp/
   route.ts          ← MCP endpoint (GET/POST/DELETE). Streamable HTTP transport, SSE disabled.
   tools/
-    index.ts        ← Barrel export for tools
-    echo-tool.ts    ← Example tool
+    index.ts              ← Barrel export for tools
+    search-companies-tool.ts
+    get-company-info-tool.ts
   utils/
     supabase.ts     ← Shared Supabase client (from env vars)
 scripts/
@@ -29,7 +30,7 @@ scripts/
   test-streamable-http-client.mjs  ← StreamableHTTP client (points at /mcp)
 ```
 
-**Adding a new tool:** Create a file in `app/mcp/tools/` following `echo-tool.ts`, export from `tools/index.ts`, then call it in `route.ts`'s handler callback.
+**Adding a new tool:** Create a file in `app/mcp/tools/` following the pattern of existing tools (e.g., `search-companies-tool.ts`), export from `tools/index.ts`, then register it in `route.ts`'s handler callback.
 
 **MCP path:** The endpoint is mounted at `/mcp` (directory-based in Next.js App Router). Test client should hit `/mcp` (see `test-streamable-http-client.mjs`).
 
