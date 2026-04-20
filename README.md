@@ -58,3 +58,25 @@ pnpm lint         # ESLint
 - Requires [Fluid compute](https://vercel.com/docs/functions/fluid-compute) enabled
 - Set `maxDuration: 800` in `app/mcp/route.ts` for Vercel Pro/Enterprise accounts
 - For SSE transport: requires Redis at `REDIS_URL` and `disableSse: false` in `app/mcp/route.ts`
+
+## Docs
+
+Full guides and examples: https://sp500-mcp.vercel.app/
+
+## Contributing
+
+Feel free to dive in! [Open an issue](https://github.com/zhensherlock/sp500-mcp-server/issues/new/choose) or submit PRs.
+
+Standard Readme follows the [Contributor Covenant](http://contributor-covenant.org/version/1/3/0/) Code of Conduct.
+
+### Contributors
+
+This project exists thanks to all the people who contribute.
+
+<a href="https://github.com/zhensherlock/sp500-mcp-server/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=zhensherlock/sp500-mcp-server" />
+</a>
+
+## License
+
+[MIT](LICENSE) © MichaelSun
