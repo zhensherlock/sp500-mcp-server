@@ -45,7 +45,6 @@ export function registerGetCompanyInfoTool(server: McpServer) {
           "symbol, shortName, longName, displayName, quoteType, address, city, zip, country, phone, website, irWebsite, sector, sectorKey, industry, industryKey, longBusinessSummary, fullTimeEmployees"
         )
         .or(`symbol.ilike.${searchPattern},shortName.ilike.${searchPattern},longName.ilike.${searchPattern}`)
-        .limit(1)
         .single();
 
       if (error) {
