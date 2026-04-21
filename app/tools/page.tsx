@@ -86,7 +86,7 @@ export default function ToolsPage() {
     <>
       <Header />
       <main>
-        <div className="pt-[calc(64px+4rem)] pb-16 px-6 text-center border-b border-border">
+        <div className="pt-32 pb-16 px-6 text-center border-b border-border">
           <h1 className="text-[clamp(2rem,5vw,3rem)] font-bold tracking-tight mb-4 text-foreground">
             MCP Tools
           </h1>
@@ -95,7 +95,7 @@ export default function ToolsPage() {
             protocol.
           </p>
         </div>
-        <div className="max-w-[900px] mx-auto py-12 px-6">
+        <div className="max-w-225 mx-auto py-12 px-6">
           {tools.map((tool) => (
             <ToolCard
               key={tool.name}

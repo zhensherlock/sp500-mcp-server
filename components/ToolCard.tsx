@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Loader2, Play } from "lucide-react";
 
 interface Param {
   name: string;
@@ -24,9 +24,60 @@ export default function ToolCard({
   returns,
 }: ToolCardProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [paramValues, setParamValues] = useState<Record<string, string>>(() =>
+    Object.fromEntries(params.map((p) => [p.name, ""]))
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleParamChange = (name: string, value: string) => {
+    setParamValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleTestCall = async () => {
+    setIsLoading(true);
+    setError(null);
+    setResult(null);
+
+    try {
+      const callParams: Record<string, string | number> = {};
+      params.forEach((p) => {
+        const value = paramValues[p.name];
+        if (value) {
+          callParams[p.name] = p.type === "number" ? Number(value) : value;
+        }
+      });
+
+      const response = await fetch("/api/tools/call", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ toolName: name, params: callParams }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to call tool");
+      }
+
+      const content = data.content?.[0]?.text || JSON.stringify(data, null, 2);
+      setResult(content);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const hasRequiredParams = params.every(
+    (p) => !p.required || paramValues[p.name].trim() !== ""
+  );
 
   return (
-    <div className={`border border-border rounded-xl mb-6 overflow-hidden bg-card ${isOpen ? "open" : ""}`}>
+    <div
+      className={`border border-border rounded-xl mb-6 overflow-hidden bg-card ${isOpen ? "open" : ""}`}
+    >
       <button
         className="w-full p-6 cursor-pointer flex items-start justify-between gap-4 transition-colors bg-transparent border-none text-left font-inherit text-foreground hover:bg-accent"
         onClick={() => setIsOpen(!isOpen)}
@@ -35,10 +86,16 @@ export default function ToolCard({
       >
         <div>
           <div className="flex items-center gap-3">
-            <span className="font-mono text-base font-semibold text-foreground">{name}</span>
-            <span className="text-xs font-medium px-1.5 py-0.5 bg-primary text-primary-foreground rounded-sm">Tool</span>
+            <span className="font-mono text-base font-semibold text-foreground">
+              {name}
+            </span>
+            <span className="text-xs font-medium px-1.5 py-0.5 bg-primary text-primary-foreground rounded-sm">
+              Tool
+            </span>
           </div>
-          <p className="mt-2 text-[15px] text-muted-foreground leading-relaxed">{description}</p>
+          <p className="mt-2 text-[15px] text-muted-foreground leading-relaxed">
+            {description}
+          </p>
         </div>
         <ChevronDown
           size={20}
@@ -47,43 +104,130 @@ export default function ToolCard({
           aria-hidden="true"
         />
       </button>
-      <div className="grid transition-grid-rows duration-300 ease-out" style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}>
+      <div
+        className="grid transition-grid-rows duration-300 ease-out"
+        style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
+      >
         <div className="overflow-hidden">
           <div className="px-6 pb-6 border-t border-border">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-6 mb-4">Parameters</h4>
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-6 mb-4">
+              Parameters
+            </h4>
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr>
-                  <th className="text-left font-semibold text-foreground p-3 bg-accent border-b border-border rounded-t-md">Name</th>
-                  <th className="text-left font-semibold text-foreground p-3 bg-accent border-b border-border">Type</th>
-                  <th className="text-left font-semibold text-foreground p-3 bg-accent border-b border-border rounded-t-md">Description</th>
+                  <th className="text-left font-semibold text-foreground p-3 bg-accent border-b border-border rounded-t-md">
+                    Name
+                  </th>
+                  <th className="text-left font-semibold text-foreground p-3 bg-accent border-b border-border">
+                    Type
+                  </th>
+                  <th className="text-left font-semibold text-foreground p-3 bg-accent border-b border-border rounded-t-md">
+                    Description
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {params.map((param) => (
                   <tr key={param.name}>
                     <td className="p-3 border-b border-border align-top">
-                      <span className="font-mono font-medium text-foreground">{param.name}</span>
+                      <span className="font-mono font-medium text-foreground">
+                        {param.name}
+                      </span>
                       {param.required ? (
-                        <span className="inline-block text-xs font-semibold px-1 py-0.5 bg-destructive text-white rounded-sm ml-2">required</span>
+                        <span className="inline-block text-xs font-semibold px-1 py-0.5 bg-destructive text-white rounded-sm ml-2">
+                          required
+                        </span>
                       ) : (
-                        <span className="inline-block text-xs font-medium px-1 py-0.5 bg-muted text-muted-foreground rounded-sm ml-2">optional</span>
+                        <span className="inline-block text-xs font-medium px-1 py-0.5 bg-muted text-muted-foreground rounded-sm ml-2">
+                          optional
+                        </span>
                       )}
                     </td>
                     <td className="p-3 border-b border-border align-top">
-                      <span className="font-mono text-sm text-muted-foreground">{param.type}</span>
+                      <span className="font-mono text-sm text-muted-foreground">
+                        {param.type}
+                      </span>
                     </td>
                     <td className="p-3 border-b border-border align-top">
-                      <span className="text-muted-foreground leading-relaxed">{param.description}</span>
+                      <span className="text-muted-foreground leading-relaxed">
+                        {param.description}
+                      </span>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
 
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-6 mb-4">Returns</h4>
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-6 mb-4">
+              Test Call
+            </h4>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {params.map((param) => (
+                  <div key={param.name} className="flex flex-col gap-1.5">
+                    <label
+                      htmlFor={`param-${name}-${param.name}`}
+                      className="text-sm font-medium text-foreground"
+                    >
+                      {param.name}
+                      {param.required && (
+                        <span className="text-destructive ml-1">*</span>
+                      )}
+                    </label>
+                    <input
+                      id={`param-${name}-${param.name}`}
+                      type={param.type === "number" ? "number" : "text"}
+                      value={paramValues[param.name]}
+                      onChange={(e) =>
+                        handleParamChange(param.name, e.target.value)
+                      }
+                      placeholder={param.description}
+                      className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleTestCall}
+                  disabled={isLoading || !hasRequiredParams}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium text-sm transition-colors hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <Play size={16} />
+                  )}
+                  {isLoading ? "Calling..." : "Test Call"}
+                </button>
+              </div>
+
+              {error && (
+                <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
+                  <pre className="font-mono text-sm text-destructive whitespace-pre-wrap">
+                    {error}
+                  </pre>
+                </div>
+              )}
+
+              {result && (
+                <div className="bg-accent border border-border rounded-lg p-4 overflow-x-auto">
+                  <pre className="font-mono text-sm leading-relaxed text-foreground whitespace-pre">
+                    {result}
+                  </pre>
+                </div>
+              )}
+            </div>
+
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-6 mb-4">
+              Returns
+            </h4>
             <div className="bg-accent border border-border rounded-lg p-4 overflow-x-auto">
-              <pre className="font-mono text-sm leading-relaxed text-foreground m-0 whitespace-pre">{returns}</pre>
+              <pre className="font-mono text-sm leading-relaxed text-foreground m-0 whitespace-pre">
+                {returns}
+              </pre>
             </div>
           </div>
         </div>
