@@ -90,9 +90,7 @@ export function registerGetCompanyInfoTool(server: McpServer) {
                 industryKey: row.industryKey,
                 longBusinessSummary: row.longBusinessSummary,
                 fullTimeEmployees: row.fullTimeEmployees,
-              },
-              null,
-              2
+              }
             ),
           },
         ],

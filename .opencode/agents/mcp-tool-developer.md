@@ -71,7 +71,7 @@ export function registerMyToolTool(server: McpServer) {
         content: [
           {
             type: "text",
-            text: JSON.stringify(data, null, 2),
+            text: JSON.stringify(data),
           },
         ],
       };
@@ -112,7 +112,7 @@ All tools return the same response structure:
   content: [
     {
       type: "text",
-      text: JSON.stringify({ /* data */ }, null, 2),
+      text: JSON.stringify({ /* data */ }),
     },
   ],
 }

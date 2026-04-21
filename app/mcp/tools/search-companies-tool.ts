@@ -79,8 +79,6 @@ export function registerSearchCompaniesTool(server: McpServer) {
                 companies,
                 prompt: "Which company would you like to query?",
               },
-              null,
-              2
             ),
           },
         ],
