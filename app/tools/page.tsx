@@ -86,25 +86,27 @@ export default function ToolsPage() {
     <>
       <Header />
       <main>
-        <div className="pt-32 pb-16 px-6 text-center border-b border-border">
-          <h1 className="text-[clamp(2rem,5vw,3rem)] font-bold tracking-tight mb-4 text-foreground">
+        <div className="pt-24 pb-12 px-6 text-center border-b border-border">
+          <h1 className="text-[clamp(2rem,5vw,3rem)] font-bold tracking-normal mb-4 text-foreground">
             MCP Tools
           </h1>
-          <p className="text-[18px] text-muted-foreground max-w-[50ch] mx-auto leading-relaxed">
-            Available tools for querying S&P 500 company data through the MCP
+          <p className="text-[17px] text-muted-foreground max-w-[55ch] mx-auto leading-7">
+            Available tools for querying S&amp;P 500 company data through the MCP
             protocol.
           </p>
         </div>
-        <div className="max-w-225 mx-auto py-12 px-6">
-          {tools.map((tool) => (
-            <ToolCard
-              key={tool.name}
-              name={tool.name}
-              description={tool.description}
-              params={tool.params}
-              returns={tool.returns}
-            />
-          ))}
+        <div className="max-w-5xl mx-auto pt-12 pb-24 px-6">
+          <div className="space-y-6">
+            {tools.map((tool) => (
+              <ToolCard
+                key={tool.name}
+                name={tool.name}
+                description={tool.description}
+                params={tool.params}
+                returns={tool.returns}
+              />
+            ))}
+          </div>
         </div>
       </main>
       <Footer />
