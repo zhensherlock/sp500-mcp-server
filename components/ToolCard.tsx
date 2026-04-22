@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, Loader2, Play } from "lucide-react";
+import { ChevronDown, Play } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ToolTestDialog } from "@/components/ToolTestDialog";
 
 interface Param {
   name: string;
@@ -24,55 +26,7 @@ export default function ToolCard({
   returns,
 }: ToolCardProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [paramValues, setParamValues] = useState<Record<string, string>>(() =>
-    Object.fromEntries(params.map((p) => [p.name, ""]))
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleParamChange = (name: string, value: string) => {
-    setParamValues((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleTestCall = async () => {
-    setIsLoading(true);
-    setError(null);
-    setResult(null);
-
-    try {
-      const callParams: Record<string, string | number> = {};
-      params.forEach((p) => {
-        const value = paramValues[p.name];
-        if (value) {
-          callParams[p.name] = p.type === "number" ? Number(value) : value;
-        }
-      });
-
-      const response = await fetch("/api/tools/call", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ toolName: name, params: callParams }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to call tool");
-      }
-
-      const content = data.content?.[0]?.text || JSON.stringify(data, null, 2);
-      setResult(content);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Unknown error");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const hasRequiredParams = params.every(
-    (p) => !p.required || paramValues[p.name].trim() !== ""
-  );
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
     <div
@@ -100,7 +54,7 @@ export default function ToolCard({
         <ChevronDown
           size={20}
           strokeWidth={1.5}
-          className="flex-shrink-0 text-muted-foreground transition-transform duration-200"
+          className="shrink-0 text-muted-foreground transition-transform duration-200"
           aria-hidden="true"
         />
       </button>
@@ -110,6 +64,21 @@ export default function ToolCard({
       >
         <div className="overflow-hidden">
           <div className="px-6 pb-6 border-t border-border">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-6 mb-4">
+              Test Call
+            </h4>
+            <Button onClick={() => setIsDialogOpen(true)} variant="outline" className="gap-2">
+              <Play size={16} />
+              Test Call
+            </Button>
+
+            <ToolTestDialog
+              toolName={name}
+              params={params}
+              open={isDialogOpen}
+              onOpenChange={setIsDialogOpen}
+            />
+
             <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-6 mb-4">
               Parameters
             </h4>
@@ -158,68 +127,6 @@ export default function ToolCard({
                 ))}
               </tbody>
             </table>
-
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-6 mb-4">
-              Test Call
-            </h4>
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {params.map((param) => (
-                  <div key={param.name} className="flex flex-col gap-1.5">
-                    <label
-                      htmlFor={`param-${name}-${param.name}`}
-                      className="text-sm font-medium text-foreground"
-                    >
-                      {param.name}
-                      {param.required && (
-                        <span className="text-destructive ml-1">*</span>
-                      )}
-                    </label>
-                    <input
-                      id={`param-${name}-${param.name}`}
-                      type={param.type === "number" ? "number" : "text"}
-                      value={paramValues[param.name]}
-                      onChange={(e) =>
-                        handleParamChange(param.name, e.target.value)
-                      }
-                      placeholder={param.description}
-                      className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={handleTestCall}
-                  disabled={isLoading || !hasRequiredParams}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium text-sm transition-colors hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isLoading ? (
-                    <Loader2 size={16} className="animate-spin" />
-                  ) : (
-                    <Play size={16} />
-                  )}
-                  {isLoading ? "Calling..." : "Test Call"}
-                </button>
-              </div>
-
-              {error && (
-                <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
-                  <pre className="font-mono text-sm text-destructive whitespace-pre-wrap">
-                    {error}
-                  </pre>
-                </div>
-              )}
-
-              {result && (
-                <div className="bg-accent border border-border rounded-lg p-4 overflow-x-auto">
-                  <pre className="font-mono text-sm leading-relaxed text-foreground whitespace-pre">
-                    {result}
-                  </pre>
-                </div>
-              )}
-            </div>
 
             <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-6 mb-4">
               Returns
