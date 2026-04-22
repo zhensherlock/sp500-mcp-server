@@ -1,10 +1,11 @@
 import { createMcpHandler } from "mcp-handler";
-import { registerSearchCompaniesTool, registerGetCompanyInfoTool } from "./tools";
+import { registerSearchCompaniesTool, registerGetCompanyInfoTool, registerGetCompanyNewsTool } from "./tools";
 
 const handler = createMcpHandler(
   async (server) => {
     registerSearchCompaniesTool(server);
     registerGetCompanyInfoTool(server);
+    registerGetCompanyNewsTool(server);
   },
   {},
   {
