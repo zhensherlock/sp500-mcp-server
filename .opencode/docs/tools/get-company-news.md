@@ -2,7 +2,7 @@
 filename: get-company-news-tool.ts
 name: get_company_news
 title: Get Company News
-description: Get recent company news with sentiment analysis, supports filtering by symbol, sentiment, and time range
+description: Get recent company news with sentiment analysis, supports filtering by symbol and sentiment
 inputSchema:
   - name: query
     type: string
@@ -12,10 +12,6 @@ inputSchema:
     type: string
     required: false
     describe: Filter by sentiment (positive, negative, neutral)
-  - name: days
-    type: number
-    required: false
-    describe: Number of days to look back (default: 7)
   - name: limit
     type: number
     required: false
@@ -24,7 +20,7 @@ inputSchema:
 
 # get_company_news
 
-Get recent company news with sentiment analysis, supports filtering by symbol, sentiment, and time range.
+Get recent company news with sentiment analysis, supports filtering by symbol and sentiment.
 
 ## Tool Information
 
@@ -32,7 +28,7 @@ Get recent company news with sentiment analysis, supports filtering by symbol, s
 |-------|-------|
 | Name | `get_company_news` |
 | Title | Get Company News |
-| Description | Get recent company news with sentiment analysis, supports filtering by symbol, sentiment, and time range. |
+| Description | Get recent company news with sentiment analysis, supports filtering by symbol and sentiment. |
 
 ## Input Parameters
 
@@ -40,7 +36,6 @@ Get recent company news with sentiment analysis, supports filtering by symbol, s
 |-----------|------|----------|-------------|
 | `query` | string | Yes | Search query (symbol, short name, or long name) |
 | `sentiment` | string | No | Filter by sentiment (positive, negative, neutral) |
-| `days` | number | No | Number of days to look back (default: 7) |
 | `limit` | number | No | Maximum number of news to return (default: 10) |
 
 ## Input Schema
@@ -49,7 +44,6 @@ Get recent company news with sentiment analysis, supports filtering by symbol, s
 {
   query: z.string().min(1),
   sentiment?: z.enum(["positive", "negative", "neutral"]).optional(),
-  days?: z.number().min(1).max(365).default(7),
   limit?: z.number().min(1).max(100).default(10),
 }
 ```
@@ -63,7 +57,7 @@ Get recent company news with sentiment analysis, supports filtering by symbol, s
 ## Query Logic
 
 1. First resolve `query` to a stock symbol (via `company_info` table, same as `get_company_info`)
-2. Filter news by `symbol` + optional `sentiment` + optional `days` range
+2. Filter news by `symbol` + optional `sentiment`
 3. Sort by `pubDate` descending
 4. Limit results to `limit` rows
 
@@ -104,7 +98,6 @@ const res = await client.callTool({
   arguments: {
     query: "MMM",
     sentiment: "positive",
-    days: 7,
     limit: 5
   }
 });

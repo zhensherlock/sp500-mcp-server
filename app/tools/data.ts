@@ -83,7 +83,7 @@ export const tools: Array<{
   {
     name: "get_company_news",
     description:
-      "Get recent company news with sentiment analysis, supports filtering by symbol, sentiment, and time range.",
+      "Get recent company news with sentiment analysis, supports filtering by symbol and sentiment.",
     params: [
       {
         name: "query",
@@ -96,12 +96,6 @@ export const tools: Array<{
         type: "string",
         required: false,
         description: "Filter by sentiment (positive, negative, neutral)",
-      },
-      {
-        name: "days",
-        type: "number",
-        required: false,
-        description: "Number of days to look back (1-365, default: 7)",
       },
       {
         name: "limit",

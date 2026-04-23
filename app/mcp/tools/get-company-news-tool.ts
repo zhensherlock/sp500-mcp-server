@@ -5,7 +5,6 @@ import { supabase } from "../utils/supabase";
 const getCompanyNewsParams = z.object({
   query: z.string().min(1),
   sentiment: z.enum(["positive", "negative", "neutral"]).optional(),
-  days: z.number().min(1).max(365).default(7),
   limit: z.number().min(1).max(100).default(10),
 });
 
@@ -32,7 +31,7 @@ export function registerGetCompanyNewsTool(server: McpServer) {
       inputSchema: getCompanyNewsParams,
     },
     async (params: z.infer<typeof getCompanyNewsParams>) => {
-      const { query, sentiment, days, limit } = params;
+      const { query, sentiment, limit } = params;
 
       // Step 1: Resolve query to stock symbol via company_info table
       const searchPattern = `%${query}%`;
@@ -60,17 +59,11 @@ export function registerGetCompanyNewsTool(server: McpServer) {
 
       const symbol = companyData.symbol;
 
-      // Step 2: Calculate date range
-      const dateFrom = new Date();
-      dateFrom.setDate(dateFrom.getDate() - days);
-      const dateFromStr = dateFrom.toISOString().split("T")[0];
-
-      // Step 3: Build query for news with optional sentiment filter
+      // Step 2: Build query for news with optional sentiment filter
       let newsQuery = supabase
         .from("company_news_sentiment")
         .select("symbol, title, summary, provider, pubDate, thumbnail, url, lm_level, lm_score1, lm_score2, lm_sentiment")
         .eq("symbol", symbol)
-        .gte("pubDate", dateFromStr)
         .order("pubDate", { ascending: false })
         .limit(limit);
 
