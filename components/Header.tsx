@@ -1,12 +1,13 @@
 import ThemeToggle from "./ThemeToggle";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
       <div className="max-w-300 mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 no-underline text-foreground">
-          <img src="/logo.svg" alt="S&P 500 MCP" className="w-8 h-8" />
+          <Image src="/logo.svg" alt="S&P 500 MCP" width={32} height={32} />
           <span className="font-semibold text-lg tracking-tight">S&P 500 MCP</span>
         </Link>
         <nav className="flex items-center gap-4">

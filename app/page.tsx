@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
@@ -190,7 +191,7 @@ export default function Home() {
                   key={client.name}
                   className="flex items-center gap-3 p-4 bg-background border border-border rounded-lg cursor-pointer transition-colors hover:border-primary hover:bg-accent no-underline text-foreground"
                 >
-                  <img src={client.logo} alt="" className="w-8 h-8 object-contain shrink-0" />
+                  <Image src={client.logo} alt="" width={32} height={32} className="object-contain shrink-0" />
                   <span className="text-[15px] font-medium text-foreground">{client.name}</span>
                 </button>
               ))}
