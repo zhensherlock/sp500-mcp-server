@@ -121,4 +121,40 @@ export const tools: Array<{
   ]
 }`,
   },
+  {
+    name: "get_company_officers",
+    description:
+      "Get company executive officers and their compensation info, supports filtering by symbol",
+    params: [
+      {
+        name: "query",
+        type: "string",
+        required: true,
+        description: "Search query (symbol, short name, or long name)",
+      },
+      {
+        name: "limit",
+        type: "number",
+        required: false,
+        description: "Maximum number of officers to return (1-50, default: 20)",
+      },
+    ],
+    returns: `{
+  "symbol": "AAPL",
+  "officers": [
+    {
+      "name": "Mr. Timothy D. Cook",
+      "age": 64,
+      "title": "CEO & Director",
+      "totalPay": 16759518
+    },
+    {
+      "name": "Ms. Deirdre O'Brien",
+      "age": 58,
+      "title": "Senior Vice President of Retail & People",
+      "totalPay": 5037867
+    }
+  ]
+}`,
+  },
 ];
