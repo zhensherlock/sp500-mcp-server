@@ -11,12 +11,13 @@ import {
   Copy,
   Check,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useTheme } from "@/components/ThemeProvider";
+import { useHeroEntrance, useScrollStagger } from "@/hooks/useEntranceAnimation";
 
 const SoftAurora = dynamic(() => import("@/components/SoftAurora"), {
   ssr: false,
-  loading: () => <div className="w-full h-full bg-muted" />
+  loading: () => <div className="w-full h-full" />
 });
 
 const mcpConfig = {
@@ -100,6 +101,13 @@ function CopyButton() {
 
 export default function Home() {
   const { theme } = useTheme();
+  const heroRef = useRef<HTMLDivElement>(null);
+  const featuresRef = useRef<HTMLDivElement>(null);
+  const quickStartRef = useRef<HTMLDivElement>(null);
+
+  useHeroEntrance(heroRef);
+  useScrollStagger(featuresRef, ".feature-card", { stagger: 0.15, y: 30 });
+  useScrollStagger(quickStartRef, ".client-button, .config-block", { stagger: 0.08, y: 20 });
 
   const auroraColors = theme === "dark"
     ? { color1: "#f7f7f7", color2: "#e100ff" }
@@ -109,7 +117,7 @@ export default function Home() {
     <>
       <Header />
       <main>
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <SoftAurora
               speed={0.6}
@@ -120,34 +128,38 @@ export default function Home() {
               noiseFrequency={2.5}
               noiseAmplitude={1}
               bandHeight={0.45}
-              bandSpread={1}
+              bandSpread={0.4}
               octaveDecay={0.1}
               layerOffset={0}
               colorSpeed={1}
-              enableMouseInteraction={true}
+              enableMouseInteraction={false}
               mouseInfluence={0.25}
             />
           </div>
-          <div className="absolute inset-0 z-10 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,oklch(0.98_0.002_240/0.85)_0%,oklch(0.98_0.002_240/0.7)_50%,oklch(0.98_0.002_240/0.9)_100%)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,oklch(0.15_0.005_265_/_0.7)_0%,oklch(0.15_0.005_265_/_0.5)_50%,oklch(0.15_0.005_265_/_0.8)_100%)]" />
+          {/*<div className="absolute inset-0 z-10 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,oklch(0.98_0.002_240/0.85)_0%,oklch(0.98_0.002_240/0.7)_50%,oklch(0.98_0.002_240/0.9)_100%)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,oklch(0.15_0.005_265/0.7)_0%,oklch(0.15_0.005_265/0.5)_50%,oklch(0.15_0.005_265/0.8)_100%)]" />*/}
           <div className="relative z-20 text-center px-6 py-16 max-w-250">
-            <h1 className="text-[clamp(3rem,8vw,5rem)] font-bold tracking-tight leading-none mb-6 text-foreground">
+            <h1 className="hero-title animate-on-load text-[clamp(3rem,8vw,5rem)] font-bold tracking-tight leading-none mb-6 text-foreground">
               S&P 500 MCP
             </h1>
-            <p className="text-[clamp(1.5rem,4vw,2rem)] leading-relaxed max-w-[80ch] mx-auto mb-12">
-              <span className="text-foreground">Give your AI assistants access to real-time S&P 500 company data. Search by symbol, name, sector, or industry</span>
+            <p className="hero-tagline animate-on-load text-[clamp(1.5rem,4vw,2rem)] leading-relaxed max-w-[80ch] mx-auto mb-12">
+              <span className="text-foreground hero-chars">
+                {"Give your AI assistants access to real-time S&P 500 company data. Search by symbol, name, sector, or industry".split("").map((char, i) => (
+                  <span key={i} className="hero-char inline-block" style={{ opacity: 0 }}>{char === " " ? "\u00A0" : char}</span>
+                ))}
+              </span>
             </p>
             <div className="flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
-              <div className="text-center">
+              <div className="hero-stat animate-on-load text-center">
                 <div className="text-2xl font-semibold font-mono text-foreground">500</div>
                 <div className="text-sm text-muted-foreground mt-1">Companies</div>
               </div>
-              <div className="w-px h-8 bg-border" />
-              <div className="text-center">
+              <div className="hero-divider animate-on-load w-px h-8 bg-border" />
+              <div className="hero-stat animate-on-load text-center">
                 <div className="text-2xl font-semibold font-mono text-foreground">1957</div>
                 <div className="text-sm text-muted-foreground mt-1">Established</div>
               </div>
-              <div className="w-px h-8 bg-border" />
-              <div className="text-center">
+              <div className="hero-divider animate-on-load w-px h-8 bg-border" />
+              <div className="hero-stat animate-on-load text-center">
                 <div className="text-2xl font-semibold font-mono text-foreground">MCP</div>
                 <div className="text-sm text-muted-foreground mt-1">Protocol</div>
               </div>
@@ -155,7 +167,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-24 px-6">
+        <section ref={featuresRef} className="py-24 px-6">
           <div className="max-w-300 mx-auto">
             <h2 className="text-[clamp(1.75rem,4vw,2.25rem)] font-bold tracking-tight mb-4 text-foreground">
               Everything you need
@@ -165,7 +177,7 @@ export default function Home() {
             </p>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 mt-12">
               {features.map((feature) => (
-                <div key={feature.title} className="p-6 bg-card border border-border rounded-xl">
+                <div key={feature.title} className="feature-card animate-on-scroll p-6 bg-card border border-border rounded-xl">
                   <div className="w-12 h-12 flex items-center justify-center bg-accent rounded-lg mb-4 text-primary">
                     {feature.icon}
                   </div>
@@ -177,7 +189,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-24 px-6 bg-card border-t border-b border-border">
+        <section ref={quickStartRef} className="py-24 px-6 bg-card border-t border-b border-border">
           <div className="max-w-300 mx-auto">
             <h2 className="text-[clamp(1.75rem,4vw,2.25rem)] font-bold tracking-tight mb-4 text-foreground">
               Quick Start
@@ -189,7 +201,7 @@ export default function Home() {
               {mcpClients.map((client) => (
                 <button
                   key={client.name}
-                  className="flex items-center gap-3 p-4 bg-background border border-border rounded-lg cursor-pointer transition-colors hover:border-primary hover:bg-accent no-underline text-foreground"
+                  className="client-button animate-on-scroll flex items-center gap-3 p-4 bg-background border border-border rounded-lg cursor-pointer transition-colors hover:border-primary hover:bg-accent no-underline text-foreground"
                 >
                   <Image src={client.logo} alt="" width={32} height={32} className="object-contain shrink-0" />
                   <span className="text-[15px] font-medium text-foreground">{client.name}</span>
@@ -202,7 +214,7 @@ export default function Home() {
                 <span className="text-sm font-semibold text-foreground">Configuration</span>
                 <CopyButton />
               </div>
-              <div className="bg-muted border border-border rounded-lg p-6 overflow-x-auto">
+              <div className="config-block animate-on-scroll bg-muted border border-border rounded-lg p-6 overflow-x-auto">
                 <pre className="font-mono text-sm leading-relaxed text-foreground m-0 whitespace-pre">{mcpConfigJson}</pre>
               </div>
             </div>
