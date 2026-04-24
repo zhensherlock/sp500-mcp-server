@@ -24,6 +24,7 @@ app/mcp/
     index.ts              ← Barrel export for tools
     search-companies-tool.ts
     get-company-info-tool.ts
+    get-company-news-tool.ts
   utils/
     supabase.ts     ← Shared Supabase client (from env vars)
 scripts/
