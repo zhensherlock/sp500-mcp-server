@@ -81,9 +81,16 @@ export default function Home() {
             </h1>
             <p className="hero-tagline animate-on-load text-[clamp(1.5rem,4vw,2rem)] leading-relaxed max-w-[80ch] mx-auto mb-12">
               <span className="text-foreground hero-chars">
-                {"Give your AI assistants access to real-time S&P 500 company data. Search by symbol, name, sector, or industry".split("").map((char, i) => (
-                  <span key={i} className="hero-char inline-block" style={{ opacity: 0 }}>{char === " " ? "\u00A0" : char}</span>
-                ))}
+                <span className="whitespace-nowrap">
+                  {"Empower your AI to read the U.S. stock market — real-time\u00A0".split("").map((char, i) => (
+                    <span key={i} className="hero-char inline-block" style={{ opacity: 0 }}>{char === " " ? "\u00A0" : char}</span>
+                  ))}
+                </span>
+                <span className="whitespace-nowrap">
+                  {"S&P\u00A0500\u00A0company data, precise search, total visibility.".split("").map((char, i) => (
+                    <span key={i} className="hero-char inline-block" style={{ opacity: 0 }}>{char === " " ? "\u00A0" : char}</span>
+                  ))}
+                </span>
               </span>
             </p>
             <div className="flex items-center justify-center gap-4 sm:gap-8 flex-wrap">

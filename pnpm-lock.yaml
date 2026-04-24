@@ -32,6 +32,9 @@ importers:
       ogl:
         specifier: ^1.0.11
         version: 1.0.11
+      protocol-launcher:
+        specifier: ^1.21.1
+        version: 1.21.1
       radix-ui:
         specifier: ^1.4.3
         version: 1.4.3(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -664,6 +667,9 @@ packages:
 
   '@open-draft/until@2.1.0':
     resolution: {integrity: sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg==}
+
+  '@protocol-launcher/shared@1.4.6':
+    resolution: {integrity: sha512-BIXICDOnPlmizlR1LVdJM3HZLosr2LokEev3kkrUBjT/cdnpBYOm0BYNVm38pkFzorFaHRXy7KyWFIISDC7ssQ==}
 
   '@radix-ui/number@1.1.1':
     resolution: {integrity: sha512-MkKCwxlXTgz6CFoJx3pCwn07GKp36+aZyu/u2Ln2VrA5DcdyCZkASEDBTd8x5whTQQL5CiYf4prXKLcgQdv29g==}
@@ -3274,6 +3280,9 @@ packages:
   prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
 
+  protocol-launcher@1.21.1:
+    resolution: {integrity: sha512-wgLFehZ2psDMnXk9rxZG2BKR6Tu+Duac2sPKAEpNZZipUxMeiKgJCNG/6Vq65AOJkebHu5BFx7LUpQWXuhFFaQ==}
+
   proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
@@ -4431,6 +4440,8 @@ snapshots:
       outvariant: 1.4.3
 
   '@open-draft/until@2.1.0': {}
+
+  '@protocol-launcher/shared@1.4.6': {}
 
   '@radix-ui/number@1.1.1': {}
 
@@ -7132,6 +7143,10 @@ snapshots:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
+
+  protocol-launcher@1.21.1:
+    dependencies:
+      '@protocol-launcher/shared': 1.4.6
 
   proxy-addr@2.0.7:
     dependencies:
