@@ -196,6 +196,18 @@ When the user provides a requirement document:
    registerMyToolTool(server);
    ```
 
+6. **Sync to website tool data** in `app/tools/data.ts`:
+   ```typescript
+   {
+     name: "my_tool",
+     description: "Description of what the tool does",
+     params: [
+       { name: "param1", type: "string", required: true, description: "Parameter description" },
+     ],
+     returns: `{ "key": "value" }`,
+   },
+   ```
+
 ## Requirement Document Format
 
 The user will provide requirement documents in markdown format:
