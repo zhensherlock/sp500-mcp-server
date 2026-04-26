@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { supabase } from "../utils/supabase";
+import { getCompanySymbol } from '@/app/[transport]/utils';
 
 const getCompanyNewsParams = z.object({
   query: z.string().min(1),
@@ -33,33 +34,11 @@ export function registerGetCompanyNewsTool(server: McpServer) {
     async (params: z.infer<typeof getCompanyNewsParams>) => {
       const { query, sentiment, limit } = params;
 
-      // Step 1: Resolve query to stock symbol via company_info table
-      const searchPattern = `%${query}%`;
-      const { data: companyData, error: companyError } = await supabase
-        .from("company_info")
-        .select("symbol")
-        .or(`symbol.ilike.${searchPattern},shortName.ilike.${searchPattern},longName.ilike.${searchPattern}`)
-        .single();
+      const symbol = await getCompanySymbol({
+        query,
+        mcpServer: server,
+      })
 
-      if (companyError) {
-        return {
-          content: [
-            { type: "text", text: `Error getting company news: ${companyError.message}` },
-          ],
-        };
-      }
-
-      if (!companyData) {
-        return {
-          content: [
-            { type: "text", text: "Company not found" },
-          ],
-        };
-      }
-
-      const symbol = companyData.symbol;
-
-      // Step 2: Build query for news with optional sentiment filter
       let newsQuery = supabase
         .from("company_news_sentiment")
         .select("symbol, title, summary, provider, pubDate, thumbnail, url, lm_level, lm_score1, lm_score2, lm_sentiment")
@@ -71,22 +50,23 @@ export function registerGetCompanyNewsTool(server: McpServer) {
         newsQuery = newsQuery.eq("lm_sentiment", sentiment);
       }
 
-      const { data: newsData, error: newsError } = await newsQuery;
+      const { data: newsData } = await newsQuery;
 
-      if (newsError) {
+      if (!newsData?.length) {
+        const sentimentFilter = sentiment ? ` with ${sentiment} sentiment` : '';
         return {
           content: [
-            { type: "text", text: `Error getting company news: ${newsError.message}` },
+            { type: "text", text: `No news found for ${symbol}${sentimentFilter}.` },
           ],
         };
       }
 
-      const newsItems = (newsData || []).map((row: NewsRow) => ({
+      const news = (newsData || []).map((row: NewsRow) => ({
         title: row.title || "",
         summary: row.summary || "",
         provider: row.provider || "",
         pubDate: row.pubDate || "",
-        sentiment: row.lm_sentiment || "neutral",
+        sentiment: row.lm_sentiment || "",
         url: row.url || "",
         thumbnail: row.thumbnail || "",
         lm_level: row.lm_level || 0,
@@ -99,7 +79,7 @@ export function registerGetCompanyNewsTool(server: McpServer) {
             type: "text",
             text: JSON.stringify({
               symbol,
-              news: newsItems,
+              news,
             }),
           },
         ],

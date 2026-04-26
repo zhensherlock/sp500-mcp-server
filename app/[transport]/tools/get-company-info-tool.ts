@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { supabase } from "../utils/supabase";
+import { getCompanySymbol } from '@/app/[transport]/utils';
 
 const getCompanyInfoParams = z.object({
   query: z.string().min(1),
@@ -38,27 +39,23 @@ export function registerGetCompanyInfoTool(server: McpServer) {
     async (params: z.infer<typeof getCompanyInfoParams>) => {
       const { query } = params;
 
-      const searchPattern = `%${query}%`;
-      const { data, error } = await supabase
+      const symbol = await getCompanySymbol({
+        query,
+        mcpServer: server,
+      })
+
+      const { data } = await supabase
         .from("company_info")
         .select(
           "symbol, shortName, longName, displayName, quoteType, address, city, zip, country, phone, website, irWebsite, sector, sectorKey, industry, industryKey, longBusinessSummary, fullTimeEmployees"
         )
-        .or(`symbol.ilike.${searchPattern},shortName.ilike.${searchPattern},longName.ilike.${searchPattern}`)
+        .eq("symbol", symbol)
         .single();
-
-      if (error) {
-        return {
-          content: [
-            { type: "text", text: `Error getting company info: ${error.message}` },
-          ],
-        };
-      }
 
       if (!data) {
         return {
           content: [
-            { type: "text", text: "Company not found" },
+            { type: "text", text: `No company info found for ${symbol}.` },
           ],
         };
       }

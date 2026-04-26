@@ -44,10 +44,9 @@ Get complete company basic info, supports symbol and company name queries.
 
 ## Query Logic
 
-1. Search pattern is wrapped with `%query%` for partial matching
-2. Uses `ilike` for case-insensitive search on `symbol`, `shortName`, `longName`
+1. Resolve `query` to a stock symbol via `getCompanySymbol` utility (reports not found via MCP if no match)
+2. Query `company_info` by exact `symbol` match
 3. Returns only the first match (`.single()`)
-4. Selects all company info columns
 
 ## Response
 
@@ -78,8 +77,7 @@ Get complete company basic info, supports symbol and company name queries.
 
 | Scenario | Response |
 |----------|----------|
-| Database error | `Error getting company info: {error.message}` |
-| Company not found | `Company not found` |
+| Company not found | `Company not found` (from getCompanySymbol) |
 
 ## Usage Example
 
@@ -94,4 +92,4 @@ const res = await client.callTool({
 
 ## File Location
 
-`app/mcp/tools/get-company-info-tool.ts`
+`app/[transport]/tools/get-company-info-tool.ts`

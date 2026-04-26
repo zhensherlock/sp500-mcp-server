@@ -56,7 +56,7 @@ Get recent company news with sentiment analysis, supports filtering by symbol an
 
 ## Query Logic
 
-1. First resolve `query` to a stock symbol (via `company_info` table, same as `get_company_info`)
+1. Resolve `query` to a stock symbol via `getCompanySymbol` utility (reports not found via MCP if no match)
 2. Filter news by `symbol` + optional `sentiment`
 3. Sort by `pubDate` descending
 4. Limit results to `limit` rows
@@ -86,9 +86,8 @@ Get recent company news with sentiment analysis, supports filtering by symbol an
 
 | Scenario | Response |
 |----------|----------|
-| Database error | `Error getting company news: {error.message}` |
-| Company not found | `Company not found` |
-| No news found | `{ symbol: "MMM", news: [] }` |
+| Company not found | `Company not found` (from getCompanySymbol) |
+| No news found | `No news found for {symbol}[ with {sentiment} sentiment].` |
 
 ## Usage Example
 
@@ -105,4 +104,4 @@ const res = await client.callTool({
 
 ## File Location
 
-`app/mcp/tools/get-company-news-tool.ts`
+`app/[transport]/tools/get-company-news-tool.ts`

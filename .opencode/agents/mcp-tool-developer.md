@@ -13,11 +13,11 @@ You are an expert MCP (Model Context Protocol) tool developer agent specialized 
 
 ## Code Location
 
-**All MCP tool code MUST be written to:** `app/mcp/tools/`
+**All MCP tool code MUST be written to:** `app/[transport]/tools/`
 
 The output file path is determined by the requirement document's `filename` field. For example:
 
-- If `filename: my_tool.ts`, write to `app/mcp/tools/my_tool.ts`
+- If `filename: my-tool.ts`, write to `app/[transport]/tools/my-tool.ts`
 
 ## Implementation Pattern
 
@@ -29,27 +29,33 @@ Each tool is a separate file that exports a registration function:
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { supabase } from "../utils/supabase";
+import { getCompanySymbol } from "@/app/[transport]/utils";
 
 const MyToolParams = z.object({
   query: z.string().min(1),
 });
 
-export function registerMyToolTool(server: McpServer) {
-  server.registerTool(
+export function registerMyToolTool(mcpServer: McpServer) {
+  mcpServer.registerTool(
     "my_tool", // tool name (snake_case)
     {
       title: "My Tool Title",
-      description: "Description of what the tool does.",
+      description: "Description of what the tool does",
       inputSchema: MyToolParams,
     },
     async (params: z.infer<typeof MyToolParams>) => {
       const { query } = params;
 
+      const symbol = await getCompanySymbol({
+        query,
+        mcpServer,
+      });
+
       // Implementation using supabase client
       const { data, error } = await supabase
         .from("company_info")
         .select("...")
-        .ilike("column", `%${query}%`)
+        .eq("symbol", symbol)
 
       if (error) {
         return {
@@ -154,8 +160,26 @@ Available Supabase methods:
 - `.ilike(column, pattern)` for case-insensitive search
 - `.or(filterString)` for OR conditions
 - `.eq(column, value)` for equality filter
+- `.gte(column, value)` for greater-than-or-equal filter
+- `.lte(column, value)` for less-than-or-equal filter
+- `.order(column, { ascending: boolean })` for sorting
 - `.limit(n)` for result limits
 - `.single()` for single row
+
+### Symbol Resolution
+
+For tools that need to resolve a company query to a stock symbol, use the `getCompanySymbol` utility:
+
+```typescript
+import { getCompanySymbol } from "@/app/[transport]/utils";
+
+const symbol = await getCompanySymbol({
+  query,
+  mcpServer,
+});
+```
+
+This utility handles searching `company_info` by symbol, short name, or long name and throws if company is not found.
 
 ### Zod
 
@@ -181,14 +205,14 @@ When the user provides a requirement document:
    - Implement Supabase queries matching the document's requirements
    - Return results with proper error handling
 
-3. **Write ONLY to the file specified by `filename`** in `app/mcp/tools/`
+3. **Write ONLY to the file specified by `filename`** in `app/[transport]/tools/`
 
-4. **Register the tool** in `app/mcp/tools/index.ts`:
+4. **Register the tool** in `app/[transport]/tools/index.ts`:
    ```typescript
    export { registerMyToolTool } from "./my-tool";
    ```
 
-5. **Register the tool** in `app/mcp/route.ts`:
+5. **Register the tool** in `app/[transport]/route.ts`:
    ```typescript
    import { registerMyToolTool } from "./tools";
 
@@ -249,7 +273,7 @@ inputSchema:                 # Zod schema parameters
 Given a requirement document like `.opencode/docs/tools/get_company_info.md`:
 
 1. **Extract metadata** from YAML frontmatter:
-   - `filename: get-company-info-tool.ts` → write to `app/mcp/tools/get-company-info-tool.ts`
+   - `filename: get-company-info-tool.ts` → write to `app/[transport]/tools/get-company-info-tool.ts`
    - `name: get_company_info` → tool name
    - `title: Get Company Info` → tool title
    - `description: ...` → tool description
@@ -257,12 +281,12 @@ Given a requirement document like `.opencode/docs/tools/get_company_info.md`:
 
 2. **Implement the tool** following the patterns in this document
 
-3. **Register in `app/mcp/tools/index.ts`**:
+3. **Register in `app/[transport]/tools/index.ts`**:
    ```typescript
    export { registerGetCompanyInfoTool } from "./get-company-info-tool";
    ```
 
-4. **Register in `app/mcp/route.ts`**:
+4. **Register in `app/[transport]/route.ts`**:
    ```typescript
    import { registerGetCompanyInfoTool } from "./tools";
    // In the handler callback:
@@ -277,6 +301,8 @@ Given a requirement document like `.opencode/docs/tools/get_company_info.md`:
 4. **Use `.ilike()` for case-insensitive search** - Supabase pattern matching
 5. **Use `.or()` for multiple column search** - e.g., `.or(\`col1.ilike.\${pattern},col2.ilike.\${pattern}\`)`
 6. **Handle null values** - Use `|| ""` or `?? defaultValue` for optional fields
+7. **Use `.gte()` and `.lte()` for date range filters** - e.g., `.gte("filing_date", start_date)`
+8. **Use `.order()` with `{ ascending: false }`** for descending sort (most recent first)
 
 ## Unit Test Generation
 
@@ -284,7 +310,7 @@ When generating code, you SHOULD also generate corresponding unit tests if the p
 
 ### Test File Location
 
-**Test files are written to:** `app/mcp/tests/tools/` (if tests directory exists)
+**Test files are written to:** `app/[transport]/tests/tools/` (if tests directory exists)
 
 ### Test Pattern
 

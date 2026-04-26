@@ -51,10 +51,10 @@ Get company executive officers and their compensation info, supports filtering b
 
 ## Query Logic
 
-1. First resolve `query` to a stock symbol (via `company_info` table, same as `get_company_info`)
+1. Resolve `query` to a stock symbol via `getCompanySymbol` utility (reports not found via MCP if no match)
 2. Filter officers by `symbol`
-3. Results limited to `limit` rows (default 20)
-4. Order by `totalPay` descending (higher paid executives first)
+3. Order by `totalPay` descending (higher paid executives first)
+4. Limit results to `limit` rows (default 20)
 
 ## Response
 
@@ -82,9 +82,8 @@ Get company executive officers and their compensation info, supports filtering b
 
 | Scenario | Response |
 |----------|----------|
-| Database error | `Error getting company officers: {error.message}` |
-| Company not found | `Company not found` |
-| No officers found | `{ symbol: "AAPL", officers: [] }` |
+| Company not found | `Company not found` (from getCompanySymbol) |
+| No officers found | `No officers found for {symbol}.` |
 
 ## Usage Example
 
@@ -100,4 +99,4 @@ const res = await client.callTool({
 
 ## File Location
 
-`app/mcp/tools/get-company-officers-tool.ts`
+`app/[transport]/tools/get-company-officers-tool.ts`

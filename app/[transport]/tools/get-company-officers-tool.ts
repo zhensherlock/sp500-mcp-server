@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { supabase } from "../utils/supabase";
+import { getCompanySymbol } from '@/app/[transport]/utils';
 
 const getCompanyOfficersParams = z.object({
   query: z.string().min(1),
@@ -25,44 +26,22 @@ export function registerGetCompanyOfficersTool(server: McpServer) {
     async (params: z.infer<typeof getCompanyOfficersParams>) => {
       const { query, limit } = params;
 
-      // First resolve query to a stock symbol via company_info
-      const searchPattern = `%${query}%`;
-      const { data: companyData, error: companyError } = await supabase
-        .from("company_info")
-        .select("symbol")
-        .or(`symbol.ilike.${searchPattern},shortName.ilike.${searchPattern},longName.ilike.${searchPattern}`)
-        .single();
+      const symbol = await getCompanySymbol({
+        query,
+        mcpServer: server,
+      })
 
-      if (companyError) {
-        return {
-          content: [
-            { type: "text", text: `Error getting company officers: ${companyError.message}` },
-          ],
-        };
-      }
-
-      if (!companyData) {
-        return {
-          content: [
-            { type: "text", text: "Company not found" },
-          ],
-        };
-      }
-
-      const symbol = companyData.symbol;
-
-      // Fetch officers filtered by symbol, ordered by totalPay descending
-      const { data: officersData, error: officersError } = await supabase
+      const { data: officersData } = await supabase
         .from("company_officers")
         .select("name, age, title, totalPay")
         .eq("symbol", symbol)
         .order("totalPay", { ascending: false })
         .limit(limit);
 
-      if (officersError) {
+      if (!officersData?.length) {
         return {
           content: [
-            { type: "text", text: `Error getting company officers: ${officersError.message}` },
+            { type: "text", text: `No officers found for ${symbol}.` },
           ],
         };
       }

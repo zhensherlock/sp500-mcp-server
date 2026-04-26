@@ -69,13 +69,13 @@ Get SEC filings history for a company, supports filtering by symbol, date range,
 
 ## Query Logic
 
-1. First resolve `query` to a stock symbol (via `company_info` table, same as `get_company_info`)
-2. Filter by `symbol`
-3. Optional `filing_type` filter using `ilike` (case-insensitive partial match)
-4. Optional `start_date` filter (filing_date >= start_date)
-5. Optional `end_date` filter (filing_date <= end_date)
-6. Order by `filing_date` descending (most recent first)
-7. Results limited to `limit` parameter (default 20)
+1. Resolve `query` to a stock symbol using `getCompanySymbol` utility (from `@/app/[transport]/utils`)
+2. Filter by `symbol` using `.eq("symbol", symbol)`
+3. Optional `filing_type` filter using `.ilike()` (case-insensitive partial match)
+4. Optional `start_date` filter using `.gte("filing_date", start_date)`
+5. Optional `end_date` filter using `.lte("filing_date", end_date)`
+6. Order by `filing_date` descending (most recent first) using `.order("filing_date", { ascending: false })`
+7. Results limited to `limit` parameter (default 20) using `.limit(limit)`
 
 ## Response
 
@@ -103,9 +103,8 @@ Get SEC filings history for a company, supports filtering by symbol, date range,
 
 | Scenario | Response |
 |----------|----------|
-| Database error | `Error getting company filings: {error.message}` |
-| Company not found | `Company not found` |
-| No filings found | `{ symbol: "AAPL", filings: [] }` |
+| Company not found | `Company not found` (from getCompanySymbol) |
+| No filings found | `No filings found for {symbol} with {filters}. Try adjusting the date range or filing type.` |
 
 ## Usage Example
 
@@ -123,4 +122,4 @@ const res = await client.callTool({
 
 ## File Location
 
-`app/mcp/tools/get-company-filings-tool.ts`
+`app/[transport]/tools/get-company-filings-tool.ts`
