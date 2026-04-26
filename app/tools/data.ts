@@ -157,4 +157,52 @@ export const tools: Array<{
   ]
 }`,
   },
+  {
+    name: "get_company_filings",
+    description:
+      "Get SEC filings history for a company, supports filtering by symbol, date range, and filing type",
+    params: [
+      {
+        name: "query",
+        type: "string",
+        required: true,
+        description: "Search query (symbol, short name, or long name)",
+      },
+      {
+        name: "filing_type",
+        type: "string",
+        required: false,
+        description: "Filter by filing type (e.g., 10-K, 10-Q, 8-K, PRE 14A, DEF 14A)",
+      },
+      {
+        name: "start_date",
+        type: "string",
+        required: false,
+        description: "Filter filings from this date (YYYY-MM-DD)",
+      },
+      {
+        name: "end_date",
+        type: "string",
+        required: false,
+        description: "Filter filings until this date (YYYY-MM-DD)",
+      },
+      {
+        name: "limit",
+        type: "number",
+        required: false,
+        description: "Maximum number of filings to return (1-100, default: 20)",
+      },
+    ],
+    returns: `{
+  "symbol": "AAPL",
+  "filings": [
+    {
+      "filing_date": "2026-03-20",
+      "filing_type": "8-K",
+      "title": "Corporate Changes & Voting Matters",
+      "edgarUrl": "https://finance.yahoo.com/sec-filing/A/0001193125-26-117614_1090872"
+    }
+  ]
+}`,
+  },
 ];

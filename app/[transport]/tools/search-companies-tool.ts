@@ -17,8 +17,8 @@ interface CompanyRow {
   industry: string | null;
 }
 
-export function registerSearchCompaniesTool(server: McpServer) {
-  server.registerTool(
+export function registerSearchCompaniesTool(mcpServer: McpServer) {
+  mcpServer.registerTool(
     "search_companies",
     {
       title: "Search Companies",
@@ -41,18 +41,10 @@ export function registerSearchCompaniesTool(server: McpServer) {
 
       const searchPattern = `%${query}%`;
       queryBuilder = queryBuilder.or(
-        `symbol.ilike.${searchPattern},shortName.ilike.${searchPattern},longName.ilike.${searchPattern},sector.ilike.${searchPattern},industry.ilike.${searchPattern}`
+        `symbol.ilike.${searchPattern},shortName.ilike.${searchPattern},longName.ilike.${searchPattern}`
       );
 
-      const { data, error } = await queryBuilder.limit(limit);
-
-      if (error) {
-        return {
-          content: [
-            { type: "text", text: `Error searching companies: ${error.message}` },
-          ],
-        };
-      }
+      const { data } = await queryBuilder.limit(limit);
 
       if (!data) {
         return {
@@ -70,6 +62,24 @@ export function registerSearchCompaniesTool(server: McpServer) {
         industry: row.industry || "",
       }));
 
+      if (mcpServer.server.getClientCapabilities()?.elicitation) {
+        await mcpServer.server.elicitInput({
+          mode: "form",
+          message: "Which company would you like to query?",
+          requestedSchema: {
+            type: "object",
+            properties: {
+              companyName: {
+                type: "string",
+                title: "company name",
+                enum: data.map(item => item.longName),
+              },
+            },
+            required: ["companyName"]
+          }
+        });
+      }
+
       return {
         content: [
           {
@@ -77,9 +87,12 @@ export function registerSearchCompaniesTool(server: McpServer) {
             text: JSON.stringify(
               {
                 companies,
-                prompt: "Which company would you like to query?",
               },
             ),
+          },
+          {
+            type: "text",
+            text: "Which company would you like to query?",
           },
         ],
       };
