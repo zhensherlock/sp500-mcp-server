@@ -5,49 +5,6 @@ export const tools: Array<{
   returns: string;
 }> = [
   {
-    name: "search_companies",
-    description:
-      "Fuzzy search for companies by symbol, name, sector, or industry. Returns concise company information. Use symbol to call get_company_info for full details.",
-    params: [
-      {
-        name: "query",
-        type: "string",
-        required: true,
-        description: "Search keyword for fuzzy matching against symbol, name, sector, or industry",
-      },
-      {
-        name: "sector",
-        type: "string",
-        required: false,
-        description: "Filter by sector (e.g., Technology, Healthcare)",
-      },
-      {
-        name: "industry",
-        type: "string",
-        required: false,
-        description: "Filter by industry",
-      },
-      {
-        name: "limit",
-        type: "number",
-        required: false,
-        description: "Maximum number of results to return (1-20, default: 5)",
-      },
-    ],
-    returns: `{
-  "companies": [
-    {
-      "symbol": "AAPL",
-      "shortName": "Apple Inc.",
-      "longName": "Apple Inc.",
-      "sector": "Technology",
-      "industry": "Consumer Electronics"
-    }
-  ],
-  "prompt": "Which company would you like to query?"
-}`,
-  },
-  {
     name: "get_company_info",
     description:
       "Get complete company basic information including financials, leadership, address, and business summary. Supports both symbol and company name queries.",
