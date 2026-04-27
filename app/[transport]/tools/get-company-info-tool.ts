@@ -1,35 +1,14 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { supabase } from "../utils/supabase";
-import { getCompanySymbol } from '@/app/[transport]/utils';
+import { getCompanySymbol, getSummary } from '@/app/[transport]/utils';
 
 const getCompanyInfoParams = z.object({
   query: z.string().min(1),
 });
 
-interface CompanyInfoRow {
-  symbol: string;
-  shortName: string;
-  longName: string;
-  displayName: string | null;
-  quoteType: string | null;
-  address: string | null;
-  city: string | null;
-  zip: string | null;
-  country: string | null;
-  phone: string | null;
-  website: string | null;
-  irWebsite: string | null;
-  sector: string | null;
-  sectorKey: string | null;
-  industry: string | null;
-  industryKey: string | null;
-  longBusinessSummary: string | null;
-  fullTimeEmployees: number | null;
-}
-
-export function registerGetCompanyInfoTool(server: McpServer) {
-  server.registerTool(
+export function registerGetCompanyInfoTool(mcpServer: McpServer) {
+  mcpServer.registerTool(
     "get_company_info",
     {
       title: "Get Company Info",
@@ -41,7 +20,7 @@ export function registerGetCompanyInfoTool(server: McpServer) {
 
       const symbol = await getCompanySymbol({
         query,
-        mcpServer: server,
+        mcpServer,
       })
 
       const { data } = await supabase
@@ -60,34 +39,19 @@ export function registerGetCompanyInfoTool(server: McpServer) {
         };
       }
 
-      const row = data as CompanyInfoRow;
+      const summary = await getSummary({
+        text: JSON.stringify(data),
+        mcpServer,
+      })
 
       return {
         content: [
           {
             type: "text",
-            text: JSON.stringify(
-              {
-                symbol: row.symbol,
-                shortName: row.shortName,
-                longName: row.longName,
-                displayName: row.displayName,
-                quoteType: row.quoteType,
-                address: row.address,
-                city: row.city,
-                zip: row.zip,
-                country: row.country,
-                phone: row.phone,
-                website: row.website,
-                irWebsite: row.irWebsite,
-                sector: row.sector,
-                sectorKey: row.sectorKey,
-                industry: row.industry,
-                industryKey: row.industryKey,
-                longBusinessSummary: row.longBusinessSummary,
-                fullTimeEmployees: row.fullTimeEmployees,
-              }
-            ),
+            text: JSON.stringify({
+              ...data,
+              summary,
+            }),
           },
         ],
       };

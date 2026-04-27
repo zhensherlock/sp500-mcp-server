@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { supabase } from "../utils/supabase";
-import { getCompanySymbol } from '@/app/[transport]/utils';
+import { getCompanySymbol, getSummary } from '@/app/[transport]/utils';
 
 const getCompanyNewsParams = z.object({
   query: z.string().min(1),
@@ -9,22 +9,8 @@ const getCompanyNewsParams = z.object({
   limit: z.number().min(1).max(100).default(10),
 });
 
-interface NewsRow {
-  symbol: string;
-  title: string | null;
-  summary: string | null;
-  provider: string | null;
-  pubDate: string | null;
-  thumbnail: string | null;
-  url: string | null;
-  lm_level: number | null;
-  lm_score1: number | null;
-  lm_score2: number | null;
-  lm_sentiment: string | null;
-}
-
-export function registerGetCompanyNewsTool(server: McpServer) {
-  server.registerTool(
+export function registerGetCompanyNewsTool(mcpServer: McpServer) {
+  mcpServer.registerTool(
     "get_company_news",
     {
       title: "Get Company News",
@@ -36,7 +22,7 @@ export function registerGetCompanyNewsTool(server: McpServer) {
 
       const symbol = await getCompanySymbol({
         query,
-        mcpServer: server,
+        mcpServer,
       })
 
       let newsQuery = supabase
@@ -50,9 +36,9 @@ export function registerGetCompanyNewsTool(server: McpServer) {
         newsQuery = newsQuery.eq("lm_sentiment", sentiment);
       }
 
-      const { data: newsData } = await newsQuery;
+      const { data } = await newsQuery;
 
-      if (!newsData?.length) {
+      if (!data?.length) {
         const sentimentFilter = sentiment ? ` with ${sentiment} sentiment` : '';
         return {
           content: [
@@ -61,17 +47,13 @@ export function registerGetCompanyNewsTool(server: McpServer) {
         };
       }
 
-      const news = (newsData || []).map((row: NewsRow) => ({
-        title: row.title || "",
-        summary: row.summary || "",
-        provider: row.provider || "",
-        pubDate: row.pubDate || "",
-        sentiment: row.lm_sentiment || "",
-        url: row.url || "",
-        thumbnail: row.thumbnail || "",
-        lm_level: row.lm_level || 0,
-        lm_score1: row.lm_score1 || 0,
-      }));
+      const summary = await getSummary({
+        text: JSON.stringify({
+          symbol,
+          news: data || [],
+        }),
+        mcpServer,
+      })
 
       return {
         content: [
@@ -79,7 +61,8 @@ export function registerGetCompanyNewsTool(server: McpServer) {
             type: "text",
             text: JSON.stringify({
               symbol,
-              news,
+              news: data || [],
+              summary,
             }),
           },
         ],

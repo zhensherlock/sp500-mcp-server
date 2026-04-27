@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { supabase } from "../utils/supabase";
-import { getCompanySymbol } from '@/app/[transport]/utils';
+import { getCompanySymbol, getSummary } from '@/app/[transport]/utils';
 
 const GetCompanyFilingsParams = z.object({
   query: z.string().min(1),
@@ -61,6 +61,14 @@ export function registerGetCompanyFilingsTool(mcpServer: McpServer) {
         };
       }
 
+      const summary = await getSummary({
+        text: JSON.stringify({
+          symbol,
+          filings: data || [],
+        }),
+        mcpServer,
+      })
+
       return {
         content: [
           {
@@ -68,6 +76,7 @@ export function registerGetCompanyFilingsTool(mcpServer: McpServer) {
             text: JSON.stringify({
               symbol,
               filings: data || [],
+              summary,
             }),
           },
         ],
