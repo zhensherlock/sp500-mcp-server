@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prepare": "husky",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -29,6 +30,8 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.5.2",
+    "@commitlint/config-conventional": "^20.5.0",
     "@eslint/compat": "^2.0.5",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
@@ -40,6 +43,7 @@
     "eslint": "^10.2.1",
     "eslint-config-next": "^16.2.4",
     "eslint-plugin-unused-imports": "^4.4.1",
+    "husky": "^9.1.7",
     "postcss": "^8.5.12",
     "tailwindcss": "^4.2.4",
     "typescript": "^5.9.3",
