@@ -1,40 +1,37 @@
-"use client";
+'use client'
 
-import { Database, Zap, MessageCircleQuestion, Brain } from "lucide-react";
-import { useRef } from "react";
-import { useScrollStagger } from "@/hooks/useEntranceAnimation";
+import { Database, Zap, MessageCircleQuestion, Brain } from 'lucide-react'
+import { useRef } from 'react'
+import { useScrollStagger } from '@/hooks/useEntranceAnimation'
 
 const features = [
   {
     icon: <Database size={24} strokeWidth={1.5} />,
-    title: "Company Data",
+    title: 'Company Data',
     description:
-      "Access comprehensive S&P 500 company information including financials, leadership, and business summaries.",
+      'Access comprehensive S&P 500 company information including financials, leadership, and business summaries.',
   },
   {
     icon: <MessageCircleQuestion size={24} strokeWidth={1.5} />,
-    title: "Elicitation",
-    description:
-      "Prompt users for required information before executing complex operations.",
+    title: 'Elicitation',
+    description: 'Prompt users for required information before executing complex operations.',
   },
   {
     icon: <Brain size={24} strokeWidth={1.5} />,
-    title: "Sampling",
-    description:
-      "Summarize and analyze data with AI-powered sampling capabilities.",
+    title: 'Sampling',
+    description: 'Summarize and analyze data with AI-powered sampling capabilities.',
   },
   {
     icon: <Zap size={24} strokeWidth={1.5} />,
-    title: "Fast Integration",
-    description:
-      "Connect to any MCP-compatible AI assistant in seconds with our streamlined setup.",
+    title: 'Fast Integration',
+    description: 'Connect to any MCP-compatible AI assistant in seconds with our streamlined setup.',
   },
-];
+]
 
 export default function FeaturesSection() {
-  const featuresRef = useRef<HTMLDivElement>(null);
+  const featuresRef = useRef<HTMLDivElement>(null)
 
-  useScrollStagger(featuresRef, ".feature-card", { stagger: 0.15, y: 30 });
+  useScrollStagger(featuresRef, '.feature-card', { stagger: 0.15, y: 30 })
 
   return (
     <section ref={featuresRef} className="py-24 px-6">
@@ -46,8 +43,11 @@ export default function FeaturesSection() {
           A complete data layer for building financial AI applications.
         </p>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 mt-12">
-          {features.map((feature) => (
-            <div key={feature.title} className="feature-card animate-on-scroll p-6 bg-card border border-border rounded-xl">
+          {features.map(feature => (
+            <div
+              key={feature.title}
+              className="feature-card animate-on-scroll p-6 bg-card border border-border rounded-xl"
+            >
               <div className="w-12 h-12 flex items-center justify-center bg-accent rounded-lg mb-4 text-primary">
                 {feature.icon}
               </div>
@@ -58,5 +58,5 @@ export default function FeaturesSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

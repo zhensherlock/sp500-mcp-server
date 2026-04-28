@@ -1,19 +1,19 @@
 export const tools: Array<{
-  name: string;
-  description: string;
-  params: Array<{ name: string; type: string; required: boolean; description: string }>;
-  returns: string;
+  name: string
+  description: string
+  params: Array<{ name: string; type: string; required: boolean; description: string }>
+  returns: string
 }> = [
   {
-    name: "get_company_info",
+    name: 'get_company_info',
     description:
-      "Get complete company basic information including financials, leadership, address, and business summary. Supports both symbol and company name queries.",
+      'Get complete company basic information including financials, leadership, address, and business summary. Supports both symbol and company name queries.',
     params: [
       {
-        name: "query",
-        type: "string",
+        name: 'query',
+        type: 'string',
         required: true,
-        description: "Company symbol (e.g., AAPL) or company name (e.g., Apple)",
+        description: 'Company symbol (e.g., AAPL) or company name (e.g., Apple)',
       },
     ],
     returns: `{
@@ -38,27 +38,26 @@ export const tools: Array<{
 }`,
   },
   {
-    name: "get_company_news",
-    description:
-      "Get recent company news with sentiment analysis, supports filtering by symbol and sentiment.",
+    name: 'get_company_news',
+    description: 'Get recent company news with sentiment analysis, supports filtering by symbol and sentiment.',
     params: [
       {
-        name: "query",
-        type: "string",
+        name: 'query',
+        type: 'string',
         required: true,
-        description: "Company symbol (e.g., AAPL) or company name (e.g., Apple)",
+        description: 'Company symbol (e.g., AAPL) or company name (e.g., Apple)',
       },
       {
-        name: "sentiment",
-        type: "string",
+        name: 'sentiment',
+        type: 'string',
         required: false,
-        description: "Filter by sentiment (positive, negative, neutral)",
+        description: 'Filter by sentiment (positive, negative, neutral)',
       },
       {
-        name: "limit",
-        type: "number",
+        name: 'limit',
+        type: 'number',
         required: false,
-        description: "Maximum number of results (1-100, default: 10)",
+        description: 'Maximum number of results (1-100, default: 10)',
       },
     ],
     returns: `{
@@ -79,21 +78,20 @@ export const tools: Array<{
 }`,
   },
   {
-    name: "get_company_officers",
-    description:
-      "Get company executive officers and their compensation info, supports filtering by symbol",
+    name: 'get_company_officers',
+    description: 'Get company executive officers and their compensation info, supports filtering by symbol',
     params: [
       {
-        name: "query",
-        type: "string",
+        name: 'query',
+        type: 'string',
         required: true,
-        description: "Search query (symbol, short name, or long name)",
+        description: 'Search query (symbol, short name, or long name)',
       },
       {
-        name: "limit",
-        type: "number",
+        name: 'limit',
+        type: 'number',
         required: false,
-        description: "Maximum number of officers to return (1-50, default: 20)",
+        description: 'Maximum number of officers to return (1-50, default: 20)',
       },
     ],
     returns: `{
@@ -115,39 +113,38 @@ export const tools: Array<{
 }`,
   },
   {
-    name: "get_company_filings",
-    description:
-      "Get SEC filings history for a company, supports filtering by symbol, date range, and filing type",
+    name: 'get_company_filings',
+    description: 'Get SEC filings history for a company, supports filtering by symbol, date range, and filing type',
     params: [
       {
-        name: "query",
-        type: "string",
+        name: 'query',
+        type: 'string',
         required: true,
-        description: "Search query (symbol, short name, or long name)",
+        description: 'Search query (symbol, short name, or long name)',
       },
       {
-        name: "filing_type",
-        type: "string",
+        name: 'filing_type',
+        type: 'string',
         required: false,
-        description: "Filter by filing type (e.g., 10-K, 10-Q, 8-K, PRE 14A, DEF 14A)",
+        description: 'Filter by filing type (e.g., 10-K, 10-Q, 8-K, PRE 14A, DEF 14A)',
       },
       {
-        name: "start_date",
-        type: "string",
+        name: 'start_date',
+        type: 'string',
         required: false,
-        description: "Filter filings from this date (YYYY-MM-DD)",
+        description: 'Filter filings from this date (YYYY-MM-DD)',
       },
       {
-        name: "end_date",
-        type: "string",
+        name: 'end_date',
+        type: 'string',
         required: false,
-        description: "Filter filings until this date (YYYY-MM-DD)",
+        description: 'Filter filings until this date (YYYY-MM-DD)',
       },
       {
-        name: "limit",
-        type: "number",
+        name: 'limit',
+        type: 'number',
         required: false,
-        description: "Maximum number of filings to return (1-100, default: 20)",
+        description: 'Maximum number of filings to return (1-100, default: 20)',
       },
     ],
     returns: `{
@@ -162,4 +159,4 @@ export const tools: Array<{
   ]
 }`,
   },
-];
+]

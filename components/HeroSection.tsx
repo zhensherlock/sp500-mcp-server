@@ -1,24 +1,23 @@
-"use client";
+'use client'
 
-import dynamic from "next/dynamic";
-import { useRef } from "react";
-import { useTheme } from "@/components/ThemeProvider";
-import { useHeroEntrance } from "@/hooks/useEntranceAnimation";
+import dynamic from 'next/dynamic'
+import { useRef } from 'react'
+import { useTheme } from '@/components/ThemeProvider'
+import { useHeroEntrance } from '@/hooks/useEntranceAnimation'
 
-const SoftAurora = dynamic(() => import("@/components/SoftAurora"), {
+const SoftAurora = dynamic(() => import('@/components/SoftAurora'), {
   ssr: false,
-  loading: () => <div className="w-full h-full" />
-});
+  loading: () => <div className="w-full h-full" />,
+})
 
 export default function HeroSection() {
-  const { theme } = useTheme();
-  const heroRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme()
+  const heroRef = useRef<HTMLDivElement>(null)
 
-  useHeroEntrance(heroRef);
+  useHeroEntrance(heroRef)
 
-  const auroraColors = theme === "dark"
-    ? { color1: "#f7f7f7", color2: "#e100ff" }
-    : { color1: "#ea580c", color2: "#f97316" };
+  const auroraColors =
+    theme === 'dark' ? { color1: '#f7f7f7', color2: '#e100ff' } : { color1: '#ea580c', color2: '#f97316' }
 
   return (
     <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -47,13 +46,17 @@ export default function HeroSection() {
         <p className="hero-tagline animate-on-load text-[clamp(1.5rem,4vw,2rem)] leading-relaxed max-w-[80ch] mx-auto mb-12">
           <span className="text-foreground hero-chars">
             <span className="whitespace-nowrap">
-              {"Empower your AI to read the U.S. stock market — real-time".split("").map((char, i) => (
-                <span key={i} className="hero-char inline-block" style={{ opacity: 0 }}>{char === " " ? "\u00A0" : char}</span>
+              {'Empower your AI to read the U.S. stock market — real-time'.split('').map((char, i) => (
+                <span key={i} className="hero-char inline-block" style={{ opacity: 0 }}>
+                  {char === ' ' ? '\u00A0' : char}
+                </span>
               ))}
             </span>
             <span className="whitespace-nowrap">
-              {"S&P 500 company data, precise search, total visibility.".split("").map((char, i) => (
-                <span key={i} className="hero-char inline-block" style={{ opacity: 0 }}>{char === " " ? "\u00A0" : char}</span>
+              {'S&P 500 company data, precise search, total visibility.'.split('').map((char, i) => (
+                <span key={i} className="hero-char inline-block" style={{ opacity: 0 }}>
+                  {char === ' ' ? '\u00A0' : char}
+                </span>
               ))}
             </span>
           </span>
@@ -76,5 +79,5 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

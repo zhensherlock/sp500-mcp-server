@@ -1,9 +1,9 @@
-import Link from "next/link";
+import Link from 'next/link'
 
 export default function Footer() {
   return (
     <footer className="mt-auto border-t border-border py-8 px-6">
-      <div className="max-w-[1200px] mx-auto flex items-center justify-between text-sm text-muted-foreground">
+      <div className="max-w-300 mx-auto flex items-center justify-between text-sm text-muted-foreground">
         <p>S&P 500 MCP</p>
         <div className="flex gap-6">
           <Link href="/tools" className="text-muted-foreground no-underline transition-colors hover:text-foreground">
@@ -20,5 +20,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  );
+  )
 }
