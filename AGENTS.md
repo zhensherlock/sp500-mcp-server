@@ -55,8 +55,11 @@ scripts/
 
 ## Important Notes
 - **`.env` is gitignored** — never commit secrets
+- Supabase client is **eagerly initialized** on import at `app/[transport]/utils/supabase.ts:20` — server will throw immediately if `SUPABASE_URL` or `SUPABASE_ANON_KEY` env vars are missing. Importing this module is the trigger.
 - No test framework; testing is manual via `node scripts/test-streamable-http-client.mjs [origin]`
-- Supabase client throws if `SUPABASE_URL` or `SUPABASE_ANON_KEY` env vars are missing
 - `maxDuration` defaults to 60, configurable via `MCP_MAX_DURATION` env var
 - SSE is enabled by default (`disableSse: false`); requires Redis at `REDIS_URL` for production SSE
 - For Vercel: requires Fluid compute; set `maxDuration: 800` in `route.ts` for Pro/Enterprise
+
+## Commit Convention
+This repo uses [Conventional Commits](https://www.conventionalcommits.org/). Husky runs `commitlint` on every commit via the `commit-msg` hook. Format: `type(scope): description` (e.g., `fix(mcp): resolve symbol resolution bug`).
