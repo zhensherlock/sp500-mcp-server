@@ -1,6 +1,6 @@
 "use client";
 
-import { Database, Search, Zap } from "lucide-react";
+import { Database, Zap, MessageCircleQuestion, Brain } from "lucide-react";
 import { useRef } from "react";
 import { useScrollStagger } from "@/hooks/useEntranceAnimation";
 
@@ -12,10 +12,16 @@ const features = [
       "Access comprehensive S&P 500 company information including financials, leadership, and business summaries.",
   },
   {
-    icon: <Search size={24} strokeWidth={1.5} />,
-    title: "Fuzzy Search",
+    icon: <MessageCircleQuestion size={24} strokeWidth={1.5} />,
+    title: "Elicitation",
     description:
-      "Find companies by symbol, name, sector, or industry with intelligent fuzzy matching.",
+      "Prompt users for required information before executing complex operations.",
+  },
+  {
+    icon: <Brain size={24} strokeWidth={1.5} />,
+    title: "Sampling",
+    description:
+      "Summarize and analyze data with AI-powered sampling capabilities.",
   },
   {
     icon: <Zap size={24} strokeWidth={1.5} />,
