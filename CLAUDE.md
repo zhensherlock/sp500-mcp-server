@@ -11,7 +11,7 @@
 - `pnpm build` — Production build
 - `pnpm start` — Start production server
 - `pnpm type-check` — `tsc --noEmit`
-- `pnpm lint` — ESLint (flat config in `eslint.config.mjs`)
+- `pnpm lint` — ESLint (flat config in `eslint.config.js`)
 
 ## Architecture
 ```
