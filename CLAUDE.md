@@ -12,6 +12,8 @@
 - `pnpm start` — Start production server
 - `pnpm type-check` — `tsc --noEmit`
 - `pnpm lint` — ESLint (flat config in `eslint.config.js`)
+- `pnpm test` — Vitest (tests require dev server running at `localhost:3000`)
+- `pnpm coverage` — Vitest with HTML coverage report
 
 ## Architecture
 ```
@@ -31,8 +33,8 @@ app/
       getSummary.ts
   api/tools/call/route.ts    ← HTTP proxy that forwards to /mcp
   tools/data.ts              ← Tool definitions for the docs website
-scripts/
-  test-streamable-http-client.mjs  ← Connects to /mcp endpoint
+tests/
+  tools/                     ← Vitest (require dev server at localhost:3000)
 ```
 
 ## MCP Tools (4 total)
@@ -49,11 +51,12 @@ scripts/
 1. Create `app/[transport]/tools/your-tool-name-tool.ts` — export `registerYourToolNameTool(mcpServer)`
 2. Add export to `app/[transport]/tools/index.ts`
 3. Import and call in `app/[transport]/route.ts`
+4. Add a test in `tests/tools/`
 
 ## Critical Notes
 - **`.env` is gitignored** — never commit secrets
 - Supabase client is **eagerly initialized** on import (`supabase.ts:20`) — server throws immediately if env vars missing
-- No test framework; manual testing via `node scripts/test-streamable-http-client.mjs [origin]`
+- Tests connect to `localhost:3000/mcp` via `vitest.setup.ts` — run `pnpm dev` before `pnpm test`
 - `maxDuration` defaults to 60, configurable via `MCP_MAX_DURATION` env var
 - SSE enabled by default (`disableSse: false`); requires Redis at `REDIS_URL` for production SSE
 - Vercel: requires Fluid compute; set `maxDuration: 800` in `route.ts` for Pro/Enterprise

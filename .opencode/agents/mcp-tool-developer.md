@@ -306,24 +306,30 @@ Given a requirement document like `.opencode/docs/tools/get_company_info.md`:
 
 ## Unit Test Generation
 
-When generating code, you SHOULD also generate corresponding unit tests if the project has a test setup.
-
-### Test File Location
-
-**Test files are written to:** `app/[transport]/tests/tools/` (if tests directory exists)
+Tests live at `tests/tools/` and use vitest with an MCP client pre-configured via `vitest.setup.ts` (`global.client`).
 
 ### Test Pattern
 
 ```typescript
-import { describe, expect, test } from "vitest";
+import { get } from 'lodash-es'
+import { describe, expect, test } from 'vitest'
 
-describe("my_tool", () => {
-  test("should return results", async () => {
+describe('my-tool.ts', () => {
+  test('should return results', async () => {
     const res = await global.client.callTool({
-      name: "my_tool",
-      arguments: { query: "test" },
-    });
-    expect(res.content[0].text).toBeDefined();
-  });
-});
+      name: 'my_tool',
+      arguments: { query: 'apple' },
+    })
+    const text = get(res, 'content[0].text', '') as string
+    expect(text).toContain('AAPL')
+  })
+})
+```
+
+### Running Tests
+
+Tests require the dev server running at `localhost:3000`:
+```bash
+pnpm dev  # in one terminal
+pnpm test # in another
 ```
