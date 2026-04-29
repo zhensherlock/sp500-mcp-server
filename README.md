@@ -41,6 +41,8 @@ pnpm install
 ```env
 SUPABASE_URL=your_supabase_url
 SUPABASE_ANON_KEY=your_supabase_anon_key
+MCP_MAX_DURATION=60          # Optional, defaults to 60
+REDIS_URL=your_redis_url      # Optional, for production SSE
 ```
 
 3. Start the development server:
