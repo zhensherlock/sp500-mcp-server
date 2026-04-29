@@ -6,14 +6,18 @@ An MCP (Model Context Protocol) server that provides AI assistants with access t
 
 | Tool | Description |
 |---|---|
-| `search_companies` | Fuzzy search for companies by symbol, name, sector, or industry |
-| `get_company_info` | Get complete company basic info by symbol or company name |
+| `get_company_info` | Company basics, financials, leadership, address, business summary |
+| `get_company_news` | Recent news with sentiment analysis |
+| `get_company_officers` | Executive officers and compensation |
+| `get_company_filings` | SEC filings history (10-K, 10-Q, 8-K, etc.) |
+
+**Note:** `search_companies` is an internal symbol resolver, not an exposed MCP tool.
 
 ## Tech Stack
 
 - **Framework**: Next.js 15 (App Router), React 19, TypeScript (strict mode)
-- **MCP**: `mcp-handler` package — route at `app/mcp/`
-- **Database**: Supabase (client at `app/mcp/utils/supabase.ts`)
+- **MCP**: `mcp-handler` package — route at `app/[transport]/route.ts`
+- **Database**: Supabase (client at `app/[transport]/utils/supabase.ts`)
 - **Package manager**: pnpm
 
 ## Getting Started
@@ -45,6 +49,14 @@ SUPABASE_ANON_KEY=your_supabase_anon_key
 pnpm dev
 ```
 
+### Testing
+
+```sh
+pnpm dev          # Start dev server (required for tests)
+pnpm test         # Vitest (requires dev server at localhost:3000)
+pnpm coverage     # Vitest with HTML coverage report
+```
+
 ### Other Commands
 
 ```sh
@@ -56,8 +68,8 @@ pnpm lint         # ESLint
 ## Vercel Deployment
 
 - Requires [Fluid compute](https://vercel.com/docs/functions/fluid-compute) enabled
-- Set `maxDuration: 800` in `app/mcp/route.ts` for Vercel Pro/Enterprise accounts
-- For SSE transport: requires Redis at `REDIS_URL` and `disableSse: false` in `app/mcp/route.ts`
+- Set `maxDuration: 800` in `app/[transport]/route.ts` for Vercel Pro/Enterprise accounts
+- For SSE transport: requires Redis at `REDIS_URL` and `disableSse: false` in `app/[transport]/route.ts`
 
 ## Docs
 
