@@ -2,23 +2,26 @@
 
 ## Stack
 - Next.js 15 (App Router), React 19, TypeScript (strict mode)
-- MCP server via `mcp-handler` — route at `app/[transport]/route.ts` (dynamic segment)
+- MCP server via `mcp-handler` — route at `app/[transport]/route.ts` (dynamic segment `[transport]`)
 - Supabase client singleton at `app/[transport]/utils/supabase.ts`
 - Package manager: **pnpm**
 
 ## Developer Commands
-- `pnpm dev` — Start Next.js dev server
-- `pnpm build` — Production build
-- `pnpm start` — Start production server
-- `pnpm type-check` — `tsc --noEmit`
-- `pnpm lint` — ESLint (flat config in `eslint.config.js`)
-- `pnpm test` — Vitest (tests require dev server running at `localhost:3000`)
-- `pnpm coverage` — Vitest with HTML coverage report
+| Command | Action |
+|---|---|
+| `pnpm dev` | Start Next.js dev server |
+| `pnpm build` | Production build |
+| `pnpm start` | Start production server |
+| `pnpm type-check` | `tsc --noEmit` |
+| `pnpm lint` | ESLint (flat config in `eslint.config.js`) |
+| `pnpm test` | Vitest (tests require dev server running at `localhost:3000`) |
+| `pnpm coverage` | Vitest with HTML coverage report |
 
 ## Architecture
+
 ```
 app/
-  [transport]/               ← MCP endpoint (dynamic [transport] segment)
+  [transport]/               ← MCP endpoint via dynamic route segment
     route.ts                 ← GET/POST/DELETE handler (StreamableHTTP, SSE enabled)
     tools/
       index.ts               ← Barrel export for tool registration functions
@@ -32,9 +35,7 @@ app/
       getCompanySymbol.ts    ← Resolves query string → stock symbol
       getSummary.ts
   api/tools/call/route.ts    ← HTTP proxy that forwards to /mcp
-  tools/data.ts              ← Tool definitions for the docs website
-tests/
-  tools/                     ← Vitest (require dev server at localhost:3000)
+tests/tools/                 ← Vitest tests (require dev server at localhost:3000)
 ```
 
 ## MCP Tools (4 total)
@@ -45,21 +46,21 @@ tests/
 | `get_company_officers` | Executive officers and compensation |
 | `get_company_filings` | SEC filings history (10-K, 10-Q, 8-K, etc.) |
 
-**Note:** `search_companies` is an internal utility, NOT an exposed MCP tool.
+**Note:** `search_companies` is an internal utility, NOT an exposed MCP tool. Symbol resolution is handled internally by `getCompanySymbol`.
 
 ## Adding a New Tool
-1. Create `app/[transport]/tools/your-tool-name-tool.ts` — export `registerYourToolNameTool(mcpServer)`
-2. Add export to `app/[transport]/tools/index.ts`
-3. Import and call in `app/[transport]/route.ts`
+1. Create `app/[transport]/tools/your-tool-name-tool.ts` — export a `registerYourToolNameTool(mcpServer)` function
+2. Add the export to `app/[transport]/tools/index.ts`
+3. Import and call the registration function in `app/[transport]/route.ts`
 4. Add a test in `tests/tools/`
 
-## Critical Notes
+## Important Notes
 - **`.env` is gitignored** — never commit secrets
-- Supabase client is **eagerly initialized** on import (`supabase.ts:20`) — server throws immediately if env vars missing
+- Supabase client is **eagerly initialized** on import at `app/[transport]/utils/supabase.ts:20` — server will throw immediately if `SUPABASE_URL` or `SUPABASE_ANON_KEY` env vars are missing. Importing this module is the trigger.
 - Tests connect to `localhost:3000/mcp` via `vitest.setup.ts` — run `pnpm dev` before `pnpm test`
 - `maxDuration` defaults to 60, configurable via `MCP_MAX_DURATION` env var
-- SSE enabled by default (`disableSse: false`); requires Redis at `REDIS_URL` for production SSE
-- Vercel: requires Fluid compute; set `maxDuration: 800` in `route.ts` for Pro/Enterprise
+- SSE is enabled by default (`disableSse: false`); requires Redis at `REDIS_URL` for production SSE
+- For Vercel: requires Fluid compute; set `maxDuration: 800` in `route.ts` for Pro/Enterprise
 
 ## Commit Convention
-[Conventional Commits](https://www.conventionalcommits.org/). Husky runs `commitlint` on `commit-msg` hook. Format: `type(scope): description`
+This repo uses [Conventional Commits](https://www.conventionalcommits.org/). Husky runs `commitlint` on every commit via the `commit-msg` hook. Format: `type(scope): description` (e.g., `fix(mcp): resolve symbol resolution bug`).

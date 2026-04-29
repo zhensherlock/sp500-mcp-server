@@ -35,11 +35,7 @@ app/
       getCompanySymbol.ts    ← Resolves query string → stock symbol
       getSummary.ts
   api/tools/call/route.ts    ← HTTP proxy that forwards to /mcp
-    tools/data.ts              ← Tool definitions for the docs website
-tests/
-  tools/                     ← Vitest tests (require dev server at localhost:3000) Tool definitions for the docs website
-tests/
-  tools/                     ← Vitest tests (require dev server at localhost:3000)
+tests/tools/                 ← Vitest tests (require dev server at localhost:3000)
 ```
 
 ## MCP Tools (4 total)
