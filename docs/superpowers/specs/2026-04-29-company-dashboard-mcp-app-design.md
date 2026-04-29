@@ -17,7 +17,7 @@ app/[transport]/
       dist/
         mcp-app.html      # Built single-file output
   tools/
-    company-dashboard-tool.ts   # Registers App Tool + Resource
+    get-company-info-tool.ts   # Modified: adds _meta.ui + registers resource
 ```
 
 ### Data Flow
@@ -121,37 +121,43 @@ pnpm add @modelcontextprotocol/ext-apps
 pnpm add -D vite vite-plugin-singlefile
 ```
 
-### Tool Registration
+### Modified Tool Registration (get-company-info-tool.ts)
 
 ```typescript
-// company-dashboard-tool.ts
-import { registerAppTool, registerAppResource, RESOURCE_MIME_TYPE } from "@modelcontextprotocol/ext-apps/server";
+// get-company-info-tool.ts
+import { registerAppResource, RESOURCE_MIME_TYPE } from "@modelcontextprotocol/ext-apps/server";
 
 const RESOURCE_URI = "ui://sp500/company-dashboard.html";
 
-registerAppTool(
-  server,
+// Tool schema - add _meta.ui.resourceUri
+mcpServer.registerTool(
   "get_company_info",
   {
     title: "Get Company Info",
     description: "Get complete company basic info...",
     inputSchema: getCompanyInfoParams,
-    _meta: { ui: { resourceUri: RESOURCE_URI } },
+    _meta: { ui: { resourceUri: RESOURCE_URI } },  // NEW: enables MCP App
   },
-  async (params) => { /* existing logic */ }
+  async (params) => { /* existing logic unchanged */ }
 );
 
+// NEW: Resource handler serves the HTML
 registerAppResource(
   server,
   RESOURCE_URI,
   RESOURCE_URI,
   { mimeType: RESOURCE_MIME_TYPE },
   async () => {
-    const html = await fs.readFile(path.join(process.cwd(), "app/[transport]/apps/company-dashboard/dist/mcp-app.html"), "utf-8");
+    const html = await fs.readFile(
+      path.join(process.cwd(), "app/[transport]/apps/company-dashboard/dist/mcp-app.html"),
+      "utf-8"
+    );
     return { contents: [{ uri: RESOURCE_URI, mimeType: RESOURCE_MIME_TYPE, text: html }] };
   }
 );
 ```
+
+**Note:** The existing tool handler logic remains unchanged. Adding `_meta.ui.resourceUri` makes the tool return both text response and UI reference. Hosts that support MCP Apps render the UI; others fall back to text.
 
 ### UI Client
 
@@ -174,12 +180,14 @@ app.ontoolresult = (result) => {
 2. Run dev server: `pnpm dev`
 3. Test with basic-host or Claude with custom connector
 
-## Files to Create
+## Files to Create/Modify
 
+**Create:**
 - `app/[transport]/apps/company-dashboard/mcp-app.html`
 - `app/[transport]/apps/company-dashboard/src/mcp-app.ts`
 - `app/[transport]/apps/company-dashboard/src/style.css`
 - `app/[transport]/apps/company-dashboard/vite.config.ts`
-- `app/[transport]/tools/company-dashboard-tool.ts` (modify existing)
-- `app/[transport]/tools/index.ts` (add export)
-- `app/[transport]/route.ts` (register new tool)
+
+**Modify:**
+- `app/[transport]/tools/get-company-info-tool.ts` — add `_meta.ui.resourceUri` + resource handler
+- `app/[transport]/route.ts` — import and register resource handler (if needed separately)
