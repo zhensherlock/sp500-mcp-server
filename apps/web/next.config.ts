@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // transpilePackages: ['@workspace/ui', '@workspace/shared'],
 }
 
 export default nextConfig

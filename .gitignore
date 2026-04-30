@@ -14,8 +14,8 @@
 /coverage
 
 # next.js
-/.next/
-/out/
+.next/
+out/
 
 # production
 /build
@@ -39,3 +39,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 /.idea/
+
+# Turbo
+.turbo

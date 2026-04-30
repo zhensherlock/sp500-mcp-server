@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F97316"/>
+      <stop offset="100%" stop-color="#EF4444"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="clip1">
+      <rect x="4" y="4" width="56" height="56" rx="12"/>
+    </clipPath>
+  </defs>
+
+  <rect x="4" y="4" width="56" height="56" rx="12" fill="url(#g2)"/>
+  <rect x="4" y="4" width="56" height="56" rx="12" fill="url(#shine)" clip-path="url(#clip1)"/>
+
+  <polyline
+    points="14,42 24,29 33,35 47,17"
+    stroke="#FFFFFF"
+    stroke-width="2.5"
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <circle cx="47" cy="17" r="5" fill="#FEF08A" opacity="0.25"/>
+  <circle cx="47" cy="17" r="3.5" fill="#FEF08A"/>
+
+  <line x1="12" y1="46" x2="52" y2="46" stroke="#ffffff" stroke-width="1" stroke-linecap="round" opacity="0.25"/>
+</svg>
