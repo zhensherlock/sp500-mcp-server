@@ -7,7 +7,7 @@ export default function Footer() {
         <p>S&P 500 MCP</p>
         <div className="flex gap-6">
           <Link href="/tools" className="text-muted-foreground no-underline transition-colors hover:text-foreground">
-            Documentation
+            Tools
           </Link>
           <a
             href="https://github.com/zhensherlock/sp500-mcp-server"
