@@ -4,15 +4,18 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": ["REDIS_URL", "UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "SUPABASE_URL", "SUPABASE_ANON_KEY", "MCP_MAX_DURATION"]
     },
     "dev": {
       "persistent": true,
-      "cache": false
+      "cache": false,
+      "env": ["REDIS_URL", "UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "SUPABASE_URL", "SUPABASE_ANON_KEY", "MCP_MAX_DURATION"]
     },
     "start": {
       "persistent": true,
-      "cache": false
+      "cache": false,
+      "env": ["REDIS_URL", "UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "SUPABASE_URL", "SUPABASE_ANON_KEY", "MCP_MAX_DURATION"]
     }
   }
 }
