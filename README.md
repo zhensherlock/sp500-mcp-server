@@ -1,32 +1,34 @@
 # S&P 500 MCP Server
 
-An MCP (Model Context Protocol) server that provides AI assistants with access to S&P 500 company data. Built on Next.js 15 and Supabase, it exposes tools for searching companies and retrieving detailed company information.
+An MCP (Model Context Protocol) server and Next.js web app for querying S&P 500 company data from Supabase. It exposes MCP tools for company fundamentals, news sentiment, officers, and SEC filings, plus a web UI for browsing and testing those tools.
 
 ## Tools
 
 | Tool | Description |
 |---|---|
-| `get_company_info` | Company basics, financials, leadership, address, business summary |
-| `get_company_news` | Recent news with sentiment analysis |
+| `get_company_info` | Company basics, financials, leadership, address, and business summary |
+| `get_company_news` | Recent company news with sentiment filtering |
 | `get_company_officers` | Executive officers and compensation |
-| `get_company_filings` | SEC filings history (10-K, 10-Q, 8-K, etc.) |
+| `get_company_filings` | SEC filings history, with filing type and date filters |
 
-**Note:** `search_companies` is an internal symbol resolver, not an exposed MCP tool.
+`search_companies` is an internal symbol resolver, not an exposed MCP tool. User queries are resolved through `getCompanySymbol`.
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 (App Router), React 19, TypeScript (strict mode)
-- **MCP**: `mcp-handler` package — route at `app/[transport]/route.ts`
-- **Database**: Supabase (client at `app/[transport]/utils/supabase.ts`)
-- **Package manager**: pnpm
+- **Workspace**: pnpm 10 + Turborepo
+- **Runtime**: Node 22 (`.nvmrc`)
+- **App**: Next.js 15 App Router, React 19, TypeScript strict mode (`apps/web`)
+- **MCP**: `mcp-handler` at `apps/web/app/[transport]/route.ts`; `/mcp` is the active endpoint
+- **Database**: Supabase client at `apps/web/app/[transport]/utils/supabase.ts`
+- **UI**: shared shadcn/Tailwind primitives in `packages/ui`
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v18+)
-- pnpm
-- Supabase project with `company_info` table
+- Node.js 22
+- pnpm 10
+- Supabase project with the S&P 500 data tables used by the tools
 
 ### Local Development
 
@@ -36,42 +38,85 @@ An MCP (Model Context Protocol) server that provides AI assistants with access t
 pnpm install
 ```
 
-2. Create a `.env` file with your Supabase credentials:
+2. Create a local env file with Supabase credentials:
 
 ```env
 SUPABASE_URL=your_supabase_url
 SUPABASE_ANON_KEY=your_supabase_anon_key
-MCP_MAX_DURATION=60          # Optional, defaults to 60
-REDIS_URL=your_redis_url      # Optional, for production SSE
+MCP_MAX_DURATION=60
+REDIS_URL=your_redis_url
 ```
 
-3. Start the development server:
+`SUPABASE_URL` and `SUPABASE_ANON_KEY` are required. `REDIS_URL` is only needed for production SSE.
+
+3. Start the Next.js app:
 
 ```sh
 pnpm dev
 ```
 
-### Testing
+The web app runs on `http://localhost:3000`; the MCP endpoint is `http://localhost:3000/mcp`.
+
+## Commands
 
 ```sh
-pnpm dev          # Start dev server (required for tests)
-pnpm test         # Vitest (requires dev server at localhost:3000)
-pnpm coverage     # Vitest with HTML coverage report
+pnpm dev        # Start apps/web via Turbo
+pnpm build      # Production build for apps/web
+pnpm start      # Start production server for apps/web
+pnpm lint       # ESLint + Prettier rule checks
 ```
 
-### Other Commands
+Type-check the packages directly:
 
 ```sh
-pnpm build        # Production build
-pnpm type-check   # TypeScript type checking
-pnpm lint         # ESLint
+pnpm exec tsc -p apps/web/tsconfig.json --noEmit
+pnpm exec tsc -p packages/ui/tsconfig.json --noEmit
+```
+
+`pnpm type-check` currently calls `tsc --noEmit` without a root `tsconfig.json`, so it exits with TypeScript help instead of checking the app.
+
+## Testing
+
+Tests are integration tests that connect a real MCP client to `http://localhost:3000/mcp`, so start the dev server first:
+
+```sh
+pnpm dev
+pnpm test
+```
+
+Run a single tool test:
+
+```sh
+pnpm vitest run apps/web/tests/tools/get-company-info-tool.test.ts
+```
+
+Generate coverage:
+
+```sh
+pnpm coverage
+```
+
+## Project Layout
+
+```text
+apps/web/
+  app/[transport]/route.ts      MCP GET/POST/DELETE handler
+  app/[transport]/tools/        MCP tool registrations
+  app/[transport]/utils/        Supabase, symbol resolution, summaries
+  app/api/tools/call/route.ts   HTTP proxy for the web tool tester
+  app/tools/                    Tool catalog page
+  components/                   App-specific UI
+  tests/tools/                  MCP integration tests
+packages/ui/
+  src/components/               Shared shadcn UI primitives
+  src/styles/globals.css        Shared Tailwind CSS
 ```
 
 ## Vercel Deployment
 
-- Requires [Fluid compute](https://vercel.com/docs/functions/fluid-compute) enabled
-- Set `maxDuration: 800` in `app/[transport]/route.ts` for Vercel Pro/Enterprise accounts
-- For SSE transport: requires Redis at `REDIS_URL` and `disableSse: false` in `app/[transport]/route.ts`
+- Requires [Fluid compute](https://vercel.com/docs/functions/fluid-compute)
+- `MCP_MAX_DURATION` defaults to `60`; set a higher duration for long-running production calls when your Vercel plan supports it
+- SSE is enabled (`disableSse: false`); production SSE requires Redis via `REDIS_URL`
 
 ## Docs
 
@@ -93,4 +138,4 @@ This project exists thanks to all the people who contribute.
 
 ## License
 
-[MIT](LICENSE) © MichaelSun
+[GNU Affero General Public License v3.0](LICENSE) © MichaelSun

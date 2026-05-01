@@ -1,66 +1,39 @@
 # AGENTS.md - sp500-mcp-server
 
-## Stack
-- Next.js 15 (App Router), React 19, TypeScript (strict mode)
-- MCP server via `mcp-handler` — route at `app/[transport]/route.ts` (dynamic segment `[transport]`)
-- Supabase client singleton at `app/[transport]/utils/supabase.ts`
-- Package manager: **pnpm**
+## What This Repo Is
+- pnpm 10 workspace on Node 22 (`.nvmrc`); app package is `apps/web`, shared shadcn/Tailwind UI package is `packages/ui`.
+- Root scripts use Turbo only for app lifecycle commands: `pnpm dev|build|start` run `apps/web`; root `lint`, `test`, and `coverage` run from the repo root.
+- Next.js App Router MCP endpoint is `apps/web/app/[transport]/route.ts`; with `basePath: '/'`, tests and proxy call it at `/mcp`.
 
-## Developer Commands
-| Command | Action |
-|---|---|
-| `pnpm dev` | Start Next.js dev server |
-| `pnpm build` | Production build |
-| `pnpm start` | Start production server |
-| `pnpm type-check` | `tsc --noEmit` |
-| `pnpm lint` | ESLint (flat config in `eslint.config.js`) |
-| `pnpm test` | Vitest (tests require dev server running at `localhost:3000`) |
-| `pnpm coverage` | Vitest with HTML coverage report |
+## Commands
+- Install: `pnpm install`
+- Dev server: `pnpm dev` or focused `pnpm --filter @apps/web dev`
+- Build: `pnpm build`
+- Lint/format check: `pnpm lint` (ESLint flat config also enforces Prettier)
+- Type check app directly: `pnpm exec tsc -p apps/web/tsconfig.json --noEmit`; for shared UI use `pnpm exec tsc -p packages/ui/tsconfig.json --noEmit`
+- Avoid `pnpm type-check` until the script is fixed; it calls `tsc --noEmit` without a root `tsconfig.json` and exits with TypeScript help.
+- All tests: start `pnpm dev` first, then run `pnpm test`
+- Single test file: start `pnpm dev`, then `pnpm vitest run apps/web/tests/tools/get-company-info-tool.test.ts`
+- Coverage: start `pnpm dev`, then `pnpm coverage` (HTML reporter)
 
-## Architecture
+## Runtime/Test Gotchas
+- `.env*` is gitignored. Server import of `apps/web/app/[transport]/utils/supabase.ts` eagerly creates `supabase`, so missing `SUPABASE_URL` or `SUPABASE_ANON_KEY` throws before tools run.
+- Vitest setup in `apps/web/vitest.setup.ts` connects a real MCP client to `http://localhost:3000/mcp`; tests are integration tests and fail if the dev server or Supabase data is unavailable.
+- Turbo passes these env vars to app tasks: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `MCP_MAX_DURATION`, `REDIS_URL`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`.
+- SSE is enabled in the MCP handler (`disableSse: false`); production SSE needs Redis via `REDIS_URL`.
 
-```
-app/
-  [transport]/               ← MCP endpoint via dynamic route segment
-    route.ts                 ← GET/POST/DELETE handler (StreamableHTTP, SSE enabled)
-    tools/
-      index.ts               ← Barrel export for tool registration functions
-      get-company-info-tool.ts
-      get-company-news-tool.ts
-      get-company-officers-tool.ts
-      get-company-filings-tool.ts
-    utils/
-      supabase.ts            ← Eagerly initializes Supabase client on import
-      searchCompanies.ts     ← Internal symbol resolver (NOT an MCP tool)
-      getCompanySymbol.ts    ← Resolves query string → stock symbol
-      getSummary.ts
-  api/tools/call/route.ts    ← HTTP proxy that forwards to /mcp
-tests/tools/                 ← Vitest tests (require dev server at localhost:3000)
-```
+## MCP Tool Wiring
+- Current exposed tools are `get_company_info`, `get_company_news`, `get_company_officers`, and `get_company_filings`.
+- `search_companies` is intentionally internal; user queries resolve through `getCompanySymbol`, which may use MCP elicitation when the client supports it.
+- To add a tool, create `apps/web/app/[transport]/tools/<name>-tool.ts`, export `register<Name>Tool(server)`, add it to `tools/index.ts`, call it in `route.ts`, and add an integration test under `apps/web/tests/tools/`.
+- Tool files use Zod schemas and return MCP text content with JSON strings; follow existing tool files before inventing a new response shape.
 
-## MCP Tools (4 total)
-| Tool | Description |
-|---|---|
-| `get_company_info` | Company basics, financials, leadership, address, business summary |
-| `get_company_news` | Recent news with sentiment analysis |
-| `get_company_officers` | Executive officers and compensation |
-| `get_company_filings` | SEC filings history (10-K, 10-Q, 8-K, etc.) |
+## App/UI Boundaries
+- `apps/web` imports local app code through `@/*`; shared UI exports come from `@workspace/ui/*`.
+- `apps/web/next.config.ts` transpiles `@workspace/ui`; app PostCSS re-exports `@workspace/ui/postcss.config`.
+- shadcn config exists in both `apps/web/components.json` and `packages/ui/components.json`; put reusable primitives in `packages/ui/src/components`, app-specific components in `apps/web/components`.
 
-**Note:** `search_companies` is an internal utility, NOT an exposed MCP tool. Symbol resolution is handled internally by `getCompanySymbol`.
-
-## Adding a New Tool
-1. Create `app/[transport]/tools/your-tool-name-tool.ts` — export a `registerYourToolNameTool(mcpServer)` function
-2. Add the export to `app/[transport]/tools/index.ts`
-3. Import and call the registration function in `app/[transport]/route.ts`
-4. Add a test in `tests/tools/`
-
-## Important Notes
-- **`.env` is gitignored** — never commit secrets
-- Supabase client is **eagerly initialized** on import at `app/[transport]/utils/supabase.ts:20` — server will throw immediately if `SUPABASE_URL` or `SUPABASE_ANON_KEY` env vars are missing. Importing this module is the trigger.
-- Tests connect to `localhost:3000/mcp` via `vitest.setup.ts` — run `pnpm dev` before `pnpm test`
-- `maxDuration` defaults to 60, configurable via `MCP_MAX_DURATION` env var
-- SSE is enabled by default (`disableSse: false`); requires Redis at `REDIS_URL` for production SSE
-- For Vercel: requires Fluid compute; set `maxDuration: 800` in `route.ts` for Pro/Enterprise
-
-## Commit Convention
-This repo uses [Conventional Commits](https://www.conventionalcommits.org/). Husky runs `commitlint` on every commit via the `commit-msg` hook. Format: `type(scope): description` (e.g., `fix(mcp): resolve symbol resolution bug`).
+## Workflow Conventions
+- Commit messages are Conventional Commits; Husky `commit-msg` runs `commitlint` with allowed types in `commitlint.config.js`.
+- Keep generated/build output out of edits (`.next`, `.turbo`, coverage). Do not commit `.env` files or secrets.
+- Existing OpenCode helper docs live under `.opencode/`; `.opencode/agents/mcp-tool-developer.md` has a fuller MCP tool template, but some paths there omit the current `apps/web` workspace prefix.
