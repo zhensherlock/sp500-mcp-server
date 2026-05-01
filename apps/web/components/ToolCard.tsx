@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { ChevronDown, Play } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@workspace/ui/components/button'
 import { ToolTestDialog } from '@/components/ToolTestDialog'
 
 interface Param {

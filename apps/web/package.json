@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "@workspace/ui": "workspace:*"
+  }
 }
