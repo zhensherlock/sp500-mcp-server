@@ -6,8 +6,9 @@
   "scripts": {
     "lint": "eslint . --max-warnings 0"
   },
-  "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^10.5.0"
+  },
   "exports": {
     "./globals.css": "./src/styles/globals.css",
     "./postcss.config": "./postcss.config.js",
