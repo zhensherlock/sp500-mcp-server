@@ -1,6 +1,6 @@
 'use client'
 
-import { Database, Zap, MessageCircleQuestion, Brain } from 'lucide-react'
+import { Database, MessageCircleQuestion, Brain, AppWindow } from 'lucide-react'
 import { useRef } from 'react'
 import { useScrollStagger } from '@/hooks/useEntranceAnimation'
 
@@ -22,9 +22,9 @@ const features = [
     description: 'Summarize and analyze data with AI-powered sampling capabilities.',
   },
   {
-    icon: <Zap size={24} strokeWidth={1.5} />,
-    title: 'Fast Integration',
-    description: 'Connect to any MCP-compatible AI assistant in seconds with our streamlined setup.',
+    icon: <AppWindow size={24} strokeWidth={1.5} />,
+    title: 'MCP Apps',
+    description: 'Build interactive UIs that render directly inside MCP hosts for rich, context-aware experiences.',
   },
 ]
 
@@ -37,10 +37,10 @@ export default function FeaturesSection() {
     <section ref={featuresRef} className="py-24 px-6">
       <div className="max-w-300 mx-auto">
         <h2 className="text-[clamp(1.75rem,4vw,2.25rem)] font-bold tracking-tight mb-4 text-foreground">
-          Everything you need
+          Everything your AI needs
         </h2>
-        <p className="text-base text-muted-foreground max-w-[55ch] leading-relaxed">
-          A complete data layer for building financial AI applications.
+        <p className="text-base text-muted-foreground max-w-[65ch] leading-relaxed">
+          A complete MCP server for S&P 500 company data and AI-powered applications.
         </p>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 mt-12">
           {features.map(feature => (
