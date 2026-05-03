@@ -167,7 +167,7 @@ export default function QuickStart() {
               onClick={() => handleLaunch(client.name)}
               className="client-button animate-on-scroll flex items-center gap-3 p-4 bg-background border border-border rounded-lg cursor-pointer transition-colors hover:border-primary hover:bg-accent no-underline text-foreground"
             >
-              <Image src={client.logo} alt="" width={32} height={32} className="object-contain shrink-0" />
+              <Image src={client.logo} alt="" width={32} height={32} className="size-8 object-contain shrink-0" />
               <span className="text-[15px] font-medium text-foreground">{client.name}</span>
             </button>
           ))}

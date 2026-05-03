@@ -34,7 +34,6 @@ export async function POST(request: NextRequest) {
     }
 
     const contentType = response.headers.get('content-type') || ''
-    console.log('contentType', contentType)
 
     if (contentType.includes('text/event-stream')) {
       const text = await response.text()
