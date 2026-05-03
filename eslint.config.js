@@ -4,12 +4,18 @@ import importPlugin from 'eslint-plugin-import'
 import prettierPlugin from 'eslint-plugin-prettier'
 import unusedImportsPlugin from 'eslint-plugin-unused-imports'
 import nextPlugin from '@next/eslint-plugin-next'
+import globals from 'globals'
 
 export default tseslint.config(
   {
     ignores: ['.next/**', 'node_modules/**', 'dist/**', 'next-env.d.ts'],
   },
   {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
     plugins: {
       '@next/next': nextPlugin,
       'unused-imports': unusedImportsPlugin,

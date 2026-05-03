@@ -2,6 +2,9 @@ import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { supabase } from '../utils/supabase'
 import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
+import { registerHtmlAppResource } from './app-resource'
+
+const RESOURCE_URI = 'ui://sp500/company-officers.html'
 
 const getCompanyOfficersParams = z.object({
   query: z.string().min(1),
@@ -15,6 +18,7 @@ export function registerGetCompanyOfficersTool(mcpServer: McpServer) {
       title: 'Get Company Officers',
       description: 'Get company executive officers and their compensation info, supports filtering by symbol',
       inputSchema: getCompanyOfficersParams,
+      _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
     async (params: z.infer<typeof getCompanyOfficersParams>) => {
       const { query, limit } = params
@@ -59,4 +63,6 @@ export function registerGetCompanyOfficersTool(mcpServer: McpServer) {
       }
     },
   )
+
+  registerHtmlAppResource(mcpServer, RESOURCE_URI, 'company-officers.html')
 }

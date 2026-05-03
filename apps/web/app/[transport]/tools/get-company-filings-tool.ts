@@ -2,6 +2,9 @@ import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { supabase } from '../utils/supabase'
 import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
+import { registerHtmlAppResource } from './app-resource'
+
+const RESOURCE_URI = 'ui://sp500/company-filings.html'
 
 const GetCompanyFilingsParams = z.object({
   query: z.string().min(1),
@@ -24,6 +27,7 @@ export function registerGetCompanyFilingsTool(mcpServer: McpServer) {
       title: 'Get Company Filings',
       description: 'Get SEC filings history for a company, supports filtering by symbol, date range, and filing type',
       inputSchema: GetCompanyFilingsParams,
+      _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
     async (params: z.infer<typeof GetCompanyFilingsParams>) => {
       const { query, filing_type, start_date, end_date, limit } = params
@@ -92,4 +96,6 @@ export function registerGetCompanyFilingsTool(mcpServer: McpServer) {
       }
     },
   )
+
+  registerHtmlAppResource(mcpServer, RESOURCE_URI, 'company-filings.html')
 }

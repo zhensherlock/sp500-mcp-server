@@ -1,10 +1,8 @@
 import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import { registerAppResource, RESOURCE_MIME_TYPE } from '@modelcontextprotocol/ext-apps/server'
-import fs from 'node:fs/promises'
-import path from 'node:path'
 import { supabase } from '../utils/supabase'
 import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
+import { registerHtmlAppResource } from './app-resource'
 
 const RESOURCE_URI = 'ui://sp500/company-info.html'
 
@@ -62,10 +60,5 @@ export function registerGetCompanyInfoTool(mcpServer: McpServer) {
     },
   )
 
-  registerAppResource(mcpServer, RESOURCE_URI, RESOURCE_URI, { mimeType: RESOURCE_MIME_TYPE }, async () => {
-    const html = await fs.readFile(path.join(process.cwd(), '../web-app/dist/company-info.html'), 'utf-8')
-    return {
-      contents: [{ uri: RESOURCE_URI, mimeType: RESOURCE_MIME_TYPE, text: html }],
-    }
-  })
+  registerHtmlAppResource(mcpServer, RESOURCE_URI, 'company-info.html')
 }

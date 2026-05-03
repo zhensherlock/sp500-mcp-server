@@ -2,6 +2,9 @@ import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { supabase } from '../utils/supabase'
 import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
+import { registerHtmlAppResource } from './app-resource'
+
+const RESOURCE_URI = 'ui://sp500/company-news.html'
 
 const getCompanyNewsParams = z.object({
   query: z.string().min(1),
@@ -17,6 +20,7 @@ export function registerGetCompanyNewsTool(mcpServer: McpServer) {
       description:
         'Get recent company news with sentiment analysis, supports filtering by symbol, sentiment, and time range.',
       inputSchema: getCompanyNewsParams,
+      _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
     async (params: z.infer<typeof getCompanyNewsParams>) => {
       const { query, sentiment, limit } = params
@@ -70,4 +74,6 @@ export function registerGetCompanyNewsTool(mcpServer: McpServer) {
       }
     },
   )
+
+  registerHtmlAppResource(mcpServer, RESOURCE_URI, 'company-news.html')
 }

@@ -7,9 +7,12 @@ import path, { basename, extname, resolve } from 'node:path'
 const isDevelopment = process.env.NODE_ENV === 'development'
 const appRoot = resolve(__dirname)
 const pagesRoot = resolve(appRoot, 'src/pages')
+const pageName = process.env.MCP_APP_PAGE
+const emptyOutDir = process.env.MCP_APP_EMPTY_OUT_DIR !== 'false'
 
 const pageEntries = readdirSync(pagesRoot)
   .filter(file => /\.([jt])sx?$/.test(file))
+  .filter(file => !pageName || basename(file, extname(file)) === pageName)
   .sort()
   .reduce<Record<string, string>>((entries, file) => {
     const name = basename(file, extname(file))
@@ -48,7 +51,7 @@ export default defineConfig({
       input: pageEntries,
     },
     outDir: 'dist',
-    emptyOutDir: true,
+    emptyOutDir,
   },
   resolve: {
     alias: {
