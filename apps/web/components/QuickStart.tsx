@@ -18,7 +18,7 @@ const mcpName = 'SP500-MCP'
 
 function getMcpUrl() {
   if (typeof window === 'undefined') return ''
-  return `${window.location.origin}/mcp`
+  return `${window.location.origin}/sse`
 }
 
 const cherryStudioConfig = (mcpUrl: string) => ({
@@ -27,7 +27,7 @@ const cherryStudioConfig = (mcpUrl: string) => ({
       name: mcpName,
       description:
         'Empower your AI to read the U.S. stock market — real-time S&P 500 company data, precise search, total visibility.',
-      type: 'streamableHttp' as const,
+      type: 'sse' as const,
       baseUrl: mcpUrl,
       provider: 'zhensherlock',
       providerUrl: window.location.origin,
@@ -46,14 +46,14 @@ const stdioHttpConfig = (mcpUrl: string) => ({
 
 const cursorConfig = (mcpUrl: string) => ({
   name: mcpName,
-  type: 'streamable_http' as const,
+  type: 'sse' as const,
   url: mcpUrl,
 })
 
 const mcpConfig = (mcpUrl: string) => ({
   mcpServers: {
     [mcpName]: {
-      transport: 'streamable-http',
+      transport: 'sse',
       url: mcpUrl,
     },
   },
