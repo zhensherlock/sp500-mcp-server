@@ -16,6 +16,10 @@
       "persistent": true,
       "cache": false,
       "env": ["REDIS_URL", "UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "SUPABASE_URL", "SUPABASE_ANON_KEY", "MCP_MAX_DURATION"]
+    },
+    "type-check": {
+      "persistent": true,
+      "cache": false
     }
   }
 }
