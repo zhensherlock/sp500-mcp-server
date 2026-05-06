@@ -10,7 +10,6 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@modelcontextprotocol/ext-apps": "^1.7.1",
     "@workspace/ui": "workspace:*"
   }
 }

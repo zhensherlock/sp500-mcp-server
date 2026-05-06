@@ -15,5 +15,8 @@
     "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.4.1"
   }
 }

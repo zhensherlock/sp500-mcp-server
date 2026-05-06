@@ -14,6 +14,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@modelcontextprotocol/ext-apps": "^1.7.1",
     "@supabase/supabase-js": "^2.105.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
