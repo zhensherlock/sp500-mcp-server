@@ -1,6 +1,6 @@
 # S&P 500 MCP Server
 
-An MCP (Model Context Protocol) server and Next.js web app for querying S&P 500 company data from Supabase. It exposes MCP tools for company fundamentals, news sentiment, officers, and SEC filings, plus a web UI for browsing and testing those tools.
+An MCP (Model Context Protocol) server and Next.js web app for querying S&P 500 company data from Supabase. It exposes MCP tools for company fundamentals, news sentiment, officers, and SEC filings, plus a web UI and embedded MCP App resources for browsing and testing those tools.
 
 ## Tools
 
@@ -15,9 +15,10 @@ An MCP (Model Context Protocol) server and Next.js web app for querying S&P 500 
 
 ## Tech Stack
 
-- **Workspace**: pnpm 10 + Turborepo
+- **Workspace**: pnpm 10.33.3 + Turborepo
 - **Runtime**: Node 22 (`.nvmrc`)
-- **App**: Next.js 15 App Router, React 19, TypeScript strict mode (`apps/web`)
+- **Web app**: Next.js 16 App Router, React 19, TypeScript strict mode (`apps/web`)
+- **MCP Apps**: Vite single-file React pages built from `apps/web-app` and served as tool UI resources
 - **MCP**: `mcp-handler` at `apps/web/app/[transport]/route.ts`; `/mcp` is the active endpoint
 - **Database**: Supabase client at `apps/web/app/[transport]/utils/supabase.ts`
 - **UI**: shared shadcn/Tailwind primitives in `packages/ui`
@@ -49,37 +50,47 @@ REDIS_URL=your_redis_url
 
 `SUPABASE_URL` and `SUPABASE_ANON_KEY` are required. `REDIS_URL` is only needed for production SSE.
 
-3. Start the Next.js app:
+3. Build the embedded MCP App HTML resources:
+
+```sh
+pnpm --filter @apps/web-app build
+```
+
+4. Start the apps:
 
 ```sh
 pnpm dev
 ```
 
-The web app runs on `http://localhost:3000`; the MCP endpoint is `http://localhost:3000/mcp`.
+The Next.js web app runs on `http://localhost:3000`; the MCP endpoint is `http://localhost:3000/mcp`. The `apps/web-app` dev server proxies `/mcp` to port 3000 when run separately.
 
 ## Commands
 
 ```sh
-pnpm dev        # Start apps/web via Turbo
-pnpm build      # Production build for apps/web
+pnpm dev        # Start apps/* dev tasks via Turbo
+pnpm build      # Build apps/web and apps/web-app via Turbo
 pnpm start      # Start production server for apps/web
+pnpm type-check # Type-check apps/web and apps/web-app
 pnpm lint       # ESLint + Prettier rule checks
 ```
 
-Type-check the packages directly:
+Focused commands:
 
 ```sh
+pnpm --filter @apps/web dev
+pnpm --filter @apps/web-app dev
+pnpm --filter @apps/web-app build
 pnpm exec tsc -p apps/web/tsconfig.json --noEmit
+pnpm exec tsc -p apps/web-app/tsconfig.json --noEmit
 pnpm exec tsc -p packages/ui/tsconfig.json --noEmit
 ```
-
-`pnpm type-check` currently calls `tsc --noEmit` without a root `tsconfig.json`, so it exits with TypeScript help instead of checking the app.
 
 ## Testing
 
 Tests are integration tests that connect a real MCP client to `http://localhost:3000/mcp`, so start the dev server first:
 
 ```sh
+pnpm --filter @apps/web-app build
 pnpm dev
 pnpm test
 ```
@@ -107,10 +118,17 @@ apps/web/
   app/tools/                    Tool catalog page
   components/                   App-specific UI
   tests/tools/                  MCP integration tests
+apps/web-app/
+  src/pages/                    Embedded MCP App pages, one per tool
+  src/components/               MCP App UI components
+  scripts/build-pages.js        Builds each page into dist/*.html
+  dist/                         Generated single-file HTML resources
 packages/ui/
   src/components/               Shared shadcn UI primitives
   src/styles/globals.css        Shared Tailwind CSS
 ```
+
+`apps/web/app/[transport]/tools/app-resource.ts` reads generated HTML from `apps/web-app/dist`, so rebuild `apps/web-app` after changing embedded MCP App pages.
 
 ## Vercel Deployment
 
