@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/zhensherlock-sp500-mcp-server-badge.png)](https://mseep.ai/app/zhensherlock-sp500-mcp-server)
+
 # S&P 500 MCP Server
 
 An MCP (Model Context Protocol) server and Next.js web app for querying S&P 500 company data from Supabase. It exposes MCP tools for company fundamentals, news sentiment, officers, and SEC filings, plus a web UI and embedded MCP App resources for browsing and testing those tools.
