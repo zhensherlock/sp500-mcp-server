@@ -38,7 +38,7 @@ const cherryStudioConfig = (mcpUrl: string) => ({
   },
 })
 
-const stdioHttpConfig = (mcpUrl: string) => ({
+const httpSseConfig = (mcpUrl: string) => ({
   name: mcpName,
   type: 'http' as const,
   url: mcpUrl,
@@ -72,30 +72,29 @@ function handleLaunch(clientName: string) {
       url = installCursorMCP(cursorConfig(mcpUrl))
       break
     case 'Visual Studio Code':
-      url = installVSCodeMCP(stdioHttpConfig(mcpUrl))
+      url = installVSCodeMCP(httpSseConfig(mcpUrl))
       break
     case 'Trae':
-      url = installTraeMCP(stdioHttpConfig(mcpUrl))
+      url = installTraeMCP(httpSseConfig(mcpUrl))
       break
     case 'Trae China':
-      url = installTraeChinaMCP(stdioHttpConfig(mcpUrl))
+      url = installTraeChinaMCP(httpSseConfig(mcpUrl))
       break
     case 'Lingma':
-      url = installLingmaMCP(stdioHttpConfig(mcpUrl))
+      url = installLingmaMCP(httpSseConfig(mcpUrl))
       break
     case 'Kiro':
-      url = installKiroMCP(stdioHttpConfig(mcpUrl))
+      url = installKiroMCP(httpSseConfig(mcpUrl))
       break
     case 'Qoder':
-      url = installQoderMCP(stdioHttpConfig(mcpUrl))
+      url = installQoderMCP(httpSseConfig(mcpUrl))
       break
     case 'Antigravity':
-      url = installAntigravityMCP(stdioHttpConfig(mcpUrl))
+      url = installAntigravityMCP(httpSseConfig(mcpUrl))
       break
     default:
       return
   }
-  console.log('url', url)
   window.location.href = url
 }
 

@@ -6,6 +6,7 @@ import {
   ComboboxItem,
   ComboboxList,
 } from '@workspace/ui/components/combobox'
+import { Button } from '@workspace/ui/components/button'
 import { Input } from '@workspace/ui/components/input'
 import {
   Select,
@@ -171,13 +172,9 @@ export function ToolSidebar({
           <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">{executionError}</div>
         ) : null}
 
-        <button
-          className="h-10 w-full rounded-md bg-neutral-900 px-4 text-sm font-semibold text-white hover:bg-neutral-700 disabled:cursor-not-allowed disabled:bg-neutral-400"
-          disabled={isExecuting}
-          type="submit"
-        >
+        <Button className="h-10 w-full" disabled={isExecuting} type="submit">
           {isExecuting ? 'Executing...' : 'Execute tool'}
-        </button>
+        </Button>
       </form>
     </aside>
   )

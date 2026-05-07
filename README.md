@@ -4,12 +4,12 @@ An MCP (Model Context Protocol) server and Next.js web app for querying S&P 500 
 
 ## Tools
 
-| Tool | Description |
-|---|---|
-| `get_company_info` | Company basics, financials, leadership, address, and business summary |
-| `get_company_news` | Recent company news with sentiment filtering |
-| `get_company_officers` | Executive officers and compensation |
-| `get_company_filings` | SEC filings history, with filing type and date filters |
+| Tool                   | Description                                                           |
+| ---------------------- | --------------------------------------------------------------------- |
+| `get_company_info`     | Company basics, financials, leadership, address, and business summary |
+| `get_company_news`     | Recent company news with sentiment filtering                          |
+| `get_company_officers` | Executive officers and compensation                                   |
+| `get_company_filings`  | SEC filings history, with filing type and date filters                |
 
 `search_companies` is an internal symbol resolver, not an exposed MCP tool. User queries are resolved through `getCompanySymbol`.
 
@@ -19,7 +19,7 @@ An MCP (Model Context Protocol) server and Next.js web app for querying S&P 500 
 - **Runtime**: Node 22 (`.nvmrc`)
 - **Web app**: Next.js 16 App Router, React 19, TypeScript strict mode (`apps/web`)
 - **MCP Apps**: Vite single-file React pages built from `apps/web-app` and served as tool UI resources
-- **MCP**: `mcp-handler` at `apps/web/app/[transport]/route.ts`; `/mcp` is the active endpoint
+- **MCP**: `mcp-handler` at `apps/web/app/[transport]/route.ts`; `/sse` is the public SSE endpoint
 - **Database**: Supabase client at `apps/web/app/[transport]/utils/supabase.ts`
 - **UI**: shared shadcn/Tailwind primitives in `packages/ui`
 
@@ -62,7 +62,7 @@ pnpm --filter @apps/web-app build
 pnpm dev
 ```
 
-The Next.js web app runs on `http://localhost:3000`; the MCP endpoint is `http://localhost:3000/mcp`. The `apps/web-app` dev server proxies `/mcp` to port 3000 when run separately.
+The Next.js web app runs on `http://localhost:3000`; the MCP endpoint is `http://localhost:3000/sse`. The `apps/web-app` dev server proxies `/sse` to port 3000 when run separately.
 
 ## Commands
 
@@ -87,7 +87,7 @@ pnpm exec tsc -p packages/ui/tsconfig.json --noEmit
 
 ## Testing
 
-Tests are integration tests that connect a real MCP client to `http://localhost:3000/mcp`, so start the dev server first:
+Tests are integration tests that connect a real MCP client to `http://localhost:3000/sse`, so start the dev server first:
 
 ```sh
 pnpm --filter @apps/web-app build
