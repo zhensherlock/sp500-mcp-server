@@ -19,6 +19,7 @@ import {
 
 import { formatJson } from './tool-arguments'
 import type { DebugTool } from './types'
+import React from 'react'
 
 type ToolSidebarProps = {
   executionError: string | null
