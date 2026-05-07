@@ -12,7 +12,8 @@ export function CompanyInfoApp() {
             {status === 'error' ? 'Failed to load company info' : 'Waiting for company info'}
           </p>
           <p className="mt-2 text-sm text-neutral-500">
-            {error ?? (query ? `Querying ${query}` : 'Company details will appear after the MCP Host returns tool results.')}
+            {error ??
+              (query ? `Querying ${query}` : 'Company details will appear after the MCP Host returns tool results.')}
           </p>
         </div>
       </main>

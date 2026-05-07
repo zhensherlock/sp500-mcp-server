@@ -8,7 +8,7 @@ import globals from 'globals'
 
 export default tseslint.config(
   {
-    ignores: ['.next/**', 'node_modules/**', 'dist/**', 'next-env.d.ts'],
+    ignores: ['**/.next/**', 'node_modules/**', '**/dist/**', '**/next-env.d.ts'],
   },
   {
     languageOptions: {
