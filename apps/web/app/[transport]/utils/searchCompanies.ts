@@ -15,15 +15,14 @@ interface SearchCompaniesResponse {
 export async function searchCompanies(query: string, limit: number = 5): Promise<SearchCompaniesResponse> {
   try {
     const searchPattern = `%${query}%`
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('company_info')
       .select('symbol, shortName, longName, displayName, sector, industry')
       .or(
         `symbol.ilike.${searchPattern},shortName.ilike.${searchPattern},longName.ilike.${searchPattern},displayName.ilike.${searchPattern}`,
       )
       .limit(limit)
-
-    if (error) {
+    if (!data?.length) {
       return { success: false, data: [] }
     }
 

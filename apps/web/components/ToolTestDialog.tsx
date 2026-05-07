@@ -27,6 +27,18 @@ interface ToolTestDialogProps {
   onOpenChange: (open: boolean) => void
 }
 
+function formatResultContent(content: unknown) {
+  if (typeof content !== 'string') {
+    return JSON.stringify(content, null, 2)
+  }
+
+  try {
+    return JSON.stringify(JSON.parse(content), null, 2)
+  } catch {
+    return content
+  }
+}
+
 export function ToolTestDialog({ toolName, params, open, onOpenChange }: ToolTestDialogProps) {
   const [paramValues, setParamValues] = useState<Record<string, string>>(() =>
     Object.fromEntries(params.map(p => [p.name, ''])),
@@ -80,8 +92,8 @@ export function ToolTestDialog({ toolName, params, open, onOpenChange }: ToolTes
         throw new Error(data.error || 'Failed to call tool')
       }
 
-      const content = data.content?.[0]?.text || JSON.stringify(data, null, 2)
-      setResult(content)
+      const content = data.content?.[0]?.text ?? data
+      setResult(formatResultContent(content))
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
     } finally {

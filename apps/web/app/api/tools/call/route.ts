@@ -8,8 +8,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'toolName is required' }, { status: 400 })
     }
 
-    const origin = request.headers.get('origin') || `http://localhost:${process.env.PORT || 3000}`
-    const mcpUrl = `${origin}/mcp`
+    const mcpUrl = new URL('/mcp', request.nextUrl.origin)
 
     const response = await fetch(mcpUrl, {
       method: 'POST',
@@ -37,10 +36,17 @@ export async function POST(request: NextRequest) {
 
     if (contentType.includes('text/event-stream')) {
       const text = await response.text()
-      const lines = text.split('\n').filter(line => line.startsWith('data: '))
-      const results = lines.map(line => JSON.parse(line.slice(6)))
-      return NextResponse.json({ events: results })
+      const events = text
+        .split('\n')
+        .filter(line => line.startsWith('data: '))
+        .map(line => JSON.parse(line.slice(6)))
+      const result = events.findLast(event => event && typeof event === 'object' && 'result' in event)?.result
+
+      return NextResponse.json(result ? { ...result, events } : { events })
     }
+
+    const data = await response.json()
+    return NextResponse.json(data.result ?? data)
   } catch (error) {
     console.error('Error calling tool:', error)
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 })
