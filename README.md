@@ -46,9 +46,10 @@ SUPABASE_URL=your_supabase_url
 SUPABASE_ANON_KEY=your_supabase_anon_key
 MCP_MAX_DURATION=60
 REDIS_URL=your_redis_url
+LOGO_DEV_TOKEN=your_logo_dev_publishable_key
 ```
 
-`SUPABASE_URL` and `SUPABASE_ANON_KEY` are required. `REDIS_URL` is only needed for production SSE.
+`SUPABASE_URL` and `SUPABASE_ANON_KEY` are required. `REDIS_URL` is only needed for production SSE. `LOGO_DEV_TOKEN` is required for the `/api/logo/*` proxy.
 
 3. Build the embedded MCP App HTML resources:
 

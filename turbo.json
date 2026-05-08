@@ -5,17 +5,41 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
-      "env": ["REDIS_URL", "UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "SUPABASE_URL", "SUPABASE_ANON_KEY", "MCP_MAX_DURATION"]
+      "env": [
+        "REDIS_URL",
+        "UPSTASH_REDIS_REST_URL",
+        "UPSTASH_REDIS_REST_TOKEN",
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "MCP_MAX_DURATION",
+        "LOGO_DEV_TOKEN"
+      ]
     },
     "dev": {
       "persistent": true,
       "cache": false,
-      "env": ["REDIS_URL", "UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "SUPABASE_URL", "SUPABASE_ANON_KEY", "MCP_MAX_DURATION"]
+      "env": [
+        "REDIS_URL",
+        "UPSTASH_REDIS_REST_URL",
+        "UPSTASH_REDIS_REST_TOKEN",
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "MCP_MAX_DURATION",
+        "LOGO_DEV_TOKEN"
+      ]
     },
     "start": {
       "persistent": true,
       "cache": false,
-      "env": ["REDIS_URL", "UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "SUPABASE_URL", "SUPABASE_ANON_KEY", "MCP_MAX_DURATION"]
+      "env": [
+        "REDIS_URL",
+        "UPSTASH_REDIS_REST_URL",
+        "UPSTASH_REDIS_REST_TOKEN",
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "MCP_MAX_DURATION",
+        "LOGO_DEV_TOKEN"
+      ]
     },
     "type-check": {
       "persistent": true,
