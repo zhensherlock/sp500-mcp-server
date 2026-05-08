@@ -10,5 +10,3 @@ export type CompanyOfficersResult = {
   officers: CompanyOfficer[]
   summary?: string
 }
-
-export type AppStatus = 'connecting' | 'ready' | 'error'

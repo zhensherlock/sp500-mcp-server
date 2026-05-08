@@ -19,5 +19,3 @@ export type CompanyInfo = {
   fullTimeEmployees: number
   summary?: string
 }
-
-export type AppStatus = 'connecting' | 'ready' | 'error'

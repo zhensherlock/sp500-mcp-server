@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar'
 import type { CompanyInfo } from './types'
 
 type CompanyHeaderProps = {
@@ -23,16 +24,33 @@ export function CompanyHeader({ company }: CompanyHeaderProps) {
 
 function CompanyAvatar({ company }: { company: CompanyInfo }) {
   const fallback = (company.symbol ?? company.shortName).trim().charAt(0).toUpperCase()
+  const logoUrl = getTickerLogoUrl(company.symbol)
 
   return (
-    <div
-      aria-label={`${company.shortName} avatar`}
-      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-neutral-200 bg-neutral-100 text-sm font-semibold text-neutral-700 shadow-sm"
-      role="img"
-    >
-      {fallback || '?'}
-    </div>
+    <Avatar aria-label={`${company.shortName} logo`} className="bg-background shadow-sm" role="img" size="lg">
+      {logoUrl ? (
+        <AvatarImage alt="" className="bg-background object-contain p-1.5" decoding="async" src={logoUrl} />
+      ) : null}
+      <AvatarFallback>{fallback || '?'}</AvatarFallback>
+    </Avatar>
   )
+}
+
+function getTickerLogoUrl(symbol?: string) {
+  const ticker = symbol?.trim()
+
+  if (!ticker) {
+    return null
+  }
+
+  const params = new URLSearchParams({
+    fallback: '404',
+    format: 'png',
+    retina: 'true',
+    size: '40',
+  })
+
+  return `/api/logo/ticker/${encodeURIComponent(ticker)}?${params.toString()}`
 }
 
 function CompanyLink({ children, href }: { children: ReactNode; href: string }) {

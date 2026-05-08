@@ -4,6 +4,8 @@ import { getMcpClient, loadMcpTools } from './mcp-client'
 import { buildToolArguments, createDefaultInputValuesById, formatJson } from './tool-arguments'
 import type { DebugTool } from './types'
 
+const EMPTY_TOOL_INPUT_VALUES: Record<string, string> = {}
+
 export function useDebuggerApp() {
   const [tools, setTools] = useState<DebugTool[]>([])
   const [selectedToolId, setSelectedToolId] = useState<string>('')
@@ -48,7 +50,9 @@ export function useDebuggerApp() {
 
   const selectedTool = tools.find(tool => tool.id === selectedToolId)
   const activeResultTool = tools.find(tool => tool.id === activeResultToolId)
-  const toolInputValues = selectedTool ? (toolInputValuesById[selectedTool.id] ?? {}) : {}
+  const toolInputValues = selectedTool
+    ? (toolInputValuesById[selectedTool.id] ?? EMPTY_TOOL_INPUT_VALUES)
+    : EMPTY_TOOL_INPUT_VALUES
   const toolArguments = useMemo(
     () => (selectedTool ? buildToolArguments(selectedTool, toolInputValues) : {}),
     [selectedTool, toolInputValues],

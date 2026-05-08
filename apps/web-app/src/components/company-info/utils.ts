@@ -1,6 +1,5 @@
 import type { CompanyInfo } from './types'
-
-const textContentTypes = new Set(['text'])
+import { parseToolResult } from '@/components/tool-app/parse-tool-result'
 
 export function formatEmployees(value: number) {
   if (!Number.isFinite(value)) {
@@ -20,33 +19,5 @@ export function getSummaryPreview(summary: string, maxLength = 300) {
 }
 
 export function parseCompanyInfoFromToolResult(result: unknown): CompanyInfo {
-  if (!result || typeof result !== 'object') {
-    throw new Error('Tool result is empty.')
-  }
-
-  const structuredContent = 'structuredContent' in result ? result.structuredContent : undefined
-  if (structuredContent && typeof structuredContent === 'object') {
-    return structuredContent as CompanyInfo
-  }
-
-  const content = 'content' in result ? result.content : undefined
-  if (!Array.isArray(content)) {
-    throw new Error('Tool result has no content blocks.')
-  }
-
-  const textBlock = content.find(
-    block =>
-      block &&
-      typeof block === 'object' &&
-      'type' in block &&
-      textContentTypes.has(String(block.type)) &&
-      'text' in block &&
-      typeof block.text === 'string',
-  )
-
-  if (!textBlock || !('text' in textBlock) || typeof textBlock.text !== 'string') {
-    throw new Error('Tool result has no text content.')
-  }
-
-  return JSON.parse(textBlock.text) as CompanyInfo
+  return parseToolResult<CompanyInfo>(result)
 }

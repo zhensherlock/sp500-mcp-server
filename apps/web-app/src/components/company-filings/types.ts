@@ -10,5 +10,3 @@ export type CompanyFilingsResult = {
   filings: CompanyFiling[]
   summary?: string
 }
-
-export type AppStatus = 'connecting' | 'ready' | 'error'

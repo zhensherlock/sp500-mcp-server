@@ -18,5 +18,3 @@ export type CompanyNewsResult = {
   news: CompanyNewsItem[]
   summary?: string
 }
-
-export type AppStatus = 'connecting' | 'ready' | 'error'
