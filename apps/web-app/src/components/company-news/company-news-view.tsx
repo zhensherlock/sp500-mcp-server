@@ -22,8 +22,8 @@ export function CompanyNewsView({ result }: CompanyNewsViewProps) {
         {result.summary ? <SummaryPanel summary={result.summary} /> : null}
 
         <section className="space-y-4">
-          {result.news.map((item, index) => (
-            <NewsCard item={item} key={`${item.url}-${index}`} />
+          {result.news.map(item => (
+            <NewsCard item={item} key={item.url} />
           ))}
         </section>
       </div>

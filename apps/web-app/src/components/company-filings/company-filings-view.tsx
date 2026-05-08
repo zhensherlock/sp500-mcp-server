@@ -22,8 +22,8 @@ export function CompanyFilingsView({ result }: CompanyFilingsViewProps) {
         {result.summary ? <SummaryPanel summary={result.summary} /> : null}
 
         <section className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
-          {result.filings.map((filing, index) => (
-            <FilingRow filing={filing} key={`${filing.edgarUrl}-${index}`} />
+          {result.filings.map(filing => (
+            <FilingRow filing={filing} key={filing.edgarUrl} />
           ))}
         </section>
       </div>
