@@ -11,17 +11,21 @@ export async function getSummary(options: Options): Promise<string | undefined> 
   if (!capabilities?.sampling) {
     return undefined
   }
-  const response = await mcpServer.server.createMessage({
-    messages: [
-      {
-        role: 'user',
-        content: {
-          type: 'text',
-          text: `Please concisely summarize the following:\n\n${text}`,
+  try {
+    const response = await mcpServer.server.createMessage({
+      messages: [
+        {
+          role: 'user',
+          content: {
+            type: 'text',
+            text: `Please concisely summarize the following:\n\n${text}`,
+          },
         },
-      },
-    ],
-    maxTokens: 500,
-  })
-  return response.content.type === 'text' ? response.content.text || undefined : undefined
+      ],
+      maxTokens: 500,
+    })
+    return response.content.type === 'text' ? response.content.text || undefined : undefined
+  } catch {
+    return undefined
+  }
 }
