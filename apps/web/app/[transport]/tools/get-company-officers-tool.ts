@@ -32,7 +32,7 @@ export function registerGetCompanyOfficersTool(mcpServer: McpServer) {
         .from('company_officers')
         .select('name, age, title, totalPay')
         .eq('symbol', symbol)
-        .order('totalPay', { ascending: false })
+        .order('totalPay', { ascending: true })
         .limit(limit)
 
       if (!data?.length) {
