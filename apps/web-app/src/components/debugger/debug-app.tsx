@@ -44,8 +44,8 @@ export function DebugApp() {
   }
 
   return (
-    <main className="min-h-screen bg-neutral-100 font-sans text-neutral-900">
-      <div className="grid min-h-screen lg:grid-cols-[24rem_1fr]">
+    <main className="min-h-screen bg-neutral-100 font-sans text-neutral-900 lg:h-dvh lg:min-h-0 lg:overflow-hidden">
+      <div className="grid min-h-screen lg:h-full lg:min-h-0 lg:grid-cols-[24rem_minmax(0,1fr)]">
         <ToolSidebar
           executionError={executionError}
           isExecuting={isExecuting}

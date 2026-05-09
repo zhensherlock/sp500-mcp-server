@@ -45,7 +45,7 @@ export function ToolSidebar({
   tools,
 }: ToolSidebarProps) {
   return (
-    <aside className="border-b border-neutral-200 bg-white p-5 lg:border-b-0 lg:border-r">
+    <aside className="border-b border-neutral-200 bg-white p-5 lg:h-full lg:min-h-0 lg:overflow-y-auto lg:border-b-0 lg:border-r">
       <div className="mb-5">
         <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">MCP App Debugger</p>
         <h1 className="mt-1 text-2xl font-semibold">Local preview host</h1>
