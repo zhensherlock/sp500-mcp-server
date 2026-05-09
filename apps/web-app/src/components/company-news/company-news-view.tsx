@@ -1,3 +1,4 @@
+import { Badge } from '@workspace/ui/components/badge'
 import type { CompanyNewsItem, CompanyNewsResult } from './types'
 import { formatDate, getSentimentClass } from './utils'
 
@@ -47,11 +48,9 @@ function NewsCard({ item }: { item: CompanyNewsItem }) {
         <span>{item.provider}</span>
         <span aria-hidden="true">•</span>
         <time dateTime={item.pubDate}>{formatDate(item.pubDate)}</time>
-        <span
-          className={`rounded-full border px-2 py-0.5 font-medium capitalize ${getSentimentClass(item.lm_sentiment)}`}
-        >
+        <Badge className={`capitalize ${getSentimentClass(item.lm_sentiment)}`} variant="outline">
           {item.lm_sentiment}
-        </span>
+        </Badge>
       </div>
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
