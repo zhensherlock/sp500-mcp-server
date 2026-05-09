@@ -1,3 +1,13 @@
+import { Avatar, AvatarFallback } from '@workspace/ui/components/avatar'
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemFooter,
+  ItemGroup,
+  ItemMedia,
+  ItemTitle,
+} from '@workspace/ui/components/item'
 import type { CompanyOfficer, CompanyOfficersResult } from './types'
 import { formatTotalPay } from './utils'
 
@@ -21,10 +31,12 @@ export function CompanyOfficersView({ result }: CompanyOfficersViewProps) {
 
         {result.summary ? <SummaryPanel summary={result.summary} /> : null}
 
-        <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {result.officers.map(officer => (
-            <OfficerCard key={`${officer.name}-${officer.title}`} officer={officer} />
-          ))}
+        <section>
+          <ItemGroup className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {result.officers.map(officer => (
+              <OfficerCard key={`${officer.name}-${officer.title}`} officer={officer} />
+            ))}
+          </ItemGroup>
         </section>
       </div>
     </main>
@@ -42,21 +54,29 @@ function SummaryPanel({ summary }: { summary: string }) {
 
 function OfficerCard({ officer }: { officer: CompanyOfficer }) {
   return (
-    <article className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
-      <div className="mb-4 flex items-start gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-neutral-200 bg-neutral-100 text-sm font-semibold text-neutral-700">
-          {officer.name.charAt(0).toUpperCase()}
-        </div>
-        <div className="min-w-0">
-          <h2 className="truncate text-lg font-semibold text-neutral-900">{officer.name}</h2>
-          <p className="mt-1 text-sm leading-relaxed text-neutral-600">{officer.title}</p>
-        </div>
-      </div>
-      <dl className="grid grid-cols-2 gap-3">
-        <Metric label="Age" value={officer.age ? String(officer.age) : 'Not disclosed'} />
-        <Metric label="Total Pay" value={formatTotalPay(officer.totalPay)} />
-      </dl>
-    </article>
+    <Item
+      className="items-start gap-x-3 gap-y-4 rounded-2xl bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+      role="listitem"
+      variant="outline"
+    >
+      <ItemMedia>
+        <Avatar size="lg">
+          <AvatarFallback>{officer.name.charAt(0).toUpperCase()}</AvatarFallback>
+        </Avatar>
+      </ItemMedia>
+      <ItemContent className="min-w-0">
+        <ItemTitle className="w-full truncate text-lg font-semibold text-neutral-900">{officer.name}</ItemTitle>
+        <ItemDescription className="line-clamp-none text-sm leading-relaxed text-neutral-600">
+          {officer.title}
+        </ItemDescription>
+      </ItemContent>
+      <ItemFooter>
+        <dl className="grid w-full grid-cols-2 gap-3">
+          <Metric label="Age" value={officer.age ? String(officer.age) : 'Not disclosed'} />
+          <Metric label="Total Pay" value={formatTotalPay(officer.totalPay)} />
+        </dl>
+      </ItemFooter>
+    </Item>
   )
 }
 
