@@ -20,6 +20,7 @@ export function useMcpToolApp<Result>({ appName, parseResult }: UseMcpToolAppOpt
         setResult(parseResult(toolResult))
         setParseError(null)
       } catch (error) {
+        setResult(null)
         setParseError(error instanceof Error ? error.message : 'Failed to parse tool result.')
       }
     },
@@ -42,6 +43,7 @@ export function useMcpToolApp<Result>({ appName, parseResult }: UseMcpToolAppOpt
       }
 
       app.onerror = event => {
+        setResult(null)
         setParseError(event instanceof Error ? event.message : 'MCP App communication error.')
       }
     },

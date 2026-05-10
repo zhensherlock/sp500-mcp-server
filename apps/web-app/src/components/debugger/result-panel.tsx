@@ -1,5 +1,6 @@
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@workspace/ui/components/empty'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@workspace/ui/components/tabs'
+import { CompanyNotFoundEmpty, isCompanyNotFoundError } from '@/components/tool-app/company-not-found-empty'
 
 import { renderToolPreview } from './tool-preview'
 import type { DebugTool } from './types'
@@ -45,12 +46,18 @@ export function ResultPanel({
             className="m-0 min-h-[calc(100dvh-3.75rem)] lg:min-h-0 lg:overflow-y-auto lg:[&>main]:min-h-full"
           >
             {preview?.error ? (
-              <div className="p-8">
-                <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-                  <p className="font-semibold">Cannot render preview</p>
-                  <p className="mt-1">{preview.error}</p>
+              isCompanyNotFoundError(preview.error) ? (
+                <div className="grid min-h-[calc(100dvh-3.75rem)] place-items-center p-8 lg:min-h-full">
+                  <CompanyNotFoundEmpty className="max-w-md" message={preview.error} />
                 </div>
-              </div>
+              ) : (
+                <div className="p-8">
+                  <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+                    <p className="font-semibold">Cannot render preview</p>
+                    <p className="mt-1">{preview.error}</p>
+                  </div>
+                </div>
+              )
             ) : (
               preview?.content
             )}
