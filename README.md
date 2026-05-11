@@ -1,15 +1,16 @@
 # S&P 500 MCP Server
 
-An MCP (Model Context Protocol) server and Next.js web app for querying S&P 500 company data from Supabase. It exposes MCP tools for company fundamentals, news sentiment, officers, and SEC filings, plus a web UI and embedded MCP App resources for browsing and testing those tools.
+An MCP (Model Context Protocol) server and Next.js web app for querying S&P 500 company data from Supabase. It exposes MCP tools for company fundamentals, financial metrics, news sentiment, officers, and SEC filings, plus a web UI and embedded MCP App resources for browsing and testing those tools.
 
 ## Tools
 
-| Tool                   | Description                                                           |
-| ---------------------- | --------------------------------------------------------------------- |
-| `get_company_info`     | Company basics, financials, leadership, address, and business summary |
-| `get_company_news`     | Recent company news with sentiment filtering                          |
-| `get_company_officers` | Executive officers and compensation                                   |
-| `get_company_filings`  | SEC filings history, with filing type and date filters                |
+| Tool                     | Description                                                           |
+| ------------------------ | --------------------------------------------------------------------- |
+| `get_company_info`       | Company basics, financials, leadership, address, and business summary |
+| `get_company_financials` | Annual financial metrics with chart-ready trends and matrix output    |
+| `get_company_news`       | Recent company news with sentiment filtering                          |
+| `get_company_officers`   | Executive officers and compensation                                   |
+| `get_company_filings`    | SEC filings history, with filing type and date filters                |
 
 `search_companies` is an internal symbol resolver, not an exposed MCP tool. User queries are resolved through `getCompanySymbol`.
 
