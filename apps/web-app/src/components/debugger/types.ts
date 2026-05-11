@@ -1,9 +1,10 @@
-export type ParamType = 'number' | 'select' | 'text'
+export type ParamType = 'array' | 'boolean' | 'number' | 'select' | 'text'
 
 export type JsonSchemaProperty = {
   default?: string | number | boolean
   description?: string
   enum?: string[]
+  items?: JsonSchemaProperty
   maximum?: number
   maxLength?: number
   minimum?: number

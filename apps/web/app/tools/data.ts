@@ -159,4 +159,86 @@ export const tools: Array<{
   ]
 }`,
   },
+  {
+    name: 'get_company_financials',
+    description:
+      'Get annual company financial metrics, grouped for charting and matrix analysis. Supports item, category, date range, and latest-period filters.',
+    params: [
+      {
+        name: 'query',
+        type: 'string',
+        required: true,
+        description: 'Search query (symbol, short name, or long name)',
+      },
+      {
+        name: 'items',
+        type: 'string[]',
+        required: false,
+        description: 'Exact financial items or common aliases, such as revenue, net income, EBITDA, or diluted EPS',
+      },
+      {
+        name: 'item_search',
+        type: 'string',
+        required: false,
+        description: 'Partial item name search, such as revenue, expense, tax, or shares',
+      },
+      {
+        name: 'category',
+        type: 'string',
+        required: false,
+        description: 'Filter by category: Revenue, Profitability, Expenses, EPS & Shares, Interest, Tax, Unusual Items',
+      },
+      {
+        name: 'start_date',
+        type: 'string',
+        required: false,
+        description: 'Filter financial periods from this date (YYYY-MM-DD)',
+      },
+      {
+        name: 'end_date',
+        type: 'string',
+        required: false,
+        description: 'Filter financial periods until this date (YYYY-MM-DD)',
+      },
+      {
+        name: 'latest_only',
+        type: 'boolean',
+        required: false,
+        description: 'Return only the latest available reporting period',
+      },
+      {
+        name: 'limit',
+        type: 'number',
+        required: false,
+        description: 'Maximum source rows to read (1-1000, default: 500)',
+      },
+    ],
+    returns: `{
+  "symbol": "AAPL",
+  "periods": ["2025-09-30", "2024-09-30"],
+  "metrics": [
+    {
+      "item": "Total Revenue",
+      "category": "Revenue",
+      "unit": "currency",
+      "values": {
+        "2025-09-30": 416161000000,
+        "2024-09-30": 391035000000
+      },
+      "changePercent": 0.0643
+    }
+  ],
+  "derived": [
+    {
+      "item": "Net Margin",
+      "category": "Profitability",
+      "unit": "ratio",
+      "values": {
+        "2025-09-30": 0.2691,
+        "2024-09-30": 0.2397
+      }
+    }
+  ]
+}`,
+  },
 ]

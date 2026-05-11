@@ -17,6 +17,7 @@
     "./hooks/*": "./src/hooks/*.ts"
   },
   "dependencies": {
-    "@base-ui/react": "^1.4.1"
+    "@base-ui/react": "^1.4.1",
+    "recharts": "3.8.0"
   }
 }

@@ -1,5 +1,7 @@
 import { CompanyFilingsView } from '@/components/company-filings/company-filings-view'
 import { parseCompanyFilingsFromToolResult } from '@/components/company-filings/utils'
+import { CompanyFinancialsView } from '@/components/company-financials/company-financials-view'
+import { parseCompanyFinancialsFromToolResult } from '@/components/company-financials/utils'
 import { CompanyInfoCard } from '@/components/company-info/company-info-card'
 import { parseCompanyInfoFromToolResult } from '@/components/company-info/utils'
 import { CompanyNewsView } from '@/components/company-news/company-news-view'
@@ -21,6 +23,8 @@ export function renderToolPreview({ resultText, tool }: ToolPreviewProps) {
     switch (tool.mcpToolName) {
       case 'get_company_filings':
         return { content: <CompanyFilingsView result={parseCompanyFilingsFromToolResult(result)} /> }
+      case 'get_company_financials':
+        return { content: <CompanyFinancialsView result={parseCompanyFinancialsFromToolResult(result)} /> }
       case 'get_company_info':
         return { content: <CompanyInfoCard company={parseCompanyInfoFromToolResult(result)} /> }
       case 'get_company_news':

@@ -28,7 +28,7 @@ type ToolSidebarProps = {
   onInputValuesChange: React.Dispatch<React.SetStateAction<Record<string, Record<string, string>>>>
   onSelectedToolIdChange: (toolId: string) => void
   selectedTool: DebugTool
-  toolArguments: Record<string, string | number>
+  toolArguments: Record<string, boolean | number | string | string[]>
   toolInputValues: Record<string, string>
   tools: DebugTool[]
 }
@@ -112,7 +112,7 @@ export function ToolSidebar({
               {!param.required ? <span className="text-xs font-normal text-neutral-500">optional</span> : null}
             </span>
 
-            {param.type === 'select' ? (
+            {param.type === 'select' || param.type === 'boolean' ? (
               <Select
                 onValueChange={value =>
                   onInputValuesChange(previous => ({
@@ -131,11 +131,18 @@ export function ToolSidebar({
                 <SelectContent>
                   <SelectGroup>
                     <SelectItem value="any">Any</SelectItem>
-                    {param.options?.map(option => (
-                      <SelectItem key={option} value={option}>
-                        {option}
-                      </SelectItem>
-                    ))}
+                    {param.type === 'boolean' ? (
+                      <>
+                        <SelectItem value="true">true</SelectItem>
+                        <SelectItem value="false">false</SelectItem>
+                      </>
+                    ) : (
+                      param.options?.map(option => (
+                        <SelectItem key={option} value={option}>
+                          {option}
+                        </SelectItem>
+                      ))
+                    )}
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -153,7 +160,7 @@ export function ToolSidebar({
                     },
                   }))
                 }
-                placeholder={param.placeholder}
+                placeholder={param.type === 'array' ? 'Total Revenue, Net Income' : param.placeholder}
                 required={param.required}
                 type={param.type === 'number' ? 'number' : 'text'}
                 value={toolInputValues[param.id] ?? ''}

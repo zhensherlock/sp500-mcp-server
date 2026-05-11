@@ -15,6 +15,7 @@
     "vite-plugin-singlefile": "^2.3.3"
   },
   "dependencies": {
-    "@workspace/ui": "workspace:*"
+    "@workspace/ui": "workspace:*",
+    "recharts": "3.8.0"
   }
 }

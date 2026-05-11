@@ -4,6 +4,7 @@ import {
   registerGetCompanyNewsTool,
   registerGetCompanyOfficersTool,
   registerGetCompanyFilingsTool,
+  registerGetCompanyFinancialsTool,
 } from './tools'
 
 const handler = createMcpHandler(
@@ -12,6 +13,7 @@ const handler = createMcpHandler(
     registerGetCompanyNewsTool(server)
     registerGetCompanyOfficersTool(server)
     registerGetCompanyFilingsTool(server)
+    registerGetCompanyFinancialsTool(server)
   },
   {
     serverInfo: {

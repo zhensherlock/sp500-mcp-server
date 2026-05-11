@@ -9,6 +9,8 @@ function schemaTypeIncludes(property: JsonSchemaProperty, type: string) {
 
 function createParamFromSchema(id: string, property: object, requiredIds: Set<string>): ToolParam {
   const schemaProperty = property as JsonSchemaProperty
+  const isArray = schemaTypeIncludes(schemaProperty, 'array')
+  const isBoolean = schemaTypeIncludes(schemaProperty, 'boolean')
   const isNumber = schemaTypeIncludes(schemaProperty, 'number') || schemaTypeIncludes(schemaProperty, 'integer')
   const enumOptions = schemaProperty.enum?.filter(option => typeof option === 'string')
   const defaultValue = schemaProperty.default === undefined ? undefined : String(schemaProperty.default)
@@ -22,7 +24,7 @@ function createParamFromSchema(id: string, property: object, requiredIds: Set<st
     options: enumOptions,
     placeholder: schemaProperty.description || (id === 'query' ? 'AAPL or Apple' : undefined),
     required: requiredIds.has(id),
-    type: enumOptions?.length ? 'select' : isNumber ? 'number' : 'text',
+    type: enumOptions?.length ? 'select' : isArray ? 'array' : isBoolean ? 'boolean' : isNumber ? 'number' : 'text',
   }
 }
 
