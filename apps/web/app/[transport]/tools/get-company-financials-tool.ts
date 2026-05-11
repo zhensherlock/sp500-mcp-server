@@ -7,23 +7,20 @@ import { registerHtmlAppResource } from './app-resource'
 const RESOURCE_URI = 'ui://sp500/company-financials.html'
 const FINANCIALS_TABLE = 'company_financials'
 
-const financialCategorySchema = z.enum([
-  'Revenue',
-  'Profitability',
-  'Expenses',
-  'EPS & Shares',
-  'Interest',
-  'Tax',
-  'Unusual Items',
-  'Industry Specific',
-  'Other',
-])
+type FinancialCategory =
+  | 'Revenue'
+  | 'Profitability'
+  | 'Expenses'
+  | 'EPS & Shares'
+  | 'Interest'
+  | 'Tax'
+  | 'Unusual Items'
+  | 'Industry Specific'
+  | 'Other'
 
 const getCompanyFinancialsParams = z.object({
   query: z.string().min(1),
   items: z.array(z.string().min(1)).max(30).optional(),
-  item_search: z.string().min(1).optional(),
-  category: financialCategorySchema.optional(),
   start_date: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/)
@@ -36,7 +33,6 @@ const getCompanyFinancialsParams = z.object({
   limit: z.number().int().min(1).max(1000).default(500),
 })
 
-type FinancialCategory = z.infer<typeof financialCategorySchema>
 type FinancialUnit = 'currency' | 'per_share' | 'shares' | 'ratio' | 'raw'
 
 type FinancialRow = {
@@ -205,17 +201,13 @@ function parseFinancialRow(row: Record<string, unknown>): FinancialRow | null {
 }
 
 async function queryFinancialRows({
-  category,
   endDate,
-  itemSearch,
   items,
   limit,
   startDate,
   symbol,
 }: {
-  category?: FinancialCategory
   endDate?: string
-  itemSearch?: string
   items?: string[]
   limit: number
   startDate?: string
@@ -225,10 +217,6 @@ async function queryFinancialRows({
 
   if (items?.length) {
     query = query.in('item', items)
-  }
-
-  if (itemSearch) {
-    query = query.ilike('item', `%${itemSearch}%`)
   }
 
   if (startDate) {
@@ -250,7 +238,7 @@ async function queryFinancialRows({
     .filter((row): row is FinancialRow => Boolean(row))
 
   return {
-    rows: category ? rows.filter(row => getMetricCategory(row.item) === category) : rows,
+    rows,
   }
 }
 
@@ -402,12 +390,12 @@ export function registerGetCompanyFinancialsTool(mcpServer: McpServer) {
     {
       title: 'Get Company Financials',
       description:
-        'Get annual company financial metrics by symbol or company name. Supports filtering by item, category, date range, and latest period.',
+        'Get annual company financial metrics by symbol or company name. Supports filtering by item, date range, and latest period.',
       inputSchema: getCompanyFinancialsParams,
       _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
     async (params: z.infer<typeof getCompanyFinancialsParams>) => {
-      const { category, end_date, item_search, latest_only, limit, query, start_date } = params
+      const { end_date, latest_only, limit, query, start_date } = params
       const items = resolveRequestedItems(params.items)
 
       if (start_date && end_date && start_date > end_date) {
@@ -427,9 +415,7 @@ export function registerGetCompanyFinancialsTool(mcpServer: McpServer) {
       })
 
       const { rows: rawRows } = await queryFinancialRows({
-        category,
         endDate: end_date,
-        itemSearch: item_search,
         items,
         limit,
         startDate: start_date,
@@ -440,8 +426,6 @@ export function registerGetCompanyFinancialsTool(mcpServer: McpServer) {
       if (!rows.length) {
         const filters = [
           items?.length && `items ${items.map(item => `"${item}"`).join(', ')}`,
-          item_search && `item search "${item_search}"`,
-          category && `category "${category}"`,
           start_date && `after ${start_date}`,
           end_date && `before ${end_date}`,
           latest_only && 'latest period only',
@@ -491,9 +475,7 @@ export function registerGetCompanyFinancialsTool(mcpServer: McpServer) {
                 latestPeriod: periods[0],
                 earliestPeriod: periods.at(-1),
                 filters: {
-                  category,
                   end_date,
-                  item_search,
                   items,
                   latest_only,
                   limit,

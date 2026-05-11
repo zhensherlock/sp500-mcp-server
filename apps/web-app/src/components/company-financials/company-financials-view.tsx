@@ -1,8 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Line, LineChart, CartesianGrid, XAxis, YAxis } from 'recharts'
-import { Search, Table2, TrendingUp } from 'lucide-react'
+import { Table2, TrendingUp } from 'lucide-react'
 import { Badge } from '@workspace/ui/components/badge'
-import { Button } from '@workspace/ui/components/button'
 import {
   ChartContainer,
   ChartLegend,
@@ -11,14 +10,12 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from '@workspace/ui/components/chart'
-import { Input } from '@workspace/ui/components/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@workspace/ui/components/tabs'
 import { cn } from '@workspace/ui/lib/utils'
 
-import type { CompanyFinancialsResult, FinancialCategory, FinancialMetric } from './types'
+import type { CompanyFinancialsResult, FinancialMetric } from './types'
 import {
   buildChartData,
-  categoryOrder,
   formatDelta,
   formatMetricValue,
   formatPeriod,
@@ -40,8 +37,6 @@ const chartColors = ['#2563eb', '#16a34a', '#f97316', '#9333ea', '#0891b2']
 
 export function CompanyFinancialsView({ result }: CompanyFinancialsViewProps) {
   const [chartMode, setChartMode] = useState<ChartMode>('amounts')
-  const [activeCategory, setActiveCategory] = useState<FinancialCategory | 'All'>('All')
-  const [metricSearch, setMetricSearch] = useState('')
   const sortedMetrics = useMemo(() => sortMetrics(result.metrics), [result.metrics])
   const defaultCustomItems = useMemo(
     () =>
@@ -77,17 +72,6 @@ export function CompanyFinancialsView({ result }: CompanyFinancialsViewProps) {
         : chartMode === 'custom'
           ? customMetrics
           : amountMetrics
-  const explorerMetrics = useMemo(() => {
-    const search = metricSearch.trim().toLowerCase()
-
-    return sortedMetrics.filter(metric => {
-      const matchesCategory = activeCategory === 'All' || metric.category === activeCategory
-      const matchesSearch = !search || metric.item.toLowerCase().includes(search)
-
-      return matchesCategory && matchesSearch
-    })
-  }, [activeCategory, metricSearch, sortedMetrics])
-
   function toggleCustomMetric(metric: FinancialMetric) {
     setChartMode('custom')
     setCustomMetricItems(current => {
@@ -138,12 +122,8 @@ export function CompanyFinancialsView({ result }: CompanyFinancialsViewProps) {
           </div>
 
           <MetricExplorer
-            activeCategory={activeCategory}
             customMetricItems={customMetricItems}
-            metricSearch={metricSearch}
-            metrics={explorerMetrics}
-            onCategoryChange={setActiveCategory}
-            onMetricSearchChange={setMetricSearch}
+            metrics={sortedMetrics}
             onToggleMetric={toggleCustomMetric}
             totalMetricCount={sortedMetrics.length}
           />
@@ -291,21 +271,13 @@ function MetricTrendChart({ metrics, periods }: { metrics: FinancialMetric[]; pe
 }
 
 function MetricExplorer({
-  activeCategory,
   customMetricItems,
-  metricSearch,
   metrics,
-  onCategoryChange,
-  onMetricSearchChange,
   onToggleMetric,
   totalMetricCount,
 }: {
-  activeCategory: FinancialCategory | 'All'
   customMetricItems: string[]
-  metricSearch: string
   metrics: FinancialMetric[]
-  onCategoryChange: (category: FinancialCategory | 'All') => void
-  onMetricSearchChange: (value: string) => void
   onToggleMetric: (metric: FinancialMetric) => void
   totalMetricCount: number
 }) {
@@ -317,31 +289,6 @@ function MetricExplorer({
           <p className="mt-1 text-sm text-neutral-500">{totalMetricCount} available items</p>
         </div>
         <Table2 className="text-neutral-400" />
-      </div>
-
-      <div className="mt-4 flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-2">
-        <Search className="text-neutral-400" />
-        <Input
-          aria-label="Search financial metrics"
-          className="border-0 px-0 shadow-none focus-visible:ring-0"
-          onChange={event => onMetricSearchChange(event.target.value)}
-          placeholder="Search items"
-          value={metricSearch}
-        />
-      </div>
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        {(['All', ...categoryOrder] as Array<FinancialCategory | 'All'>).map(category => (
-          <Button
-            key={category}
-            onClick={() => onCategoryChange(category)}
-            size="sm"
-            type="button"
-            variant={activeCategory === category ? 'secondary' : 'outline'}
-          >
-            {category}
-          </Button>
-        ))}
       </div>
 
       <div className="mt-4 flex max-h-96 flex-col gap-2 overflow-y-auto pr-1">
@@ -365,7 +312,6 @@ function MetricExplorer({
               <span className="min-w-0 flex-1">
                 <span className="block truncate font-medium text-neutral-900">{metric.item}</span>
                 <span className="mt-1 flex flex-wrap gap-1.5">
-                  <Badge variant="outline">{metric.category}</Badge>
                   <Badge variant="secondary">{metric.unit.replace('_', ' ')}</Badge>
                 </span>
               </span>
@@ -407,7 +353,6 @@ function FinancialMatrix({ metrics, periods }: { metrics: FinancialMetric[]; per
                 <td className="px-4 py-3 align-top">
                   <div className="font-medium text-neutral-900">{metric.item}</div>
                   <div className="mt-1 flex flex-wrap gap-1.5">
-                    <Badge variant="outline">{metric.category}</Badge>
                     <Badge variant="secondary">{metric.unit.replace('_', ' ')}</Badge>
                   </div>
                 </td>

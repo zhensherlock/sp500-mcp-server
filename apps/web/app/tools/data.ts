@@ -162,7 +162,7 @@ export const tools: Array<{
   {
     name: 'get_company_financials',
     description:
-      'Get annual company financial metrics, grouped for charting and matrix analysis. Supports item, category, date range, and latest-period filters.',
+      'Get annual company financial metrics, grouped for charting and matrix analysis. Supports item, date range, and latest-period filters.',
     params: [
       {
         name: 'query',
@@ -175,18 +175,6 @@ export const tools: Array<{
         type: 'string[]',
         required: false,
         description: 'Exact financial items or common aliases, such as revenue, net income, EBITDA, or diluted EPS',
-      },
-      {
-        name: 'item_search',
-        type: 'string',
-        required: false,
-        description: 'Partial item name search, such as revenue, expense, tax, or shares',
-      },
-      {
-        name: 'category',
-        type: 'string',
-        required: false,
-        description: 'Filter by category: Revenue, Profitability, Expenses, EPS & Shares, Interest, Tax, Unusual Items',
       },
       {
         name: 'start_date',
@@ -219,7 +207,6 @@ export const tools: Array<{
   "metrics": [
     {
       "item": "Total Revenue",
-      "category": "Revenue",
       "unit": "currency",
       "values": {
         "2025-09-30": 416161000000,
@@ -231,7 +218,6 @@ export const tools: Array<{
   "derived": [
     {
       "item": "Net Margin",
-      "category": "Profitability",
       "unit": "ratio",
       "values": {
         "2025-09-30": 0.2691,
