@@ -8,6 +8,8 @@ import { CompanyNewsView } from '@/components/company-news/company-news-view'
 import { parseCompanyNewsFromToolResult } from '@/components/company-news/utils'
 import { CompanyOfficersView } from '@/components/company-officers/company-officers-view'
 import { parseCompanyOfficersFromToolResult } from '@/components/company-officers/utils'
+import { CompanyPriceDataView } from '@/components/company-price-data/company-price-data-view'
+import { parseCompanyPriceDataFromToolResult } from '@/components/company-price-data/utils'
 
 import type { DebugTool } from './types'
 
@@ -31,6 +33,8 @@ export function renderToolPreview({ resultText, tool }: ToolPreviewProps) {
         return { content: <CompanyNewsView result={parseCompanyNewsFromToolResult(result)} /> }
       case 'get_company_officers':
         return { content: <CompanyOfficersView result={parseCompanyOfficersFromToolResult(result)} /> }
+      case 'get_company_price_data':
+        return { content: <CompanyPriceDataView result={parseCompanyPriceDataFromToolResult(result)} /> }
       default:
         return {
           content: (

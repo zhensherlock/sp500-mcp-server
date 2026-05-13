@@ -227,4 +227,52 @@ export const tools: Array<{
   ]
 }`,
   },
+  {
+    name: 'get_company_price_data',
+    description: 'Get historical daily OHLCV price data for a company. Returns a plain list of price rows.',
+    params: [
+      {
+        name: 'query',
+        type: 'string',
+        required: true,
+        description: 'Company symbol (e.g., AAPL) or company name (e.g., Apple)',
+      },
+      {
+        name: 'start_date',
+        type: 'string',
+        required: false,
+        description: 'Filter price rows from this date (YYYY-MM-DD)',
+      },
+      {
+        name: 'end_date',
+        type: 'string',
+        required: false,
+        description: 'Filter price rows until this date (YYYY-MM-DD)',
+      },
+      {
+        name: 'limit',
+        type: 'number',
+        required: false,
+        description: 'Maximum number of rows to return (1-1000, default: 100)',
+      },
+    ],
+    returns: `{
+  "symbol": "AAPL",
+  "prices": [
+    {
+      "trade_date": "2026-04-30",
+      "open": 270.12,
+      "high": 272.88,
+      "low": 268.75,
+      "close": 271.35,
+      "volume": 58234100
+    }
+  ],
+  "metadata": {
+    "rowCount": 1,
+    "latestTradeDate": "2026-04-30",
+    "earliestTradeDate": "2026-04-30"
+  }
+}`,
+  },
 ]
