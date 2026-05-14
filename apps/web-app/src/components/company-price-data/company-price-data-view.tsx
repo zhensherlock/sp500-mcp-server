@@ -21,7 +21,7 @@ export function CompanyPriceDataView({ result }: CompanyPriceDataViewProps) {
             <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">Daily OHLCV</p>
             <h1 className="mt-1 text-2xl font-semibold text-neutral-900">{result.symbol}</h1>
           </div>
-          <div className="grid gap-2 text-right sm:grid-cols-3 sm:text-left">
+          <div className="grid gap-2 text-right sm:grid-cols-2 sm:text-left">
             <MetricLabel label="Latest close" value={latestPrice ? `$${formatPrice(latestPrice.close)}` : '-'} />
             <MetricLabel
               label="Daily move"
@@ -32,7 +32,6 @@ export function CompanyPriceDataView({ result }: CompanyPriceDataViewProps) {
                   : '-'
               }
             />
-            <MetricLabel label="Rows" value={String(result.prices.length)} />
           </div>
         </header>
 
