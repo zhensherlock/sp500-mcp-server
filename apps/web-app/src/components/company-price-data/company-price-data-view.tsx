@@ -39,7 +39,7 @@ export function CompanyPriceDataView({ result }: CompanyPriceDataViewProps) {
 
         <section className="overflow-hidden rounded-lg border border-neutral-200 bg-white">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[46rem] border-collapse text-sm">
+            <table className="w-full min-w-184 border-collapse text-sm">
               <thead className="bg-neutral-50 text-left text-xs uppercase tracking-wide text-neutral-500">
                 <tr>
                   <th className="px-4 py-3 font-semibold">Date</th>
