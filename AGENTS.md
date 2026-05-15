@@ -2,21 +2,23 @@
 
 ## Repo Shape
 
-- pnpm `10.33.4` workspace on Node 22 (`.nvmrc`) with Turbo over `apps/*`: main Next.js app in `apps/web`, embedded MCP App HTML in `apps/web-app`, shared shadcn/Tailwind primitives in `packages/ui`.
+- pnpm `10.33.4` workspace on Node 22 (`.nvmrc`) with Turbo over `apps/*`: main Next.js app in `apps/web`, embedded MCP App HTML in `apps/web-app`, HyperFrames promo video project in `apps/promo-video`, shared shadcn/Tailwind primitives in `packages/ui`.
 - MCP server entrypoint is `apps/web/app/[transport]/route.ts`; route config uses `basePath: '/'`, `disableSse: false`, and local tests/proxy call Streamable HTTP at `/mcp`.
 - `apps/web-app` builds one single-file HTML resource per `src/pages/*` into `apps/web-app/dist/*.html`; `apps/web/app/[transport]/tools/app-resource.ts` reads those files via `process.cwd() + '../web-app/dist'`.
 - `apps/web-app/dist` is gitignored generated output. Rebuild it locally before testing MCP App resource reads; do not hand-edit generated HTML.
+- `apps/promo-video` is a HyperFrames HTML video composition package. Source lives in `index.html`, visual direction in `DESIGN.md`, storyboard in `storyboard.md`, reusable media under `assets/`, and generated render output under `renders/`.
 
 ## Commands
 
 - Install: `pnpm install`
-- Dev all apps: `pnpm dev`; focused Next app: `pnpm --filter @apps/web dev`; focused MCP App UI: `pnpm --filter @apps/web-app dev` (proxies `/mcp` and `/api/logo` to `localhost:3000`).
-- Build all app packages: `pnpm build`; rebuild embedded HTML only: `pnpm --filter @apps/web-app build`.
+- Dev all apps: `pnpm dev`; focused Next app: `pnpm --filter @apps/web dev`; focused MCP App UI: `pnpm --filter @apps/web-app dev` (proxies `/mcp` and `/api/logo` to `localhost:3000`); promo video preview: `pnpm --filter @apps/promo-video dev` (HyperFrames Studio on port `6002`).
+- Build all app packages: `pnpm build`; rebuild embedded HTML only: `pnpm --filter @apps/web-app build`; render promo video: `pnpm render:promo` or `pnpm --filter @apps/promo-video render`.
 - Production start: `pnpm start` (filtered to `apps/web`).
 - Lint/format check: `pnpm lint` (ESLint flat config includes `prettier/prettier`).
 - Type check app packages: `pnpm type-check`. If editing shared UI, also run `pnpm exec tsc -p packages/ui/tsconfig.json --noEmit`; root `type-check` only filters `apps/*`.
 - Direct type checks: `pnpm exec tsc -p apps/web/tsconfig.json --noEmit`, `pnpm exec tsc -p apps/web-app/tsconfig.json --noEmit`.
 - Tests are integration tests: start `pnpm dev` first, then run `pnpm test`; single file: `pnpm vitest run apps/web/tests/tools/get-company-info-tool.test.ts`; coverage: `pnpm coverage`.
+- Promo video checks: `pnpm check:promo` runs HyperFrames `lint`, `validate`, and `inspect`; expect `timeline_track_too_dense` as a non-blocking warning while the promo remains a single composition file.
 
 ## Runtime And Test Gotchas
 
@@ -45,3 +47,4 @@
 - Commit messages are Conventional Commits; Husky runs `commitlint` with allowed types `feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|release` and no subject-case rule.
 - Husky `pre-commit` runs `npx lint-staged`; lint-staged only targets `{packages,apps}/**/*.{js,ts,tsx}`.
 - `.opencode/agents/mcp-tool-developer.md` has a fuller MCP tool template, but its paths omit the current `apps/web` workspace prefix.
+- HyperFrames generated output (`apps/*/renders/`, `apps/*/.thumbnails/`, `apps/*/.waveform-cache/`) is gitignored. Keep rendered promo MP4s local unless explicitly asked to commit or publish them.

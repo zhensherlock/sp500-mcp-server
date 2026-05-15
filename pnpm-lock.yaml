@@ -154,6 +154,8 @@ importers:
         specifier: ^4.1.6
         version: 4.1.6(@types/node@22.19.19)(@vitest/coverage-v8@4.1.6)(msw@2.13.4(@types/node@22.19.19)(typescript@5.9.3))(vite@8.0.12(@types/node@22.19.19)(jiti@2.6.1)(yaml@2.8.4))
 
+  apps/promo-video: {}
+
   apps/web:
     dependencies:
       '@workspace/ui':

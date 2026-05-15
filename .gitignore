@@ -45,3 +45,8 @@ next-env.d.ts
 
 # Vite
 dist/
+
+# HyperFrames generated output
+apps/*/.thumbnails/
+apps/*/.waveform-cache/
+apps/*/renders/

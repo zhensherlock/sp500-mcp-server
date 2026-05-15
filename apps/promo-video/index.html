@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #f5f8fc;
+        --surface: #ffffff;
+        --surface-soft: #edf3f8;
+        --surface-strong: #e0e7f0;
+        --fg: #172033;
+        --muted: #374151;
+        --muted-2: #4b5563;
+        --line: rgba(23, 32, 51, 0.14);
+        --orange: #9a3412;
+        --red: #991b1b;
+        --cyan: #075985;
+        --green: #166534;
+        --amber: #92400e;
+        --pink: #9d174d;
+        --code: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+        --sans: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: "Noto Sans JP", Inter;
+        letter-spacing: 0;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 78% 18%, rgba(154, 52, 18, 0.14), transparent 28%),
+          radial-gradient(circle at 20% 72%, rgba(7, 89, 133, 0.13), transparent 34%),
+          linear-gradient(135deg, #f7fbff 0%, #edf5fb 54%, #fff7ed 100%);
+      }
+
+      .ambient {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .ambient::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0.14;
+        background-image:
+          linear-gradient(rgba(23, 32, 51, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(23, 32, 51, 0.08) 1px, transparent 1px);
+        background-size: 80px 80px;
+        mask-image: radial-gradient(circle at 50% 45%, black, transparent 72%);
+      }
+
+      .ambient-line {
+        position: absolute;
+        width: 860px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(7, 89, 133, 0.46), rgba(154, 52, 18, 0.38), transparent);
+        opacity: 0.58;
+        transform: rotate(-13deg);
+      }
+
+      .ambient-line.one {
+        left: 990px;
+        top: 246px;
+      }
+
+      .ambient-line.two {
+        left: -160px;
+        top: 812px;
+      }
+
+      .ghost-word {
+        position: absolute;
+        color: rgba(23, 32, 51, 0.052);
+        font-size: 178px;
+        font-weight: 950;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .ghost-word.one {
+        right: -88px;
+        bottom: 34px;
+      }
+
+      .ghost-word.two {
+        left: -66px;
+        top: 88px;
+      }
+
+      .ghost-word.one::before {
+        content: "S&P 500";
+      }
+
+      .ghost-word.two::before {
+        content: "MCP DATA";
+      }
+
+      .top-brand {
+        position: absolute;
+        z-index: 20;
+        top: 70px;
+        left: 118px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color: var(--fg);
+        font-size: 25px;
+        font-weight: 850;
+      }
+
+      .brand-logo {
+        display: grid;
+        place-items: center;
+        width: 58px;
+        height: 58px;
+        border: 1px solid rgba(23, 32, 51, 0.12);
+        border-radius: 16px;
+        background: linear-gradient(135deg, var(--orange), var(--red));
+        box-shadow: 0 22px 70px rgba(154, 52, 18, 0.22);
+      }
+
+      .brand-logo img {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .brand-logo.mark-only {
+        color: white;
+        font-family: "JetBrains Mono";
+        font-size: 22px;
+        font-weight: 950;
+      }
+
+      .brand-logo.mark-only::before {
+        content: "500";
+      }
+
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        padding: 112px 122px 96px;
+        opacity: 0;
+      }
+
+      #scene-hook {
+        opacity: 1;
+      }
+
+      .scene-content {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 34px;
+      }
+
+      .eyebrow {
+        color: var(--cyan);
+        font-family: "JetBrains Mono";
+        font-size: 25px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .headline {
+        max-width: 1220px;
+        color: var(--fg);
+        font-size: 90px;
+        font-weight: 950;
+        line-height: 1.05;
+      }
+
+      .headline .brand {
+        color: var(--orange);
+      }
+
+      .headline .data {
+        color: var(--cyan);
+      }
+
+      .subhead {
+        max-width: 820px;
+        color: var(--muted);
+        font-size: 32px;
+        font-weight: 450;
+        line-height: 1.42;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        align-items: center;
+        gap: 72px;
+        width: 100%;
+        height: 100%;
+      }
+
+      .panel,
+      .code-panel,
+      .tool-panel,
+      .metric-panel,
+      .install-panel,
+      .final-panel {
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(245, 248, 252, 0.94));
+        box-shadow: 0 28px 90px rgba(15, 23, 42, 0.14);
+      }
+
+      .ticker-field {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .ticker-chip {
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        min-height: 58px;
+        padding: 0 24px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.84);
+        color: rgba(23, 32, 51, 0.86);
+        font-family: "JetBrains Mono";
+        font-size: 21px;
+        box-shadow: 0 18px 56px rgba(15, 23, 42, 0.12);
+        white-space: nowrap;
+      }
+
+      .ticker-chip strong {
+        margin-right: 12px;
+        color: var(--fg);
+      }
+
+      .ticker-chip .up {
+        color: var(--green);
+      }
+
+      .ticker-chip .down {
+        color: var(--pink);
+      }
+
+      .ticker-a {
+        left: 1050px;
+        top: 142px;
+        transform: rotate(-4deg);
+      }
+
+      .ticker-b {
+        left: 1120px;
+        top: 296px;
+        transform: rotate(6deg);
+      }
+
+      .ticker-c {
+        left: 980px;
+        top: 468px;
+        transform: rotate(-8deg);
+      }
+
+      .ticker-d {
+        left: 1138px;
+        top: 648px;
+        transform: rotate(3deg);
+      }
+
+      .ticker-e {
+        left: 920px;
+        top: 820px;
+        transform: rotate(-3deg);
+      }
+
+      .query-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .code-panel {
+        border-radius: 24px;
+        overflow: hidden;
+      }
+
+      .panel-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 64px;
+        padding: 0 26px;
+        border-bottom: 1px solid var(--line);
+        color: var(--muted);
+        font-family: "JetBrains Mono";
+        font-size: 18px;
+      }
+
+      .dot {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+      }
+
+      .dot.red {
+        background: #fb7185;
+      }
+
+      .dot.yellow {
+        background: #facc15;
+      }
+
+      .dot.green {
+        background: #22c55e;
+      }
+
+      pre {
+        padding: 34px 38px 38px;
+        color: #172033;
+        font-family: "JetBrains Mono";
+        font-size: 25px;
+        line-height: 1.58;
+        white-space: pre-wrap;
+      }
+
+      .kw {
+        color: #9f1239;
+      }
+
+      .fn {
+        color: #075985;
+      }
+
+      .str {
+        color: #166534;
+      }
+
+      .key {
+        color: #92400e;
+      }
+
+      .cm {
+        color: #64748b;
+      }
+
+      .endpoint-panel {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 20px;
+        min-height: 102px;
+        padding: 22px 26px;
+        border-radius: 22px;
+      }
+
+      .endpoint-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 42px;
+        padding: 0 18px;
+        border-radius: 999px;
+        background: rgba(7, 89, 133, 0.1);
+        color: var(--cyan);
+        font-family: "JetBrains Mono";
+        font-size: 16px;
+        font-weight: 850;
+      }
+
+      .endpoint-url {
+        color: var(--fg);
+        font-family: "JetBrains Mono";
+        font-size: 27px;
+        font-weight: 800;
+      }
+
+      .status {
+        color: var(--green);
+        font-family: "JetBrains Mono";
+        font-size: 18px;
+        font-weight: 850;
+      }
+
+      .tool-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+      }
+
+      .tool-panel {
+        min-height: 208px;
+        padding: 26px;
+        border-radius: 22px;
+      }
+
+      .tool-name {
+        color: var(--fg);
+        font-family: "JetBrains Mono";
+        font-size: 22px;
+        font-weight: 850;
+      }
+
+      .tool-copy {
+        margin-top: 16px;
+        color: var(--muted);
+        font-size: 22px;
+        line-height: 1.34;
+      }
+
+      .tool-accent {
+        width: 52px;
+        height: 6px;
+        margin-bottom: 22px;
+        border-radius: 999px;
+        background: var(--cyan);
+      }
+
+      .tool-panel:nth-child(2) .tool-accent,
+      .tool-panel:nth-child(5) .tool-accent {
+        background: var(--green);
+      }
+
+      .tool-panel:nth-child(3) .tool-accent,
+      .tool-panel:nth-child(6) .tool-accent {
+        background: var(--amber);
+      }
+
+      .app-showcase {
+        display: grid;
+        grid-template-columns: 1fr 0.86fr;
+        gap: 28px;
+        align-items: stretch;
+      }
+
+      .chart-panel {
+        min-height: 520px;
+        border-radius: 28px;
+        padding: 32px;
+      }
+
+      .panel-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 28px;
+      }
+
+      .panel-title {
+        color: var(--fg);
+        font-size: 32px;
+        font-weight: 900;
+      }
+
+      .panel-kicker {
+        color: var(--muted);
+        font-family: "JetBrains Mono";
+        font-size: 17px;
+        font-weight: 800;
+      }
+
+      .chart-svg {
+        display: block;
+        width: 100%;
+        height: 322px;
+        overflow: visible;
+      }
+
+      .chart-grid-line {
+        stroke: rgba(23, 32, 51, 0.12);
+        stroke-width: 1;
+      }
+
+      .chart-line {
+        fill: none;
+        stroke: var(--cyan);
+        stroke-width: 8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .chart-fill {
+        fill: rgba(7, 89, 133, 0.12);
+      }
+
+      .ohlc-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-top: 28px;
+      }
+
+      .metric-panel {
+        min-height: 104px;
+        padding: 20px;
+        border-radius: 18px;
+      }
+
+      .metric-value {
+        color: var(--fg);
+        font-family: "JetBrains Mono";
+        font-size: 31px;
+        font-weight: 900;
+      }
+
+      .metric-label {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 17px;
+      }
+
+      .feed-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .feed-card {
+        min-height: 156px;
+        padding: 24px;
+        border-radius: 22px;
+      }
+
+      .feed-label {
+        color: var(--cyan);
+        font-family: "JetBrains Mono";
+        font-size: 17px;
+        font-weight: 850;
+      }
+
+      .feed-copy {
+        margin-top: 14px;
+        color: var(--fg);
+        font-size: 27px;
+        font-weight: 850;
+        line-height: 1.22;
+      }
+
+      .feed-meta {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .client-cloud {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .client-tile {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        min-height: 86px;
+        padding: 0 20px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.86);
+        color: var(--fg);
+        font-size: 21px;
+        font-weight: 800;
+      }
+
+      .client-tile img {
+        display: block;
+        width: 38px;
+        height: 38px;
+        object-fit: contain;
+        flex: 0 0 auto;
+      }
+
+      .client-mark {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: rgba(250, 204, 21, 0.45);
+        color: var(--fg);
+        font-family: "JetBrains Mono";
+        font-size: 14px;
+        font-weight: 950;
+        flex: 0 0 auto;
+      }
+
+      .install-panel {
+        border-radius: 26px;
+        padding: 34px;
+      }
+
+      .install-command {
+        margin-top: 28px;
+        padding: 28px 32px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: #f8fafc;
+        color: var(--green);
+        font-family: "JetBrains Mono";
+        font-size: 29px;
+        line-height: 1.45;
+      }
+
+      .launch-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        width: fit-content;
+        min-width: 330px;
+        height: 80px;
+        margin-top: 30px;
+        padding: 0 34px;
+        border: 1px solid rgba(23, 32, 51, 0.08);
+        border-radius: 999px;
+        background: linear-gradient(135deg, rgba(250, 204, 21, 0.85), rgba(251, 146, 60, 0.88));
+        color: var(--fg);
+        font-size: 28px;
+        font-weight: 900;
+        box-shadow: 0 22px 64px rgba(154, 52, 18, 0.26);
+      }
+
+      .final-layout {
+        display: grid;
+        grid-template-columns: 0.86fr 1.14fr;
+        gap: 84px;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+
+      .final-logo-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 620px;
+      }
+
+      .final-logo-wrap .brand-logo {
+        width: 250px;
+        height: 250px;
+        border-radius: 46px;
+        font-size: 74px;
+      }
+
+      .final-name {
+        margin-top: 44px;
+        color: var(--fg);
+        font-size: 62px;
+        font-weight: 950;
+      }
+
+      .final-tagline {
+        margin-top: 20px;
+        color: var(--muted);
+        font-size: 29px;
+      }
+
+      .final-panel {
+        border-radius: 30px;
+        padding: 54px 52px;
+      }
+
+      .final-panel .headline {
+        max-width: 880px;
+        font-size: 78px;
+        line-height: 1.12;
+      }
+
+      .url-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 38px;
+        color: var(--muted);
+        font-family: "JetBrains Mono";
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="42" data-width="1920" data-height="1080">
+      <div class="ambient" data-layout-ignore>
+        <div class="ambient-line one"></div>
+        <div class="ambient-line two"></div>
+        <div class="ghost-word one"></div>
+        <div class="ghost-word two"></div>
+      </div>
+      <div class="top-brand">
+        <div class="brand-logo"><img src="assets/logos/sp500-mcp.svg" alt="" /></div>
+        <span>S&amp;P 500 MCP</span>
+      </div>
+
+      <section id="scene-hook" class="clip scene" data-start="0" data-duration="6" data-track-index="1">
+        <div class="ticker-field" data-layout-ignore>
+          <div class="ticker-chip ticker-a"><strong>AAPL</strong><span class="up">+1.84%</span></div>
+          <div class="ticker-chip ticker-b"><strong>SEC 10-K</strong><span>2025-11-01</span></div>
+          <div class="ticker-chip ticker-c"><strong>NEWS</strong><span class="down">sentiment mixed</span></div>
+          <div class="ticker-chip ticker-d"><strong>NVDA</strong><span class="up">volume 42.3M</span></div>
+          <div class="ticker-chip ticker-e"><strong>OFFICERS</strong><span>CEO / CFO / COO</span></div>
+        </div>
+        <div class="scene-content">
+          <div class="eyebrow">market context for agents</div>
+          <h1 class="headline">让 AI 读懂美股，<br />不再手翻数据</h1>
+          <p class="subhead">S&amp;P 500 MCP 把公司信息、财务趋势、价格、新闻、管理层与 SEC 文件变成 AI 可以直接调用的上下文。</p>
+        </div>
+      </section>
+
+      <section id="scene-server" class="clip scene" data-start="6" data-duration="7" data-track-index="1">
+        <div class="split">
+          <div class="scene-content">
+            <div class="eyebrow">streamable http mcp</div>
+            <h2 class="headline">一个 MCP Server，<br />连接 <span class="brand">S&amp;P 500</span> 公司事实</h2>
+            <p class="subhead">自然语言查询先解析为公司代码，再交给工具读取 Supabase 中的结构化市场数据。</p>
+          </div>
+          <div class="query-stack">
+            <div class="code-panel">
+              <div class="panel-bar">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                <span>mcp-client.ts</span>
+              </div>
+              <pre><span class="kw">await</span> client.<span class="fn">callTool</span>({
+  <span class="key">name</span>: <span class="str">"get_company_financials"</span>,
+  <span class="key">arguments</span>: {
+    <span class="key">query</span>: <span class="str">"Microsoft"</span>,
+    <span class="key">item</span>: <span class="str">"Revenue"</span>,
+  },
+})
+
+<span class="cm">// MSFT -> annual financial metrics</span></pre>
+            </div>
+            <div class="panel endpoint-panel">
+              <span class="endpoint-pill">POST</span>
+              <span class="endpoint-url">/mcp</span>
+              <span class="status">ready</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scene-tools" class="clip scene" data-start="13" data-duration="8" data-track-index="1">
+        <div class="scene-content" style="justify-content: flex-start; padding-top: 78px; gap: 46px;">
+          <div>
+            <div class="eyebrow">six exposed tools</div>
+            <h2 class="headline" style="max-width: 1600px; font-size: 82px;">从公司画像到市场事件，<span class="data">一次接通</span></h2>
+          </div>
+          <div class="tool-grid">
+            <div class="tool-panel"><div class="tool-accent"></div><div class="tool-name">get_company_info</div><div class="tool-copy">业务摘要、行业、地址、市值与关键基础信息。</div></div>
+            <div class="tool-panel"><div class="tool-accent"></div><div class="tool-name">get_company_financials</div><div class="tool-copy">年度指标、趋势图数据、矩阵输出和最新期间过滤。</div></div>
+            <div class="tool-panel"><div class="tool-accent"></div><div class="tool-name">get_company_price_data</div><div class="tool-copy">历史 OHLCV 日线、日期范围与行情表格。</div></div>
+            <div class="tool-panel"><div class="tool-accent"></div><div class="tool-name">get_company_news</div><div class="tool-copy">公司新闻、情绪筛选、来源与时间线。</div></div>
+            <div class="tool-panel"><div class="tool-accent"></div><div class="tool-name">get_company_officers</div><div class="tool-copy">高管名单、职位、任期与薪酬字段。</div></div>
+            <div class="tool-panel"><div class="tool-accent"></div><div class="tool-name">get_company_filings</div><div class="tool-copy">SEC 文件历史、类型过滤、提交日期与链接。</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scene-apps" class="clip scene" data-start="21" data-duration="8" data-track-index="1">
+        <div class="split" style="grid-template-columns: 0.78fr 1.22fr;">
+          <div class="scene-content">
+            <div class="eyebrow">mcp apps included</div>
+            <h2 class="headline">工具结果不只是 JSON，<br />也能变成可交互界面</h2>
+            <p class="subhead">每个暴露工具都注册匹配的 MCP App resource，在支持的 host 内直接渲染图表、表格和摘要。</p>
+          </div>
+          <div class="app-showcase">
+            <div class="panel chart-panel">
+              <div class="panel-heading">
+                <div>
+                  <div class="panel-title">Company Financials</div>
+                  <div class="panel-kicker">Revenue / Operating Income</div>
+                </div>
+                <span class="endpoint-pill">ui://sp500</span>
+              </div>
+              <svg class="chart-svg" viewBox="0 0 760 322" aria-hidden="true">
+                <line class="chart-grid-line" x1="0" x2="760" y1="54" y2="54" />
+                <line class="chart-grid-line" x1="0" x2="760" y1="132" y2="132" />
+                <line class="chart-grid-line" x1="0" x2="760" y1="210" y2="210" />
+                <line class="chart-grid-line" x1="0" x2="760" y1="288" y2="288" />
+                <path class="chart-fill" d="M0 254 C92 236 124 220 182 196 C250 166 310 180 372 132 C442 78 500 120 574 76 C646 34 688 52 760 26 L760 322 L0 322 Z" />
+                <path class="chart-line" d="M0 254 C92 236 124 220 182 196 C250 166 310 180 372 132 C442 78 500 120 574 76 C646 34 688 52 760 26" />
+              </svg>
+              <div class="ohlc-row">
+                <div class="metric-panel"><div class="metric-value">$245B</div><div class="metric-label">Revenue</div></div>
+                <div class="metric-panel"><div class="metric-value">36.8%</div><div class="metric-label">Margin</div></div>
+                <div class="metric-panel"><div class="metric-value">+8.2%</div><div class="metric-label">YoY</div></div>
+                <div class="metric-panel"><div class="metric-value">2025</div><div class="metric-label">Period</div></div>
+              </div>
+            </div>
+            <div class="feed-stack">
+              <div class="panel feed-card"><div class="feed-label">Company News</div><div class="feed-copy">AI 先看新闻情绪，再问财务变化。</div><div class="feed-meta">sentiment: positive</div></div>
+              <div class="panel feed-card"><div class="feed-label">Price Data</div><div class="feed-copy">日线 OHLCV 直接进入图表。</div><div class="feed-meta">range: latest 90 rows</div></div>
+              <div class="panel feed-card"><div class="feed-label">SEC Filings</div><div class="feed-copy">10-K / 10-Q 文件按类型定位。</div><div class="feed-meta">edgar links included</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scene-install" class="clip scene" data-start="29" data-duration="7" data-track-index="1">
+        <div class="split">
+          <div class="install-panel">
+            <div class="eyebrow">one-click quick start</div>
+            <h2 class="headline" style="font-size: 70px; max-width: 760px;">一键接入你的 AI 客户端</h2>
+            <div class="install-command">{
+  "mcpServers": {
+    "SP500-MCP": {
+      "transport": "sse",
+      "url": "https://sp500-mcp.vercel.app/sse"
+    }
+  }
+}</div>
+            <div class="launch-button">Add S&amp;P 500 MCP</div>
+          </div>
+          <div class="client-cloud">
+            <div class="client-tile"><img src="assets/logos/cursor.svg" alt="" />Cursor</div>
+            <div class="client-tile"><img src="assets/logos/cherry-studio.svg" alt="" />Cherry Studio</div>
+            <div class="client-tile"><img src="assets/logos/vscode.svg" alt="" />VS Code</div>
+            <div class="client-tile"><img src="assets/logos/trae.png" alt="" />Trae</div>
+            <div class="client-tile"><img src="assets/logos/kiro.svg" alt="" />Kiro</div>
+            <div class="client-tile"><img src="assets/logos/qoder.svg" alt="" />Qoder</div>
+            <div class="client-tile"><img src="assets/logos/lingma.png" alt="" />Lingma</div>
+            <div class="client-tile"><img src="assets/logos/antigravity.png" alt="" />Antigravity</div>
+            <div class="client-tile"><span class="client-mark">500</span>MCP Host</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scene-final" class="clip scene" data-start="36" data-duration="6" data-track-index="1">
+        <div class="final-layout">
+          <div class="final-logo-wrap">
+            <div class="brand-logo mark-only"></div>
+            <div class="final-name">S&amp;P 500 MCP</div>
+            <div class="final-tagline">Market data your AI can actually use</div>
+          </div>
+          <div class="final-panel">
+            <div class="eyebrow">get started</div>
+            <h2 class="headline">把分散的市场数据，<br />变成一个 MCP 入口</h2>
+            <div class="install-command">$ pnpm dev<br />POST /mcp · GET /sse</div>
+            <div class="url-footer">
+              <span>https://sp500-mcp.vercel.app/</span>
+              <span>https://github.com/zhensherlock/sp500-mcp-server</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      tl.to(".ambient-line.one", { x: -92, opacity: 0.26, duration: 42, ease: "none" }, 0);
+      tl.to(".ambient-line.two", { x: 118, opacity: 0.38, duration: 42, ease: "none" }, 0);
+      tl.to(".ghost-word.one", { x: -72, y: -18, duration: 42, ease: "none" }, 0);
+      tl.to(".ghost-word.two", { x: 54, y: 20, duration: 42, ease: "none" }, 0);
+
+      function sceneIn(id, at) {
+        const eyebrow = `${id} .eyebrow`;
+        const headline = `${id} .headline`;
+        const subhead = `${id} .subhead`;
+        tl.set(id, { opacity: 1, scale: 1 }, at);
+        if (document.querySelector(eyebrow)) {
+          tl.from(eyebrow, { y: 28, opacity: 0, duration: 0.45, ease: "power3.out" }, at + 0.16);
+        }
+        if (document.querySelector(headline)) {
+          tl.from(headline, { y: 46, opacity: 0, duration: 0.58, ease: "power3.out" }, at + 0.28);
+        }
+        if (document.querySelector(subhead)) {
+          tl.from(subhead, { y: 26, opacity: 0, duration: 0.5, ease: "power2.out" }, at + 0.52);
+        }
+      }
+
+      function sceneOut(id, at) {
+        tl.to(id, { opacity: 0, scale: 0.986, duration: 0.42, ease: "power2.in" }, at);
+      }
+
+      sceneIn("#scene-hook", 0);
+      tl.from("#scene-hook .ticker-chip", { x: 160, opacity: 0, scale: 0.94, duration: 0.62, stagger: 0.09, ease: "power3.out" }, 0.55);
+      tl.to("#scene-hook .ticker-chip", { x: -34, duration: 1.2, stagger: 0.04, ease: "power1.inOut" }, 3.95);
+      sceneOut("#scene-hook", 5.55);
+
+      sceneIn("#scene-server", 6);
+      tl.from("#scene-server .code-panel", { y: 52, opacity: 0, scale: 0.96, duration: 0.64, ease: "power3.out" }, 6.5);
+      tl.from("#scene-server .endpoint-panel", { y: 30, opacity: 0, scale: 0.97, duration: 0.48, ease: "power2.out" }, 9.25);
+      tl.to("#scene-server .status", { color: "#92400e", duration: 0.16, yoyo: true, repeat: 3, ease: "power1.inOut" }, 10.7);
+      sceneOut("#scene-server", 12.55);
+
+      sceneIn("#scene-tools", 13);
+      tl.from("#scene-tools .tool-panel", { y: 38, opacity: 0, scale: 0.96, duration: 0.46, stagger: 0.08, ease: "power2.out" }, 14.05);
+      tl.to("#scene-tools .tool-accent", { scaleX: 1.35, transformOrigin: "left center", duration: 0.3, yoyo: true, repeat: 5, stagger: 0.05, ease: "sine.inOut" }, 16.7);
+      sceneOut("#scene-tools", 20.55);
+
+      sceneIn("#scene-apps", 21);
+      tl.from("#scene-apps .chart-panel", { x: 58, opacity: 0, scale: 0.96, duration: 0.62, ease: "power3.out" }, 21.48);
+      tl.from("#scene-apps .chart-line", { strokeDasharray: 980, strokeDashoffset: 980, duration: 1.25, ease: "power2.out" }, 22.3);
+      tl.from("#scene-apps .feed-card", { y: 34, opacity: 0, scale: 0.97, duration: 0.44, stagger: 0.13, ease: "power2.out" }, 23.25);
+      tl.from("#scene-apps .metric-panel", { y: 22, opacity: 0, duration: 0.34, stagger: 0.08, ease: "power2.out" }, 24.25);
+      sceneOut("#scene-apps", 28.55);
+
+      sceneIn("#scene-install", 29);
+      tl.from("#scene-install .install-panel", { x: -62, opacity: 0, scale: 0.96, duration: 0.62, ease: "power3.out" }, 29.34);
+      tl.from("#scene-install .client-tile", { y: 26, opacity: 0, scale: 0.94, duration: 0.38, stagger: 0.055, ease: "power2.out" }, 30.1);
+      tl.from("#scene-install .launch-button", { y: 24, opacity: 0, scale: 0.88, duration: 0.42, ease: "back.out(1.6)" }, 32.15);
+      tl.to("#scene-install .launch-button", { scale: 1.04, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.inOut" }, 33.7);
+      sceneOut("#scene-install", 35.55);
+
+      tl.set("#scene-final", { opacity: 1, scale: 1 }, 36);
+      tl.from("#scene-final .final-logo-wrap", { y: 40, opacity: 0, scale: 0.94, duration: 0.7, ease: "power3.out" }, 36.18);
+      tl.from("#scene-final .final-panel", { x: 72, opacity: 0, scale: 0.96, duration: 0.7, ease: "power3.out" }, 36.38);
+      tl.from("#scene-final .install-command", { y: 26, opacity: 0, duration: 0.45, ease: "power2.out" }, 37.65);
+      tl.from("#scene-final .url-footer span", { y: 18, opacity: 0, duration: 0.34, stagger: 0.12, ease: "power2.out" }, 38.18);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
