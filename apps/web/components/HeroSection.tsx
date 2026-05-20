@@ -1,80 +1,77 @@
-'use client'
+import Image from 'next/image'
+import { Building2, CalendarCheck, PlugZap, Sparkles } from 'lucide-react'
+import { Badge } from '@workspace/ui/components/badge'
 
-import dynamic from 'next/dynamic'
-import { useRef } from 'react'
-import { useTheme } from '@/components/ThemeProvider'
-import { useHeroEntrance } from '@/hooks/useEntranceAnimation'
-
-const SoftAurora = dynamic(() => import('@/components/SoftAurora'), {
-  ssr: false,
-  loading: () => <div className="w-full h-full" />,
-})
+const stats = [
+  {
+    label: 'Companies',
+    value: '500',
+    icon: Building2,
+    className: 'bg-blue-soft text-primary',
+  },
+  {
+    label: 'Established',
+    value: '1957',
+    icon: CalendarCheck,
+    className: 'bg-success-soft text-success',
+  },
+  {
+    label: 'Protocol',
+    value: 'MCP',
+    icon: PlugZap,
+    className: 'bg-violet-soft text-violet',
+  },
+]
 
 export default function HeroSection() {
-  const { theme } = useTheme()
-  const heroRef = useRef<HTMLDivElement>(null)
-
-  useHeroEntrance(heroRef)
-
-  const auroraColors =
-    theme === 'dark' ? { color1: '#f7f7f7', color2: '#e100ff' } : { color1: '#ea580c', color2: '#f97316' }
-
   return (
-    <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <SoftAurora
-          speed={0.6}
-          scale={1.5}
-          brightness={1}
-          color1={auroraColors.color1}
-          color2={auroraColors.color2}
-          noiseFrequency={2.5}
-          noiseAmplitude={1}
-          bandHeight={0.45}
-          bandSpread={0.4}
-          octaveDecay={0.1}
-          layerOffset={0}
-          colorSpeed={1}
-          enableMouseInteraction={false}
-          mouseInfluence={0.25}
-        />
-      </div>
-      <div className="relative z-20 text-center px-6 py-16 max-w-250">
-        <h1 className="hero-title animate-on-load text-[clamp(3rem,8vw,5rem)] font-bold tracking-tight leading-none mb-6 text-foreground">
-          S&P 500 MCP
-        </h1>
-        <p className="hero-tagline animate-on-load text-[clamp(1.5rem,4vw,2rem)] leading-relaxed max-w-[80ch] mx-auto mb-12">
-          <span className="text-foreground hero-chars">
-            <span className="whitespace-nowrap">
-              {'Empower your AI to read the U.S. stock market — real-time'.split('').map((char, i) => (
-                <span key={i} className="hero-char inline-block" style={{ opacity: 0 }}>
-                  {char === ' ' ? '\u00A0' : char}
-                </span>
-              ))}
-            </span>
-            <span className="whitespace-nowrap">
-              {'S&P 500 company data, precise search, total visibility.'.split('').map((char, i) => (
-                <span key={i} className="hero-char inline-block" style={{ opacity: 0 }}>
-                  {char === ' ' ? '\u00A0' : char}
-                </span>
-              ))}
-            </span>
-          </span>
-        </p>
-        <div className="flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
-          <div className="hero-stat animate-on-load text-center">
-            <div className="text-2xl font-semibold font-mono text-foreground">500</div>
-            <div className="text-sm text-muted-foreground mt-1">Companies</div>
+    <section className="relative overflow-hidden bg-hero-background px-6 py-16 lg:min-h-130 lg:py-0 xl:px-0">
+      <Image
+        src="/landing/hero-market.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="pointer-events-none hidden object-contain max-[1561px]:object-cover md:block object-center"
+      />
+      <div className="relative mx-auto flex max-w-312 flex-col items-start justify-center lg:h-130">
+        <div className="flex w-full max-w-136.25 flex-col items-start gap-8 md:max-[1080px]:max-w-[min(52vw,30rem)]">
+          <Badge
+            variant="outline"
+            className="h-auto gap-2 rounded-4xl bg-card px-4 py-2 text-sm text-primary shadow-(--shadow-card) has-data-[icon=inline-start]:pl-4 [&>svg]:size-4!"
+          >
+            <Sparkles data-icon="inline-start" aria-hidden="true" />
+            AI-ready market intelligence
+          </Badge>
+          <div className="flex flex-col gap-6">
+            <h1 className="font-heading text-[clamp(3.5rem,7vw,4.5rem)] font-extrabold leading-[0.95] text-foreground max-[1080px]:text-[clamp(3rem,6vw,3.75rem)]">
+              S&amp;P 500 MCP
+            </h1>
+            <p className="text-xl leading-normal text-muted-foreground">
+              Empowering AI to read the U.S. stock market with real-time S&amp;P 500 company data, precise search, and
+              total visibility.
+            </p>
           </div>
-          <div className="hero-divider animate-on-load w-px h-8 bg-border" />
-          <div className="hero-stat animate-on-load text-center">
-            <div className="text-2xl font-semibold font-mono text-foreground">1957</div>
-            <div className="text-sm text-muted-foreground mt-1">Established</div>
-          </div>
-          <div className="hero-divider animate-on-load w-px h-8 bg-border" />
-          <div className="hero-stat animate-on-load text-center">
-            <div className="text-2xl font-semibold font-mono text-foreground">MCP</div>
-            <div className="text-sm text-muted-foreground mt-1">Protocol</div>
+          <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-3">
+            {stats.map((stat, index) => {
+              const Icon = stat.icon
+              return (
+                <div
+                  key={stat.label}
+                  className={`flex items-center gap-3 ${index > 0 ? 'sm:border-l sm:border-border sm:pl-5' : ''}`}
+                >
+                  <span className={`flex size-10.5 items-center justify-center rounded-xl ${stat.className}`}>
+                    <Icon className="size-5" aria-hidden="true" />
+                  </span>
+                  <span className="flex flex-col">
+                    <span className="font-heading text-2xl font-extrabold leading-none text-foreground">
+                      {stat.value}
+                    </span>
+                    <span className="mt-1 text-[13px] font-medium text-muted-foreground">{stat.label}</span>
+                  </span>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>

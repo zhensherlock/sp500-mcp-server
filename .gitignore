@@ -50,3 +50,7 @@ dist/
 apps/*/.thumbnails/
 apps/*/.waveform-cache/
 apps/*/renders/
+
+# Codex
+.codex/
+.codex-design/

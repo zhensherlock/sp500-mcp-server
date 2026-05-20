@@ -1,60 +1,64 @@
-'use client'
-
-import { Database, MessageCircleQuestion, Brain, AppWindow } from 'lucide-react'
-import { useRef } from 'react'
-import { useScrollStagger } from '@/hooks/useEntranceAnimation'
+import { AppWindow, Brain, Database, MessageCircleQuestion } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
 
 const features = [
   {
-    icon: <Database size={24} strokeWidth={1.5} />,
+    icon: Database,
     title: 'Company Data',
-    description:
-      'Access comprehensive S&P 500 company information including financials, leadership, and business summaries.',
+    description: 'Real-time and historical data for all S&P 500 companies. Financials, profiles, metrics, and more.',
+    iconClassName: 'bg-blue-soft text-primary',
   },
   {
-    icon: <MessageCircleQuestion size={24} strokeWidth={1.5} />,
+    icon: MessageCircleQuestion,
     title: 'Elicitation',
     description: 'Prompt users for required information before executing complex operations.',
+    iconClassName: 'bg-success-soft text-success',
   },
   {
-    icon: <Brain size={24} strokeWidth={1.5} />,
+    icon: Brain,
     title: 'Sampling',
     description: 'Summarize and analyze data with AI-powered sampling capabilities.',
+    iconClassName: 'bg-violet-soft text-violet',
   },
   {
-    icon: <AppWindow size={24} strokeWidth={1.5} />,
+    icon: AppWindow,
     title: 'MCP Apps',
     description: 'Build interactive UIs that render directly inside MCP hosts for rich, context-aware experiences.',
+    iconClassName: 'bg-warning-soft text-warning',
   },
 ]
 
 export default function FeaturesSection() {
-  const featuresRef = useRef<HTMLDivElement>(null)
-
-  useScrollStagger(featuresRef, '.feature-card', { stagger: 0.15, y: 30 })
-
   return (
-    <section ref={featuresRef} className="py-24 px-6">
-      <div className="max-w-300 mx-auto">
-        <h2 className="text-[clamp(1.75rem,4vw,2.25rem)] font-bold tracking-tight mb-4 text-foreground">
-          Everything your AI needs
-        </h2>
-        <p className="text-base text-muted-foreground max-w-[65ch] leading-relaxed">
-          A complete MCP server for S&P 500 company data and AI-powered applications.
-        </p>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 mt-12">
-          {features.map(feature => (
-            <div
-              key={feature.title}
-              className="feature-card animate-on-scroll p-6 bg-card border border-border rounded-xl"
-            >
-              <div className="w-12 h-12 flex items-center justify-center bg-accent rounded-lg mb-4 text-primary">
-                {feature.icon}
-              </div>
-              <h3 className="text-lg font-semibold mb-2 text-foreground">{feature.title}</h3>
-              <p className="text-[15px] text-muted-foreground leading-relaxed">{feature.description}</p>
-            </div>
-          ))}
+    <section className="bg-card px-6 py-16 xl:px-0">
+      <div className="mx-auto flex max-w-312 flex-col items-center gap-12">
+        <div className="flex max-w-180 flex-col items-center gap-4 text-center">
+          <h2 className="font-heading text-[clamp(2rem,4vw,2.75rem)] font-extrabold leading-[1.15] text-foreground">
+            Everything your AI needs
+          </h2>
+          <p className="text-[17px] leading-[1.45] text-muted-foreground">
+            Precise S&amp;P 500 tools packaged for modern AI clients, agents, and developer workflows.
+          </p>
+        </div>
+        <div className="grid w-full gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {features.map(feature => {
+            const Icon = feature.icon
+            return (
+              <Card key={feature.title} className="rounded-[22px] border-border py-0 shadow-(--shadow-card)">
+                <CardHeader className="px-6 pt-6">
+                  <span
+                    className={`flex size-12.5 items-center justify-center rounded-[15px] ${feature.iconClassName}`}
+                  >
+                    <Icon className="size-6" aria-hidden="true" />
+                  </span>
+                </CardHeader>
+                <CardContent className="flex flex-col gap-3 px-6 pb-6">
+                  <CardTitle className="font-heading text-xl font-extrabold text-foreground">{feature.title}</CardTitle>
+                  <p className="text-[15px] leading-[1.45] text-muted-foreground">{feature.description}</p>
+                </CardContent>
+              </Card>
+            )
+          })}
         </div>
       </div>
     </section>

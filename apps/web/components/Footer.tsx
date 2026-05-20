@@ -1,24 +1,12 @@
-import Link from 'next/link'
+const footerSlogan =
+  'AI-ready S&P 500 company intelligence for MCP clients, with tools, app views, elicitation, and sampling built in.'
 
 export default function Footer() {
   return (
-    <footer className="mt-auto border-t border-border py-8 px-6">
-      <div className="max-w-300 mx-auto flex items-center justify-between text-sm text-muted-foreground">
-        <p>S&P 500 MCP</p>
-        <div className="flex gap-6">
-          <Link href="/tools" className="text-muted-foreground no-underline transition-colors hover:text-foreground">
-            Tools
-          </Link>
-          <a
-            href="https://github.com/zhensherlock/sp500-mcp-server"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground no-underline transition-colors hover:text-foreground"
-          >
-            GitHub
-          </a>
-        </div>
-      </div>
+    <footer className="mt-auto border-t border-border bg-background px-6 py-6 xl:px-0">
+      <p className="mx-auto max-w-250 text-center text-sm font-medium leading-[1.55] text-muted-foreground">
+        {footerSlogan}
+      </p>
     </footer>
   )
 }

@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { ThemeProvider } from '@/components/ThemeProvider'
 import { TooltipProvider } from '@workspace/ui/components/tooltip'
 import '@workspace/ui/globals.css'
 import './globals.css'
@@ -17,9 +16,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'S&P 500 MCP',
-  description: 'S&P 500 Index data via MCP — AI-powered access to company information',
+  description: 'AI-ready S&P 500 market intelligence through MCP tools and app views',
   icons: {
-    icon: '/logo.svg',
+    icon: '/logo.png',
   },
 }
 
@@ -36,9 +35,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col antialiased" suppressHydrationWarning>
-        <ThemeProvider>
-          <TooltipProvider>{children}</TooltipProvider>
-        </ThemeProvider>
+        <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>
   )

@@ -1,9 +1,19 @@
-export const tools: Array<{
+export interface ToolParam {
+  name: string
+  type: string
+  required: boolean
+  description: string
+}
+
+export interface Tool {
   name: string
   description: string
-  params: Array<{ name: string; type: string; required: boolean; description: string }>
+  params: ToolParam[]
+  sampleParams: Record<string, string>
   returns: string
-}> = [
+}
+
+export const tools: Tool[] = [
   {
     name: 'get_company_info',
     description:
@@ -16,6 +26,9 @@ export const tools: Array<{
         description: 'Company symbol (e.g., AAPL) or company name (e.g., Apple)',
       },
     ],
+    sampleParams: {
+      query: 'Apple',
+    },
     returns: `{
   "symbol": "AAPL",
   "shortName": "Apple Inc.",
@@ -60,6 +73,11 @@ export const tools: Array<{
         description: 'Maximum number of results (1-100, default: 10)',
       },
     ],
+    sampleParams: {
+      query: 'Apple',
+      sentiment: 'positive',
+      limit: '5',
+    },
     returns: `{
   "symbol": "AAPL",
   "news": [
@@ -94,6 +112,10 @@ export const tools: Array<{
         description: 'Maximum number of officers to return (1-50, default: 20)',
       },
     ],
+    sampleParams: {
+      query: 'Apple',
+      limit: '10',
+    },
     returns: `{
   "symbol": "AAPL",
   "officers": [
@@ -147,6 +169,11 @@ export const tools: Array<{
         description: 'Maximum number of filings to return (1-100, default: 20)',
       },
     ],
+    sampleParams: {
+      query: 'Apple',
+      filing_type: '10-K',
+      limit: '5',
+    },
     returns: `{
   "symbol": "AAPL",
   "filings": [
@@ -201,6 +228,12 @@ export const tools: Array<{
         description: 'Maximum source rows to read (1-1000, default: 500)',
       },
     ],
+    sampleParams: {
+      query: 'Apple',
+      items: 'revenue, net income',
+      latest_only: 'false',
+      limit: '500',
+    },
     returns: `{
   "symbol": "AAPL",
   "periods": ["2025-09-30", "2024-09-30"],
@@ -256,6 +289,11 @@ export const tools: Array<{
         description: 'Maximum number of rows to return (1-1000, default: 100)',
       },
     ],
+    sampleParams: {
+      query: 'Apple',
+      start_date: '2026-01-01',
+      limit: '100',
+    },
     returns: `{
   "symbol": "AAPL",
   "prices": [
