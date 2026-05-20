@@ -1,66 +1,198 @@
 'use client'
 
-import { useEffect, useRef, RefObject } from 'react'
+import { useEffect, type RefObject } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export function useHeroEntrance(containerRef: RefObject<HTMLElement | null>) {
-  const ctxRef = useRef<gsap.Context | null>(null)
+type EntranceConditions = {
+  isDesktop?: boolean
+  reduceMotion?: boolean
+}
 
+type LoadStaggerOptions = {
+  delay?: number
+  duration?: number
+  ease?: string
+  selector?: string
+  stagger?: number
+  y?: number
+}
+
+function getConditions(context: gsap.Context) {
+  return (context.conditions ?? {}) as EntranceConditions
+}
+
+function revealEntranceTargets(targets: gsap.TweenTarget) {
+  gsap.set(targets, {
+    autoAlpha: 1,
+    scale: 1,
+    x: 0,
+    y: 0,
+    clearProps: 'transform,visibility',
+  })
+}
+
+export function useLoadStagger(
+  containerRef: RefObject<HTMLElement | null>,
+  {
+    delay = 0,
+    duration = 0.62,
+    ease = 'power3.out',
+    selector = '[data-load-entrance]',
+    stagger = 0.07,
+    y = 18,
+  }: LoadStaggerOptions = {},
+) {
   useEffect(() => {
-    if (!containerRef.current) return
+    const root = containerRef.current
+    if (!root) return
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const query = gsap.utils.selector(root)
+    const mm = gsap.matchMedia()
 
-    if (prefersReducedMotion) {
-      gsap.set(containerRef.current?.querySelectorAll('.hero-title, .hero-tagline, .hero-stat, .hero-divider') || [], {
-        opacity: 1,
-        y: 0,
-        scaleX: 1,
-      })
-      return
-    }
+    mm.add(
+      {
+        isDesktop: '(min-width: 768px)',
+        reduceMotion: '(prefers-reduced-motion: reduce)',
+      },
+      context => {
+        const { isDesktop, reduceMotion } = getConditions(context)
+        const targets = query(selector)
+        if (!targets.length) return
 
-    ctxRef.current = gsap.context(() => {
-      const title = containerRef.current?.querySelector('.hero-title')
-      const tagline = containerRef.current?.querySelector('.hero-tagline')
-      const stats = containerRef.current?.querySelectorAll('.hero-stat')
-      const divider = containerRef.current?.querySelector('.hero-divider')
-
-      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } })
-
-      if (title) {
-        tl.fromTo(title, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7 }, 0.2)
-      }
-
-      if (tagline) {
-        const chars = tagline.querySelectorAll('.hero-char')
-        if (chars.length > 0) {
-          tl.set(tagline, { opacity: 1 }, 0)
-          tl.fromTo(chars, { opacity: 0 }, { opacity: 1, duration: 0.03, stagger: 0.02, ease: 'none' }, 0.3)
-        } else {
-          tl.fromTo(tagline, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, 0.4)
+        if (reduceMotion) {
+          revealEntranceTargets(targets)
+          return
         }
-      }
 
-      if (stats && stats.length > 0) {
-        tl.fromTo(stats, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, 2.5)
-      }
-
-      if (divider) {
-        tl.fromTo(
-          divider,
-          { scaleX: 0, transformOrigin: 'left center' },
-          { scaleX: 1, duration: 0.4, ease: 'power1.inOut' },
-          2.4,
+        gsap.fromTo(
+          targets,
+          {
+            autoAlpha: 0,
+            y: isDesktop ? y : Math.round(y * 0.7),
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            delay,
+            duration,
+            ease,
+            stagger: { each: stagger, from: 'start' },
+            clearProps: 'transform,visibility',
+            overwrite: 'auto',
+          },
         )
-      }
-    }, containerRef)
+      },
+      root,
+    )
 
     return () => {
-      ctxRef.current?.revert()
+      mm.revert()
+    }
+  }, [containerRef, delay, duration, ease, selector, stagger, y])
+}
+
+export function useHeroEntrance(containerRef: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const root = containerRef.current
+    if (!root) return
+
+    const query = gsap.utils.selector(root)
+    const mm = gsap.matchMedia()
+
+    mm.add(
+      {
+        isDesktop: '(min-width: 768px)',
+        reduceMotion: '(prefers-reduced-motion: reduce)',
+      },
+      context => {
+        const { isDesktop, reduceMotion } = getConditions(context)
+        const copy = query('[data-hero-entrance]')
+        const visual = query('[data-hero-visual]')
+        const statIcons = query('[data-hero-stat-icon]')
+        const targets = [...copy, ...visual]
+
+        if (reduceMotion) {
+          revealEntranceTargets([...targets, ...statIcons])
+          return
+        }
+
+        gsap.set(copy, {
+          autoAlpha: 0,
+          y: isDesktop ? 28 : 18,
+        })
+        gsap.set(visual, {
+          autoAlpha: 0,
+          scale: isDesktop ? 1.035 : 1.015,
+          x: isDesktop ? 34 : 0,
+          y: isDesktop ? 0 : 18,
+          transformOrigin: '65% 50%',
+        })
+        gsap.set(statIcons, {
+          scale: 0.88,
+          y: 6,
+          transformOrigin: '50% 50%',
+        })
+
+        const tl = gsap.timeline({
+          defaults: {
+            ease: 'power3.out',
+            overwrite: 'auto',
+          },
+        })
+
+        if (copy.length) {
+          tl.to(
+            copy,
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.72,
+              stagger: { each: 0.08, from: 'start' },
+              clearProps: 'transform,visibility',
+            },
+            0.08,
+          )
+        }
+
+        if (visual.length) {
+          tl.to(
+            visual,
+            {
+              autoAlpha: 1,
+              scale: 1,
+              x: 0,
+              y: 0,
+              duration: 0.9,
+              ease: 'power2.out',
+              clearProps: 'transform,visibility',
+            },
+            0.18,
+          )
+        }
+
+        if (statIcons.length) {
+          tl.to(
+            statIcons,
+            {
+              scale: 1,
+              y: 0,
+              duration: 0.48,
+              ease: 'back.out(1.35)',
+              stagger: 0.06,
+              clearProps: 'transform',
+            },
+            0.54,
+          )
+        }
+      },
+      root,
+    )
+
+    return () => {
+      mm.revert()
     }
   }, [containerRef])
 }
@@ -71,34 +203,56 @@ export function useScrollStagger(
   options: { stagger?: number; y?: number; start?: string } = {},
 ) {
   const { stagger = 0.1, y = 25, start = 'top 85%' } = options
-  const ctxRef = useRef<gsap.Context | null>(null)
 
   useEffect(() => {
-    if (!containerRef.current) return
+    const root = containerRef.current
+    if (!root) return
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const query = gsap.utils.selector(root)
+    const mm = gsap.matchMedia()
 
-    if (prefersReducedMotion) {
-      gsap.set(containerRef.current.querySelectorAll(itemSelector), { opacity: 1, y: 0 })
-      return
-    }
+    mm.add(
+      {
+        isDesktop: '(min-width: 768px)',
+        reduceMotion: '(prefers-reduced-motion: reduce)',
+      },
+      context => {
+        const { isDesktop, reduceMotion } = getConditions(context)
+        const items = query(itemSelector)
+        if (!items.length) return
 
-    ctxRef.current = gsap.context(() => {
-      const items = containerRef.current?.querySelectorAll(itemSelector)
-      if (!items || items.length === 0) return
+        if (reduceMotion) {
+          revealEntranceTargets(items)
+          return
+        }
 
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start,
-        onEnter: () => {
-          gsap.fromTo(items, { opacity: 0, y }, { opacity: 1, y: 0, duration: 0.5, stagger, ease: 'power2.out' })
-        },
-        once: true,
-      })
-    }, containerRef)
+        gsap.set(items, {
+          autoAlpha: 0,
+          y: isDesktop ? y : Math.round(y * 0.72),
+        })
+
+        ScrollTrigger.create({
+          trigger: root,
+          start,
+          onEnter: () => {
+            gsap.to(items, {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.58,
+              stagger,
+              ease: 'power2.out',
+              clearProps: 'transform,visibility',
+              overwrite: 'auto',
+            })
+          },
+          once: true,
+        })
+      },
+      root,
+    )
 
     return () => {
-      ctxRef.current?.revert()
+      mm.revert()
     }
   }, [containerRef, itemSelector, stagger, y, start])
 }

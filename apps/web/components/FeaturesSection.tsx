@@ -1,4 +1,8 @@
+'use client'
+
+import { useRef } from 'react'
 import { AppWindow, Brain, Database, MessageCircleQuestion } from 'lucide-react'
+import { useScrollStagger } from '@/hooks/useEntranceAnimation'
 import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
 
 const features = [
@@ -29,10 +33,17 @@ const features = [
 ]
 
 export default function FeaturesSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useScrollStagger(sectionRef, '[data-feature-entrance]', {
+    stagger: 0.08,
+    y: 22,
+  })
+
   return (
-    <section className="bg-card px-6 py-16 xl:px-0">
+    <section ref={sectionRef} className="bg-card px-6 py-16 xl:px-0">
       <div className="mx-auto flex max-w-312 flex-col items-center gap-12">
-        <div className="flex max-w-180 flex-col items-center gap-4 text-center">
+        <div className="animate-on-scroll flex max-w-180 flex-col items-center gap-4 text-center" data-feature-entrance>
           <h2 className="font-heading text-[clamp(2rem,4vw,2.75rem)] font-extrabold leading-[1.15] text-foreground">
             Everything your AI needs
           </h2>
@@ -44,7 +55,11 @@ export default function FeaturesSection() {
           {features.map(feature => {
             const Icon = feature.icon
             return (
-              <Card key={feature.title} className="rounded-[22px] border-border py-0 shadow-(--shadow-card)">
+              <Card
+                key={feature.title}
+                className="animate-on-scroll rounded-[22px] border-border py-0 shadow-(--shadow-card)"
+                data-feature-entrance
+              >
                 <CardHeader className="px-6 pt-6">
                   <span
                     className={`flex size-12.5 items-center justify-center rounded-[15px] ${feature.iconClassName}`}

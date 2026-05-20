@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, Check, ChevronDown, Copy, Radio } from 'lucide-react'
 import { installMCP as installAntigravityMCP } from 'protocol-launcher/antigravity'
 import { installMCP as installCherryStudioMCP } from 'protocol-launcher/cherry-studio'
@@ -14,6 +14,7 @@ import { installMCP as installTraeChinaMCP } from 'protocol-launcher/trae-cn'
 import { installMCP as installVSCodeMCP } from 'protocol-launcher/vscode'
 import { Button } from '@workspace/ui/components/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@workspace/ui/components/card'
+import { useScrollStagger } from '@/hooks/useEntranceAnimation'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -236,6 +237,12 @@ export default function QuickStart() {
   const [transport, setTransport] = useState<Transport>('streamable')
   const [origin, setOrigin] = useState('https://sp500-mcp.vercel.app')
   const [mounted, setMounted] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useScrollStagger(sectionRef, '[data-quickstart-entrance]', {
+    stagger: 0.1,
+    y: 26,
+  })
 
   useEffect(() => {
     setOrigin(window.location.origin)
@@ -244,11 +251,15 @@ export default function QuickStart() {
 
   return (
     <section
+      ref={sectionRef}
       id="quick-start"
       className="bg-[linear-gradient(180deg,var(--surface)_0%,var(--surface-blue)_55%,var(--surface)_100%)] px-6 py-16 xl:px-0"
     >
       <div className="mx-auto grid max-w-312 gap-6 lg:grid-cols-2">
-        <Card className="rounded-[28px] border-border py-0 shadow-(--shadow-card-strong)">
+        <Card
+          className="animate-on-scroll rounded-[28px] border-border py-0 shadow-(--shadow-card-strong)"
+          data-quickstart-entrance
+        >
           <CardHeader className="px-7 pt-7">
             <CardTitle className="font-heading text-[28px] font-extrabold">Quick Start</CardTitle>
             <CardDescription className="text-base">Choose your AI client to get started in seconds.</CardDescription>
@@ -285,7 +296,10 @@ export default function QuickStart() {
           </CardContent>
         </Card>
 
-        <Card className="rounded-[28px] border-border py-0 shadow-(--shadow-card-strong)">
+        <Card
+          className="animate-on-scroll rounded-[28px] border-border py-0 shadow-(--shadow-card-strong)"
+          data-quickstart-entrance
+        >
           <CardHeader className="px-7 pt-7">
             <CardTitle className="font-heading text-[28px] font-extrabold">Configuration</CardTitle>
             <CardDescription className="text-base">Add the following to your MCP client config.</CardDescription>
