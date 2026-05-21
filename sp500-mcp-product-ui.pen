@@ -1,0 +1,5165 @@
+{
+  "version": "2.11",
+  "children": [
+    {
+      "type": "frame",
+      "id": "bi8Au",
+      "x": 0,
+      "y": 0,
+      "name": "S&P 500 MCP Landing Page",
+      "width": 1440,
+      "height": 1790,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#FFFFFF",
+            "position": 0
+          },
+          {
+            "color": "#F7FBFF",
+            "position": 0.55
+          },
+          {
+            "color": "#FFFFFF",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "tLlCi",
+          "x": 0,
+          "y": 598,
+          "name": "03 Landing / Body sections",
+          "width": 1440,
+          "height": 1192,
+          "fill": "#FFFFFF00",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "l71xc",
+              "x": 0,
+              "y": 0,
+              "name": "01 Body / Feature section",
+              "width": 1440,
+              "height": 560,
+              "fill": "#FFFFFF00",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "uj79R",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Feature section bg",
+                  "width": 1440,
+                  "height": 560,
+                  "fill": "#FFFFFF",
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "nPQQd",
+                  "x": 360,
+                  "y": 84,
+                  "name": "Feature heading",
+                  "fill": "#071A33",
+                  "textGrowth": "fixed-width",
+                  "width": 720,
+                  "content": "Everything your AI needs",
+                  "lineHeight": 1.15,
+                  "textAlign": "center",
+                  "fontFamily": "Geist",
+                  "fontSize": 44,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "LVChR",
+                  "x": 360,
+                  "y": 154,
+                  "name": "Feature subheading",
+                  "fill": "#53657A",
+                  "textGrowth": "fixed-width",
+                  "width": 720,
+                  "content": "Precise S&P 500 tools packaged for modern AI clients, agents, and developer workflows.",
+                  "lineHeight": 1.45,
+                  "textAlign": "center",
+                  "fontFamily": "Geist",
+                  "fontSize": 17,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "InNO1",
+                  "x": 96,
+                  "y": 252,
+                  "name": "Feature card Company Data",
+                  "width": 298,
+                  "height": 246,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 22,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "YtM6n",
+                  "x": 120,
+                  "y": 278,
+                  "name": "Feature icon Company Data",
+                  "width": 50,
+                  "height": 50,
+                  "fill": "#E8F1FF",
+                  "cornerRadius": 15,
+                  "layout": "none"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "lSo2D",
+                  "x": 133,
+                  "y": 291,
+                  "name": "Feature lucide Company Data",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "database",
+                  "iconFontFamily": "lucide",
+                  "fill": "#2563EB"
+                },
+                {
+                  "type": "text",
+                  "id": "G2Bjsw",
+                  "x": 120,
+                  "y": 352,
+                  "name": "Feature title Company Data",
+                  "fill": "#071A33",
+                  "content": "Company Data",
+                  "fontFamily": "Geist",
+                  "fontSize": 20,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "Eo8Wy",
+                  "x": 120,
+                  "y": 388,
+                  "name": "Feature desc Company Data",
+                  "fill": "#53657A",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "Real-time and historical data for all S&P 500 companies. Financials, profiles, metrics, and more.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Geist",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "ZTRuO",
+                  "x": 416,
+                  "y": 252,
+                  "name": "Feature card Elicitation",
+                  "width": 298,
+                  "height": 246,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 22,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "XEELB",
+                  "x": 440,
+                  "y": 278,
+                  "name": "Feature icon Elicitation",
+                  "width": 50,
+                  "height": 50,
+                  "fill": "#E8F8EF",
+                  "cornerRadius": 15,
+                  "layout": "none"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "SyBjH",
+                  "x": 453,
+                  "y": 291,
+                  "name": "Feature lucide Elicitation",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "message-circle-question-mark",
+                  "iconFontFamily": "lucide",
+                  "fill": "#16A34A"
+                },
+                {
+                  "type": "text",
+                  "id": "rB4PF",
+                  "x": 440,
+                  "y": 352,
+                  "name": "Feature title Elicitation",
+                  "fill": "#071A33",
+                  "content": "Elicitation",
+                  "fontFamily": "Geist",
+                  "fontSize": 20,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "C0tII",
+                  "x": 440,
+                  "y": 388,
+                  "name": "Feature desc Elicitation",
+                  "fill": "#53657A",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "Prompt users for required information before executing complex operations.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Geist",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "Y9txG9",
+                  "x": 736,
+                  "y": 252,
+                  "name": "Feature card Sampling",
+                  "width": 298,
+                  "height": 246,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 22,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "GQEUl",
+                  "x": 760,
+                  "y": 278,
+                  "name": "Feature icon Sampling",
+                  "width": 50,
+                  "height": 50,
+                  "fill": "#F0EAFF",
+                  "cornerRadius": 15,
+                  "layout": "none"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "rX6St",
+                  "x": 773,
+                  "y": 291,
+                  "name": "Feature lucide Sampling",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "brain",
+                  "iconFontFamily": "lucide",
+                  "fill": "#7C3AED"
+                },
+                {
+                  "type": "text",
+                  "id": "Pp62m",
+                  "x": 760,
+                  "y": 352,
+                  "name": "Feature title Sampling",
+                  "fill": "#071A33",
+                  "content": "Sampling",
+                  "fontFamily": "Geist",
+                  "fontSize": 20,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "BXIhl",
+                  "x": 760,
+                  "y": 388,
+                  "name": "Feature desc Sampling",
+                  "fill": "#53657A",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "Summarize and analyze data with AI-powered sampling capabilities.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Geist",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "N30j1",
+                  "x": 1056,
+                  "y": 252,
+                  "name": "Feature card MCP Apps",
+                  "width": 298,
+                  "height": 246,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 22,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "n0H1JB",
+                  "x": 1080,
+                  "y": 278,
+                  "name": "Feature icon MCP Apps",
+                  "width": 50,
+                  "height": 50,
+                  "fill": "#FFF4DE",
+                  "cornerRadius": 15,
+                  "layout": "none"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "s111j",
+                  "x": 1093,
+                  "y": 291,
+                  "name": "Feature lucide MCP Apps",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "app-window",
+                  "iconFontFamily": "lucide",
+                  "fill": "#F59E0B"
+                },
+                {
+                  "type": "text",
+                  "id": "O5rAQb",
+                  "x": 1080,
+                  "y": 352,
+                  "name": "Feature title MCP Apps",
+                  "fill": "#071A33",
+                  "content": "MCP Apps",
+                  "fontFamily": "Geist",
+                  "fontSize": 20,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "tBZHu",
+                  "x": 1080,
+                  "y": 388,
+                  "name": "Feature desc MCP Apps",
+                  "fill": "#53657A",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "Build interactive UIs that render directly inside MCP hosts for rich, context-aware experiences.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Geist",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "XJRxs",
+              "x": 0,
+              "y": 560,
+              "name": "02 Body / Lower background",
+              "width": 1440,
+              "height": 632,
+              "fill": "#FFFFFF00",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "SlzaT",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Lower section bg",
+                  "width": 1440,
+                  "height": 632,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFFFFF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#EEF7FF",
+                        "position": 0.55
+                      },
+                      {
+                        "color": "#FFFFFF",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "layout": "none"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "FEbsr",
+              "x": 96,
+              "y": 600,
+              "name": "03 Body / Quick Start",
+              "width": 612,
+              "height": 482,
+              "fill": "#FFFFFF00",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "WSCP2",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Quick Start card",
+                  "width": 612,
+                  "height": 482,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 28,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C1F",
+                    "offset": {
+                      "x": 0,
+                      "y": 18
+                    },
+                    "blur": 40
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "Ozpc4",
+                  "x": 28,
+                  "y": 28,
+                  "name": "Quick title",
+                  "fill": "#071A33",
+                  "content": "Quick Start",
+                  "fontFamily": "Geist",
+                  "fontSize": 28,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "S5TQW",
+                  "x": 28,
+                  "y": 72,
+                  "name": "Quick subtitle",
+                  "fill": "#53657A",
+                  "textGrowth": "fixed-width",
+                  "width": 556,
+                  "content": "Choose your AI client to get started in seconds.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Geist",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "G5Uy59",
+                  "x": 28,
+                  "y": 116,
+                  "name": "Integration Cherry Studio",
+                  "width": 264,
+                  "height": 60,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFFFFF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#EEF7FF",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "AKyMD",
+                  "x": 42,
+                  "y": 134,
+                  "name": "Integration logo Cherry Studio",
+                  "width": 24,
+                  "height": 24,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/client/cherry-studio.svg",
+                    "mode": "fit"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "o9dnF",
+                  "x": 78,
+                  "y": 136,
+                  "name": "Integration label Cherry Studio",
+                  "fill": "#071A33",
+                  "content": "Cherry Studio",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "jLPJW",
+                  "x": 320,
+                  "y": 116,
+                  "name": "Integration Cursor",
+                  "width": 264,
+                  "height": 60,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFFFFF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#EEF7FF",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "kvmVU",
+                  "x": 334,
+                  "y": 134,
+                  "name": "Integration logo Cursor",
+                  "width": 24,
+                  "height": 24,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/client/cursor.svg",
+                    "mode": "fit"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "hvcC4",
+                  "x": 370,
+                  "y": 136,
+                  "name": "Integration label Cursor",
+                  "fill": "#071A33",
+                  "content": "Cursor",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "ziW0l",
+                  "x": 28,
+                  "y": 404,
+                  "name": "Integration Visual Studio Code",
+                  "width": 556,
+                  "height": 60,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFFFFF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#EEF7FF",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "k2gLY",
+                  "x": 42,
+                  "y": 422,
+                  "name": "Integration logo Visual Studio Code",
+                  "width": 24,
+                  "height": 24,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/client/vscode.svg",
+                    "mode": "fit"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "WeFQb",
+                  "x": 78,
+                  "y": 424,
+                  "name": "Integration label Visual Studio Code",
+                  "fill": "#071A33",
+                  "content": "Visual Studio Code",
+                  "fontFamily": "Geist",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "U15wr",
+                  "x": 28,
+                  "y": 188,
+                  "name": "Integration Trae",
+                  "width": 264,
+                  "height": 60,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFFFFF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#EEF7FF",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "d144b",
+                  "x": 42,
+                  "y": 206,
+                  "name": "Integration logo Trae",
+                  "width": 24,
+                  "height": 24,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/client/trae.png",
+                    "mode": "fit"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "g0c75D",
+                  "x": 78,
+                  "y": 208,
+                  "name": "Integration label Trae",
+                  "fill": "#071A33",
+                  "content": "Trae",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "gC0Fi",
+                  "x": 320,
+                  "y": 188,
+                  "name": "Integration Trae China",
+                  "width": 264,
+                  "height": 60,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFFFFF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#EEF7FF",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "haCjx",
+                  "x": 334,
+                  "y": 206,
+                  "name": "Integration logo Trae China",
+                  "width": 24,
+                  "height": 24,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/client/trae.png",
+                    "mode": "fit"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "FP86L",
+                  "x": 370,
+                  "y": 208,
+                  "name": "Integration label Trae China",
+                  "fill": "#071A33",
+                  "content": "Trae China",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "hmIVH",
+                  "x": 28,
+                  "y": 260,
+                  "name": "Integration Antigravity",
+                  "width": 264,
+                  "height": 60,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFFFFF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#EEF7FF",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "vyLzh",
+                  "x": 42,
+                  "y": 278,
+                  "name": "Integration logo Antigravity",
+                  "width": 24,
+                  "height": 24,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/client/antigravity.png",
+                    "mode": "fit"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "jup0P",
+                  "x": 78,
+                  "y": 280,
+                  "name": "Integration label Antigravity",
+                  "fill": "#071A33",
+                  "content": "Antigravity",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "ycPUs",
+                  "x": 320,
+                  "y": 260,
+                  "name": "Integration Kiro",
+                  "width": 264,
+                  "height": 60,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFFFFF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#EEF7FF",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "RWBIU",
+                  "x": 334,
+                  "y": 278,
+                  "name": "Integration logo Kiro",
+                  "width": 24,
+                  "height": 24,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/client/kiro.svg",
+                    "mode": "fit"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "z3oLW",
+                  "x": 370,
+                  "y": 280,
+                  "name": "Integration label Kiro",
+                  "fill": "#071A33",
+                  "content": "Kiro",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "A8t34",
+                  "x": 28,
+                  "y": 332,
+                  "name": "Integration Qoder",
+                  "width": 264,
+                  "height": 60,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFFFFF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#EEF7FF",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "SL3EZ",
+                  "x": 42,
+                  "y": 350,
+                  "name": "Integration logo Qoder",
+                  "width": 24,
+                  "height": 24,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/client/qoder.svg",
+                    "mode": "fit"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "BwRbI",
+                  "x": 78,
+                  "y": 352,
+                  "name": "Integration label Qoder",
+                  "fill": "#071A33",
+                  "content": "Qoder",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "gRQfC",
+                  "x": 320,
+                  "y": 332,
+                  "name": "Integration Lingma",
+                  "width": 264,
+                  "height": 60,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFFFFF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#EEF7FF",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C14",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 32
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "FPbiN",
+                  "x": 334,
+                  "y": 350,
+                  "name": "Integration logo Lingma",
+                  "width": 24,
+                  "height": 24,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/client/lingma.png",
+                    "mode": "fit"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "j1B0Y",
+                  "x": 370,
+                  "y": 352,
+                  "name": "Integration label Lingma",
+                  "fill": "#071A33",
+                  "content": "Lingma",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "wJS5p",
+                  "x": 30,
+                  "y": 357,
+                  "name": "All integrations",
+                  "enabled": false,
+                  "fill": "#2563EB",
+                  "content": "View all integrations",
+                  "fontFamily": "$font-body",
+                  "fontSize": 15,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "FbLUD",
+                  "x": 188,
+                  "y": 358,
+                  "name": "All integrations arrow",
+                  "enabled": false,
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "arrow-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#2563EB"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "eRP8S",
+              "x": 732,
+              "y": 600,
+              "name": "04 Body / Configuration",
+              "width": 612,
+              "height": 482,
+              "fill": "#FFFFFF00",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "O6VcN3",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Configuration card",
+                  "width": 612,
+                  "height": 482,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 28,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C1F",
+                    "offset": {
+                      "x": 0,
+                      "y": 18
+                    },
+                    "blur": 40
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "q3XjFg",
+                  "x": 28,
+                  "y": 28,
+                  "name": "Config title",
+                  "fill": "#071A33",
+                  "content": "Configuration",
+                  "fontFamily": "Geist",
+                  "fontSize": 28,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "tLLbm",
+                  "x": 28,
+                  "y": 72,
+                  "name": "Config subtitle",
+                  "fill": "#53657A",
+                  "textGrowth": "fixed-width",
+                  "width": 556,
+                  "content": "Add the following to your MCP client config.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Geist",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "wjbFh",
+                  "x": 28,
+                  "y": 116,
+                  "name": "Code panel",
+                  "clip": true,
+                  "width": 556,
+                  "height": 194,
+                  "fill": "#081A2F",
+                  "cornerRadius": 20,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#173657"
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "SdGfG",
+                  "x": 28,
+                  "y": 116,
+                  "name": "Code header",
+                  "width": 556,
+                  "height": 52,
+                  "fill": "#0C2038",
+                  "cornerRadius": [
+                    20,
+                    20,
+                    0,
+                    0
+                  ],
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "b326XD",
+                  "x": 44,
+                  "y": 128,
+                  "name": "JSON pill",
+                  "width": 126,
+                  "height": 28,
+                  "fill": "#173657",
+                  "cornerRadius": 999,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#173657"
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "g0PXYg",
+                  "x": 56,
+                  "y": 135,
+                  "name": "JSON pill text",
+                  "fill": "#D9EAFF",
+                  "content": "Streamable",
+                  "fontFamily": "Geist",
+                  "fontSize": 12,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "Ik3wx",
+                  "x": 140,
+                  "y": 136,
+                  "name": "JSON chevron",
+                  "width": 13,
+                  "height": 13,
+                  "iconFontName": "chevron-down",
+                  "iconFontFamily": "lucide",
+                  "fill": "#93C5FD"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "ZOPfE",
+                  "x": 538,
+                  "y": 133,
+                  "name": "Copy",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "copy",
+                  "iconFontFamily": "lucide",
+                  "fill": "#D9EAFF"
+                },
+                {
+                  "type": "text",
+                  "id": "y2cRt",
+                  "x": 48,
+                  "y": 176,
+                  "name": "Line no 1",
+                  "fill": "#5A7898",
+                  "content": "1",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "lzts8",
+                  "x": 86,
+                  "y": 176,
+                  "name": "Code line 1",
+                  "fill": "#D9EAFF",
+                  "content": "{",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "F1sfuI",
+                  "x": 48,
+                  "y": 194,
+                  "name": "Line no 2",
+                  "fill": "#5A7898",
+                  "content": "2",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "uoFyo",
+                  "x": 86,
+                  "y": 194,
+                  "name": "Code line 2",
+                  "fill": "#93C5FD",
+                  "content": "  \"mcpServers\": {",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "FDyQF",
+                  "x": 48,
+                  "y": 212,
+                  "name": "Line no 3",
+                  "fill": "#5A7898",
+                  "content": "3",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "Ld9j9",
+                  "x": 86,
+                  "y": 212,
+                  "name": "Code line 3",
+                  "fill": "#93C5FD",
+                  "content": "    \"SP500-MCP\": {",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "Voh4F",
+                  "x": 48,
+                  "y": 230,
+                  "name": "Line no 4",
+                  "fill": "#5A7898",
+                  "content": "4",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "P3mNd",
+                  "x": 86,
+                  "y": 230,
+                  "name": "Code line 4",
+                  "fill": "#D9EAFF",
+                  "content": "      \"transport\": \"streamable\",",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "t3irx",
+                  "x": 48,
+                  "y": 248,
+                  "name": "Line no 5",
+                  "fill": "#5A7898",
+                  "content": "5",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "jKQYz",
+                  "x": 86,
+                  "y": 248,
+                  "name": "Code line 5",
+                  "fill": "#D9EAFF",
+                  "content": "      \"url\": \"https://sp500-mcp.vercel.app/mcp\"",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "ACpMP",
+                  "x": 48,
+                  "y": 266,
+                  "name": "Line no 6",
+                  "fill": "#5A7898",
+                  "content": "6",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "v2rxI",
+                  "x": 86,
+                  "y": 266,
+                  "name": "Code line 6",
+                  "fill": "#D9EAFF",
+                  "content": "    }",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "cqY18",
+                  "x": 48,
+                  "y": 284,
+                  "name": "Line no 7",
+                  "fill": "#5A7898",
+                  "content": "7",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "NVO6N",
+                  "x": 86,
+                  "y": 284,
+                  "name": "Code line 7",
+                  "fill": "#D9EAFF",
+                  "content": "  }",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "sPHlC",
+                  "x": 48,
+                  "y": 302,
+                  "name": "Line no 8",
+                  "fill": "#5A7898",
+                  "content": "8",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "t5VcBt",
+                  "x": 86,
+                  "y": 302,
+                  "name": "Code line 8",
+                  "fill": "#D9EAFF",
+                  "content": "}",
+                  "fontFamily": "Geist Mono",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "DzD8E",
+                  "x": 28,
+                  "y": 334,
+                  "name": "Security note",
+                  "width": 556,
+                  "height": 46,
+                  "fill": "#E8F8EF",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#E8F8EF"
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "wO1Gs",
+                  "x": 44,
+                  "y": 348,
+                  "name": "Security icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "radio",
+                  "iconFontFamily": "lucide",
+                  "fill": "#16A34A"
+                },
+                {
+                  "type": "text",
+                  "id": "TOBZX",
+                  "x": 72,
+                  "y": 348,
+                  "name": "Security text",
+                  "fill": "#16A34A",
+                  "textGrowth": "fixed-width",
+                  "width": 474,
+                  "content": "Same Streamable config generated by Quick Start.",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "OAThr",
+                  "x": 48,
+                  "y": 171,
+                  "name": "Transport dropdown menu",
+                  "enabled": false,
+                  "width": 126,
+                  "height": 102,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C24",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 28
+                  },
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": 6,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "JlQYj",
+                      "name": "Dropdown option Streamable",
+                      "width": "fill_container",
+                      "height": 28,
+                      "fill": "#E8F1FF",
+                      "cornerRadius": 9,
+                      "padding": [
+                        10,
+                        7
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Bu083",
+                          "name": "Dropdown option Streamable text",
+                          "fill": "#071A33",
+                          "content": "Streamable",
+                          "fontFamily": "Geist",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ouEcv",
+                      "name": "Dropdown option SSE",
+                      "width": "fill_container",
+                      "height": 28,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 9,
+                      "padding": [
+                        10,
+                        7
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RLNCc",
+                          "name": "Dropdown option SSE text",
+                          "fill": "#53657A",
+                          "content": "SSE",
+                          "fontFamily": "Geist",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "UWslr",
+                      "name": "Dropdown option Stdio",
+                      "width": "fill_container",
+                      "height": 28,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 9,
+                      "padding": [
+                        10,
+                        7
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "oC9wi",
+                          "name": "Dropdown option Stdio text",
+                          "fill": "#53657A",
+                          "content": "Stdio",
+                          "fontFamily": "Geist",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VkCqB",
+              "x": 0,
+              "y": 1126,
+              "name": "05 Body / Footer",
+              "width": 1440,
+              "height": 64,
+              "fill": "#FFFFFF00",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "Q8JHj0",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Footer separator",
+                  "fill": "#DCE8F5",
+                  "width": 1440,
+                  "height": 1
+                },
+                {
+                  "type": "text",
+                  "id": "hqv7i",
+                  "x": 0,
+                  "y": 24,
+                  "name": "Footer brand",
+                  "enabled": false,
+                  "fill": "#071A33",
+                  "content": "S&P 500 MCP",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "szLI0",
+                  "x": 220,
+                  "y": 20,
+                  "name": "Footer copy",
+                  "fill": "#53657A",
+                  "textGrowth": "fixed-width",
+                  "width": 1000,
+                  "content": "AI-ready S&P 500 company intelligence for MCP clients, with tools, app views, elicitation, and sampling built in.",
+                  "lineHeight": 1.55,
+                  "textAlign": "center",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "YYQFl",
+                  "x": 1086,
+                  "y": 25,
+                  "name": "Footer link Docs",
+                  "enabled": false,
+                  "fill": "#53657A",
+                  "content": "Tools",
+                  "fontFamily": "Geist",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "UOOYY",
+                  "x": 1152,
+                  "y": 25,
+                  "name": "Footer link Integrations",
+                  "enabled": false,
+                  "fill": "#53657A",
+                  "content": "MCP Server",
+                  "fontFamily": "Geist",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Zyy87",
+          "x": 0,
+          "y": 78,
+          "name": "02 Landing / Hero",
+          "width": 1440,
+          "height": 520,
+          "fill": "#F5F7FC",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "e7IrP",
+              "x": 0,
+              "y": 0,
+              "name": "Hero background wash",
+              "width": 1440,
+              "height": 520,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "apps/web/public/landing/hero-market.png",
+                "mode": "fit"
+              },
+              "layout": "none"
+            },
+            {
+              "type": "frame",
+              "id": "fdbx9",
+              "x": 96,
+              "y": 64,
+              "name": "Eyebrow",
+              "width": 238,
+              "height": 38,
+              "fill": "#FFFFFF",
+              "cornerRadius": 999,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#DCE8F5"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#12365C14",
+                "offset": {
+                  "x": 0,
+                  "y": 16
+                },
+                "blur": 32
+              },
+              "layout": "none"
+            },
+            {
+              "type": "icon_font",
+              "id": "x8AGo",
+              "x": 112,
+              "y": 75,
+              "name": "Eyebrow icon",
+              "width": 16,
+              "height": 16,
+              "iconFontName": "sparkles",
+              "iconFontFamily": "lucide",
+              "fill": "#2563EB"
+            },
+            {
+              "type": "text",
+              "id": "gV8Ll",
+              "x": 136,
+              "y": 74,
+              "name": "Eyebrow text",
+              "fill": "#2563EB",
+              "content": "AI-ready market intelligence",
+              "fontFamily": "Geist",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "Ux9j1",
+              "x": 96,
+              "y": 126,
+              "name": "Hero headline",
+              "fill": "#071A33",
+              "textGrowth": "fixed-width",
+              "width": 545,
+              "content": "S&P 500 MCP",
+              "lineHeight": 0.95,
+              "fontFamily": "Geist",
+              "fontSize": 72,
+              "fontWeight": "800"
+            },
+            {
+              "type": "text",
+              "id": "oPyhq",
+              "x": 96,
+              "y": 228,
+              "name": "Hero subtitle",
+              "fill": "#53657A",
+              "textGrowth": "fixed-width",
+              "width": 545,
+              "content": "Empowering AI to read the U.S. stock market with real-time S&P 500 company data, precise search, and total visibility.",
+              "lineHeight": 1.5,
+              "fontFamily": "Geist",
+              "fontSize": 20,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "R42yS",
+              "x": 96,
+              "y": 364,
+              "name": "Companies icon block",
+              "width": 42,
+              "height": 42,
+              "fill": "#E8F1FF",
+              "cornerRadius": 12,
+              "layout": "none"
+            },
+            {
+              "type": "icon_font",
+              "id": "A4sFvR",
+              "x": 107,
+              "y": 375,
+              "name": "Companies icon",
+              "width": 20,
+              "height": 20,
+              "iconFontName": "building-2",
+              "iconFontFamily": "lucide",
+              "fill": "#2563EB"
+            },
+            {
+              "type": "text",
+              "id": "H4EOwl",
+              "x": 150,
+              "y": 362,
+              "name": "Companies num",
+              "fill": "#071A33",
+              "content": "500",
+              "fontFamily": "$font-heading",
+              "fontSize": 24,
+              "fontWeight": "800"
+            },
+            {
+              "type": "text",
+              "id": "Cupmz",
+              "x": 150,
+              "y": 392,
+              "name": "Companies label",
+              "fill": "#53657A",
+              "content": "Companies",
+              "fontFamily": "Geist",
+              "fontSize": 13,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "CUDBQ",
+              "x": 266,
+              "y": 364,
+              "name": "Established icon block",
+              "width": 42,
+              "height": 42,
+              "fill": "#E8F8EF",
+              "cornerRadius": 12,
+              "layout": "none"
+            },
+            {
+              "type": "icon_font",
+              "id": "U1CHT",
+              "x": 277,
+              "y": 375,
+              "name": "Established icon",
+              "width": 20,
+              "height": 20,
+              "iconFontName": "calendar-check",
+              "iconFontFamily": "lucide",
+              "fill": "#16A34A"
+            },
+            {
+              "type": "text",
+              "id": "BUblq",
+              "x": 320,
+              "y": 362,
+              "name": "Established num",
+              "fill": "#071A33",
+              "content": "1957",
+              "fontFamily": "$font-heading",
+              "fontSize": 24,
+              "fontWeight": "800"
+            },
+            {
+              "type": "text",
+              "id": "f8udZ",
+              "x": 320,
+              "y": 392,
+              "name": "Established label",
+              "fill": "#53657A",
+              "content": "Established",
+              "fontFamily": "Geist",
+              "fontSize": 13,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "a07Cv",
+              "x": 436,
+              "y": 364,
+              "name": "Protocol icon block",
+              "width": 42,
+              "height": 42,
+              "fill": "#F0EAFF",
+              "cornerRadius": 12,
+              "layout": "none"
+            },
+            {
+              "type": "icon_font",
+              "id": "n78mC",
+              "x": 447,
+              "y": 375,
+              "name": "Protocol icon",
+              "width": 20,
+              "height": 20,
+              "iconFontName": "plug-zap",
+              "iconFontFamily": "lucide",
+              "fill": "#7C3AED"
+            },
+            {
+              "type": "text",
+              "id": "KUyp5",
+              "x": 490,
+              "y": 362,
+              "name": "Protocol num",
+              "fill": "#071A33",
+              "content": "MCP",
+              "fontFamily": "$font-heading",
+              "fontSize": 24,
+              "fontWeight": "800"
+            },
+            {
+              "type": "text",
+              "id": "BebMA",
+              "x": 490,
+              "y": 392,
+              "name": "Protocol label",
+              "fill": "#53657A",
+              "content": "Protocol",
+              "fontFamily": "Geist",
+              "fontSize": 13,
+              "fontWeight": "500"
+            },
+            {
+              "type": "rectangle",
+              "id": "LCaqv",
+              "x": 244,
+              "y": 364,
+              "name": "Stat divider 1",
+              "fill": "#DCE8F5",
+              "width": 1,
+              "height": 42
+            },
+            {
+              "type": "ellipse",
+              "id": "NGWZQ",
+              "x": 656,
+              "y": 192,
+              "name": "Hero dotted map",
+              "enabled": false,
+              "fill": "#D2E1F280",
+              "width": 3,
+              "height": 3
+            },
+            {
+              "type": "rectangle",
+              "id": "tPkB5",
+              "x": 414,
+              "y": 364,
+              "name": "Stat divider 2",
+              "fill": "#DCE8F5",
+              "width": 1,
+              "height": 42
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "G3Ota9",
+          "x": 0,
+          "y": 0,
+          "name": "01 Landing / Header",
+          "width": 1440,
+          "height": 78,
+          "fill": "#FFFFFF00",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "A3bi75",
+              "x": 0,
+              "y": 0,
+              "name": "Header bar",
+              "width": 1440,
+              "height": 78,
+              "fill": "#FFFFFF",
+              "stroke": {
+                "align": "inside",
+                "thickness": {
+                  "bottom": 1
+                },
+                "fill": "#DCE8F5"
+              },
+              "layout": "none"
+            },
+            {
+              "type": "frame",
+              "id": "SkWKu",
+              "x": 96,
+              "y": 20,
+              "name": "Logo icon",
+              "width": 38,
+              "height": 38,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "logo.png",
+                "mode": "fit"
+              },
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "none"
+            },
+            {
+              "type": "text",
+              "id": "VEBE6",
+              "x": 146,
+              "y": 28,
+              "name": "Brand",
+              "fill": "#071A33",
+              "content": "S&P 500 MCP",
+              "fontFamily": "Geist",
+              "fontSize": 18,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "h1OIJu",
+              "x": 1132,
+              "y": 30,
+              "name": "Tools nav",
+              "fill": "#53657A",
+              "content": "Tools",
+              "fontFamily": "Geist",
+              "fontSize": 15,
+              "fontWeight": "800"
+            },
+            {
+              "type": "frame",
+              "id": "nohOH",
+              "x": 1210,
+              "y": 18,
+              "name": "Header Get Started button",
+              "width": 134,
+              "height": 42,
+              "fill": "#2563EB",
+              "cornerRadius": 999,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#2563EB26",
+                "offset": {
+                  "x": 0,
+                  "y": 8
+                },
+                "blur": 18
+              },
+              "gap": 8,
+              "padding": [
+                16,
+                12
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "pMKjK",
+                  "name": "Get Started label",
+                  "fill": "#FFFFFF",
+                  "content": "Get Started",
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "oIUWQ",
+                  "name": "Get Started arrow",
+                  "width": 15,
+                  "height": 15,
+                  "iconFontName": "arrow-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "gSSdg",
+      "x": 1540,
+      "y": 0,
+      "name": "S&P 500 MCP Tools Page",
+      "reusable": true,
+      "width": 1440,
+      "height": 1240,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#FFFFFF",
+            "position": 0
+          },
+          {
+            "color": "#F7FBFF",
+            "position": 0.55
+          },
+          {
+            "color": "#FFFFFF",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "AQDTk",
+          "x": 0,
+          "y": 0,
+          "name": "01 Tools / Header",
+          "width": 1440,
+          "height": 78,
+          "fill": "#FFFFFF00",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "fp4ux",
+              "x": 0,
+              "y": 0,
+              "name": "Header bar",
+              "width": 1440,
+              "height": 78,
+              "fill": "#FFFFFF",
+              "stroke": {
+                "align": "inside",
+                "thickness": {
+                  "bottom": 1
+                },
+                "fill": "#DCE8F5"
+              },
+              "layout": "none"
+            },
+            {
+              "type": "frame",
+              "id": "nVB7w",
+              "x": 96,
+              "y": 20,
+              "name": "Logo icon",
+              "width": 38,
+              "height": 38,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "logo.png",
+                "mode": "fit"
+              },
+              "layout": "none"
+            },
+            {
+              "type": "text",
+              "id": "E4c6M",
+              "x": 146,
+              "y": 28,
+              "name": "Brand",
+              "fill": "$navy",
+              "content": "S&P 500 MCP",
+              "fontFamily": "$font-heading",
+              "fontSize": 18,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "nIvjs",
+              "x": 1132,
+              "y": 30,
+              "name": "Tools nav active",
+              "fill": "$navy",
+              "content": "Tools",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "800"
+            },
+            {
+              "type": "frame",
+              "id": "ktIWg",
+              "x": 1210,
+              "y": 18,
+              "name": "Header Get Started button",
+              "width": 134,
+              "height": 42,
+              "fill": "$blue",
+              "cornerRadius": 999,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#2563EB26",
+                "offset": {
+                  "x": 0,
+                  "y": 8
+                },
+                "blur": 18
+              },
+              "gap": 8,
+              "padding": [
+                16,
+                12
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "YzC2k",
+                  "name": "Get Started label",
+                  "fill": "#FFFFFF",
+                  "content": "Get Started",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "nivfD",
+                  "name": "Get Started arrow",
+                  "width": 15,
+                  "height": 15,
+                  "iconFontName": "arrow-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "y7isB",
+          "x": 0,
+          "y": 78,
+          "name": "02 Tools / Hero",
+          "width": 1440,
+          "height": 430,
+          "fill": "#FFFFFF00",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "O49jTD",
+              "x": 0,
+              "y": 0,
+              "name": "Tools hero background",
+              "width": 1440,
+              "height": 430,
+              "layout": "none"
+            },
+            {
+              "type": "text",
+              "id": "LfqBL",
+              "x": 96,
+              "y": 88,
+              "name": "Tools hero title",
+              "fill": "$navy",
+              "textGrowth": "fixed-width",
+              "width": 590,
+              "content": "MCP Tools",
+              "lineHeight": 0.95,
+              "fontFamily": "$font-heading",
+              "fontSize": 68,
+              "fontWeight": "800"
+            },
+            {
+              "type": "text",
+              "id": "WWpXT",
+              "x": 96,
+              "y": 184,
+              "name": "Tools hero subtitle",
+              "fill": "$body",
+              "textGrowth": "fixed-width",
+              "width": 610,
+              "content": "S&P 500 data tools designed for richer MCP workflows: ask users for context, request model reasoning, and render interactive app views.",
+              "lineHeight": 1.45,
+              "fontFamily": "$font-body",
+              "fontSize": 20,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "H7Jsof",
+              "x": 96,
+              "y": 302,
+              "name": "Hero capability Guided",
+              "width": 164,
+              "height": 44,
+              "fill": "$blue-soft",
+              "cornerRadius": 999,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#D9E9FA"
+              },
+              "gap": 9,
+              "padding": [
+                14,
+                10
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "iobtU",
+                  "name": "Elicitation capability icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "route",
+                  "iconFontFamily": "lucide",
+                  "fill": "$blue"
+                },
+                {
+                  "type": "text",
+                  "id": "HucYp",
+                  "name": "Elicitation capability text",
+                  "fill": "$navy",
+                  "content": "Guided flows",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "e4Dxqa",
+              "x": 280,
+              "y": 302,
+              "name": "Hero capability Assisted",
+              "width": 174,
+              "height": 44,
+              "fill": "$green-soft",
+              "cornerRadius": 999,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#DCFCE7"
+              },
+              "gap": 9,
+              "padding": [
+                14,
+                10
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "DKtN4",
+                  "name": "Sampling capability icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "brain",
+                  "iconFontFamily": "lucide",
+                  "fill": "$green"
+                },
+                {
+                  "type": "text",
+                  "id": "N87cQw",
+                  "name": "Sampling capability text",
+                  "fill": "$navy",
+                  "content": "AI-assisted",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "XxSYs",
+              "x": 474,
+              "y": 302,
+              "name": "Hero capability Interactive",
+              "width": 176,
+              "height": 44,
+              "fill": "$purple-soft",
+              "cornerRadius": 999,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#E9D5FF"
+              },
+              "gap": 9,
+              "padding": [
+                14,
+                10
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "wsWjk",
+                  "name": "MCP Apps capability icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "panels-top-left",
+                  "iconFontFamily": "lucide",
+                  "fill": "$purple"
+                },
+                {
+                  "type": "text",
+                  "id": "M1EzI9",
+                  "name": "MCP Apps capability text",
+                  "fill": "$navy",
+                  "content": "Interactive UI",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MtK2i",
+              "x": 780,
+              "y": 43,
+              "name": "Capabilities banner artwork",
+              "width": 564,
+              "height": 330,
+              "fill": "#FFFFFFD9",
+              "cornerRadius": 32,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#DCE8F5"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#12365C18",
+                "offset": {
+                  "x": 0,
+                  "y": 24
+                },
+                "blur": 46
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "l7LiZ",
+                  "x": 300,
+                  "y": 18,
+                  "name": "Capabilities artwork glow",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "radial",
+                    "enabled": true,
+                    "rotation": 0,
+                    "size": {
+                      "width": 1,
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#DBEAFE",
+                        "position": 0
+                      },
+                      {
+                        "color": "#DBEAFE00",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "width": 210,
+                  "height": 210
+                },
+                {
+                  "type": "text",
+                  "id": "RzECj",
+                  "x": 30,
+                  "y": 30,
+                  "name": "Capabilities artwork title",
+                  "fill": "$navy",
+                  "content": "Advanced MCP support",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 27,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "h9BsQy",
+                  "x": 30,
+                  "y": 68,
+                  "name": "Capabilities artwork subtitle",
+                  "fill": "$body",
+                  "textGrowth": "fixed-width",
+                  "width": 500,
+                  "content": "Guided, model-assisted, and interactive market workflows.",
+                  "lineHeight": 1.42,
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "NGomk",
+                  "x": 30,
+                  "y": 134,
+                  "name": "Artwork card Elicitation",
+                  "width": 158,
+                  "height": 146,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#D9E9FA"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C12",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "i1234e",
+                      "x": 18,
+                      "y": 18,
+                      "name": "Elicitation artwork icon bg",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "$blue-soft",
+                      "cornerRadius": 12,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "x3eVnE",
+                          "x": 9,
+                          "y": 9,
+                          "name": "Elicitation artwork icon",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "message-circle-question-mark",
+                          "iconFontFamily": "lucide",
+                          "fill": "$blue"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "FzACM",
+                      "x": 18,
+                      "y": 70,
+                      "name": "Elicitation artwork title",
+                      "fill": "$navy",
+                      "content": "Elicitation",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 17,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Clf7Y",
+                      "x": 18,
+                      "y": 104,
+                      "name": "Elicitation artwork pill",
+                      "width": 104,
+                      "height": 30,
+                      "fill": "#E8F1FF",
+                      "cornerRadius": 999,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#BFDBFE"
+                      },
+                      "gap": 6,
+                      "padding": [
+                        10,
+                        7
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "iMk1T",
+                          "name": "Elicitation artwork pill icon",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "check",
+                          "iconFontFamily": "lucide",
+                          "fill": "$blue"
+                        },
+                        {
+                          "type": "text",
+                          "id": "mgUZL",
+                          "name": "Elicitation artwork pill text",
+                          "fill": "$navy",
+                          "content": "Ask",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "F15sjJ",
+                  "x": 203,
+                  "y": 134,
+                  "name": "Artwork card Sampling",
+                  "width": 158,
+                  "height": 146,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCFCE7"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C12",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "g9JQu",
+                      "x": 18,
+                      "y": 18,
+                      "name": "Sampling artwork icon bg",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "$green-soft",
+                      "cornerRadius": 12,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "ECbp2",
+                          "x": 9,
+                          "y": 9,
+                          "name": "Sampling artwork icon",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "sparkles",
+                          "iconFontFamily": "lucide",
+                          "fill": "$green"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "LbqEI",
+                      "x": 18,
+                      "y": 70,
+                      "name": "Sampling artwork title",
+                      "fill": "$navy",
+                      "content": "Sampling",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 17,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wbtkY",
+                      "x": 18,
+                      "y": 104,
+                      "name": "Sampling artwork pill",
+                      "width": 104,
+                      "height": 30,
+                      "fill": "#E8F8EF",
+                      "cornerRadius": 999,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#BBF7D0"
+                      },
+                      "gap": 6,
+                      "padding": [
+                        10,
+                        7
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "HRimd",
+                          "name": "Sampling artwork pill icon",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "brain",
+                          "iconFontFamily": "lucide",
+                          "fill": "$green"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Ue7bZ",
+                          "name": "Sampling artwork pill text",
+                          "fill": "$navy",
+                          "content": "Think",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "bZxio",
+                  "x": 376,
+                  "y": 134,
+                  "name": "Artwork card MCP Apps",
+                  "width": 158,
+                  "height": 146,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#E9D5FF"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C12",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "D8VjSh",
+                      "x": 18,
+                      "y": 18,
+                      "name": "MCP Apps artwork icon bg",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "$purple-soft",
+                      "cornerRadius": 12,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "RSyAs",
+                          "x": 9,
+                          "y": 9,
+                          "name": "MCP Apps artwork icon",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "app-window",
+                          "iconFontFamily": "lucide",
+                          "fill": "$purple"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "BG8fw",
+                      "x": 18,
+                      "y": 70,
+                      "name": "MCP Apps artwork title",
+                      "fill": "$navy",
+                      "content": "MCP Apps",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 17,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "D3WN7",
+                      "x": 18,
+                      "y": 104,
+                      "name": "MCP Apps artwork pill",
+                      "width": 104,
+                      "height": 30,
+                      "fill": "#F0EAFF",
+                      "cornerRadius": 999,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#DDD6FE"
+                      },
+                      "gap": 6,
+                      "padding": [
+                        10,
+                        7
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "J9e4W",
+                          "name": "MCP Apps artwork pill icon",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "panel-top",
+                          "iconFontFamily": "lucide",
+                          "fill": "$purple"
+                        },
+                        {
+                          "type": "text",
+                          "id": "x0DcOA",
+                          "name": "MCP Apps artwork pill text",
+                          "fill": "$navy",
+                          "content": "Render",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Cekoo",
+          "x": 96,
+          "y": 536,
+          "name": "03 Tools / Tool catalog",
+          "width": 1248,
+          "height": 512,
+          "fill": "#FFFFFF00",
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "id": "PEQzM",
+              "x": 0,
+              "y": 4,
+              "name": "Available tools heading",
+              "fill": "$navy",
+              "content": "Available tools",
+              "fontFamily": "$font-heading",
+              "fontSize": 24,
+              "fontWeight": "800"
+            },
+            {
+              "type": "text",
+              "id": "y6rWI",
+              "x": 196,
+              "y": 10,
+              "name": "Available tools helper",
+              "fill": "$body",
+              "content": "Select a tool to view inputs, example output, and run a Test Call.",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "l2TScJ",
+              "x": 1070,
+              "y": 0,
+              "name": "Open details hint",
+              "width": 178,
+              "height": 36,
+              "fill": "#FFFFFF",
+              "cornerRadius": 999,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$border"
+              },
+              "gap": 8,
+              "padding": [
+                14,
+                9
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "xD1y5",
+                  "name": "Open details hint icon",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "mouse-pointer-click",
+                  "iconFontFamily": "lucide",
+                  "fill": "$blue"
+                },
+                {
+                  "type": "text",
+                  "id": "bWeZ0",
+                  "name": "Open details hint text",
+                  "fill": "$navy",
+                  "content": "Click for details",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "HnHTF",
+              "x": 0,
+              "y": 64,
+              "name": "Tool card get_company_info",
+              "width": 612,
+              "height": 136,
+              "fill": "#F8FBFF",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1.5,
+                "fill": "#93C5FD"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#2563EB1C",
+                "offset": {
+                  "x": 0,
+                  "y": 18
+                },
+                "blur": 30
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ZXFtp",
+                  "x": 22,
+                  "y": 20,
+                  "name": "get_company_info logo",
+                  "clip": true,
+                  "width": 68,
+                  "height": 68,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/tool-icons/get-company-info.png",
+                    "mode": "fit"
+                  },
+                  "cornerRadius": 21,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1.5,
+                    "fill": "#93C5FD"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#2563EB20",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "ejfzD",
+                  "x": 110,
+                  "y": 22,
+                  "name": "get_company_info name",
+                  "fill": "$navy",
+                  "content": "get_company_info",
+                  "fontFamily": "$font-mono",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "u8dkx",
+                  "x": 110,
+                  "y": 52,
+                  "name": "get_company_info description",
+                  "fill": "$body",
+                  "textGrowth": "fixed-width",
+                  "width": 400,
+                  "content": "Get complete company basic information including financials, leadership, address, and business summary. Supports both symbol and company name queries.",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "Dz0XO",
+                  "x": 556,
+                  "y": 20,
+                  "name": "get_company_info hover arrow",
+                  "width": 34,
+                  "height": 34,
+                  "fill": "#2563EB",
+                  "cornerRadius": 999,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#2563EB2E",
+                    "offset": {
+                      "x": 0,
+                      "y": 8
+                    },
+                    "blur": 16
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "njjGt",
+                      "x": 10,
+                      "y": 10,
+                      "name": "get_company_info hover arrow icon",
+                      "width": 14,
+                      "height": 14,
+                      "iconFontName": "arrow-up-right",
+                      "iconFontFamily": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "C5WYPF",
+              "x": 636,
+              "y": 64,
+              "name": "Tool card get_company_news",
+              "width": 612,
+              "height": 136,
+              "fill": "#FFFFFF",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$border"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#12365C0D",
+                "offset": {
+                  "x": 0,
+                  "y": 12
+                },
+                "blur": 24
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "qm6LN",
+                  "x": 22,
+                  "y": 20,
+                  "name": "get_company_news logo",
+                  "clip": true,
+                  "width": 68,
+                  "height": 68,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/tool-icons/get-company-news.png",
+                    "mode": "fit"
+                  },
+                  "cornerRadius": 21,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C12",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 20
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "b4py54",
+                  "x": 110,
+                  "y": 22,
+                  "name": "get_company_news name",
+                  "fill": "$navy",
+                  "content": "get_company_news",
+                  "fontFamily": "$font-mono",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "byP2V",
+                  "x": 110,
+                  "y": 52,
+                  "name": "get_company_news description",
+                  "fill": "$body",
+                  "textGrowth": "fixed-width",
+                  "width": 400,
+                  "content": "Get recent company news with sentiment analysis, supports filtering by symbol and sentiment.",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "mafBQ",
+                  "x": 568,
+                  "y": 28,
+                  "name": "get_company_news card arrow",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "arrow-up-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#9AAABD"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "yq7CR",
+              "x": 0,
+              "y": 220,
+              "name": "Tool card get_company_officers",
+              "width": 612,
+              "height": 136,
+              "fill": "#FFFFFF",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$border"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#12365C0D",
+                "offset": {
+                  "x": 0,
+                  "y": 12
+                },
+                "blur": 24
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "L6f0yR",
+                  "x": 22,
+                  "y": 20,
+                  "name": "get_company_officers logo",
+                  "clip": true,
+                  "width": 68,
+                  "height": 68,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/tool-icons/get-company-officers.png",
+                    "mode": "fit"
+                  },
+                  "cornerRadius": 21,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C12",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 20
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "Gwpwk",
+                  "x": 110,
+                  "y": 22,
+                  "name": "get_company_officers name",
+                  "fill": "$navy",
+                  "content": "get_company_officers",
+                  "fontFamily": "$font-mono",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "aypeY",
+                  "x": 110,
+                  "y": 52,
+                  "name": "get_company_officers description",
+                  "fill": "$body",
+                  "textGrowth": "fixed-width",
+                  "width": 400,
+                  "content": "Get company executive officers and their compensation info, supports filtering by symbol",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "dbeml",
+                  "x": 568,
+                  "y": 28,
+                  "name": "get_company_officers card arrow",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "arrow-up-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#9AAABD"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "wEXv2",
+              "x": 636,
+              "y": 220,
+              "name": "Tool card get_company_filings",
+              "width": 612,
+              "height": 136,
+              "fill": "#FFFFFF",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$border"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#12365C0D",
+                "offset": {
+                  "x": 0,
+                  "y": 12
+                },
+                "blur": 24
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nfhC1",
+                  "x": 22,
+                  "y": 20,
+                  "name": "get_company_filings logo",
+                  "clip": true,
+                  "width": 68,
+                  "height": 68,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/tool-icons/get-company-filings.png",
+                    "mode": "fit"
+                  },
+                  "cornerRadius": 21,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C12",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 20
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "cj8cy",
+                  "x": 110,
+                  "y": 22,
+                  "name": "get_company_filings name",
+                  "fill": "$navy",
+                  "content": "get_company_filings",
+                  "fontFamily": "$font-mono",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "kwHIj",
+                  "x": 110,
+                  "y": 52,
+                  "name": "get_company_filings description",
+                  "fill": "$body",
+                  "textGrowth": "fixed-width",
+                  "width": 400,
+                  "content": "Get SEC filings history for a company, supports filtering by symbol, date range, and filing type",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "D5PS0",
+                  "x": 568,
+                  "y": 28,
+                  "name": "get_company_filings card arrow",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "arrow-up-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#9AAABD"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "v0st6v",
+              "x": 0,
+              "y": 376,
+              "name": "Tool card get_company_financials",
+              "width": 612,
+              "height": 136,
+              "fill": "#FFFFFF",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$border"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#12365C0D",
+                "offset": {
+                  "x": 0,
+                  "y": 12
+                },
+                "blur": 24
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "lKJnZ",
+                  "x": 22,
+                  "y": 20,
+                  "name": "get_company_financials logo",
+                  "clip": true,
+                  "width": 68,
+                  "height": 68,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/tool-icons/get-company-financials.png",
+                    "mode": "fit"
+                  },
+                  "cornerRadius": 21,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C12",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 20
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "ClMjq",
+                  "x": 110,
+                  "y": 22,
+                  "name": "get_company_financials name",
+                  "fill": "$navy",
+                  "content": "get_company_financials",
+                  "fontFamily": "$font-mono",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "ETXyp",
+                  "x": 110,
+                  "y": 52,
+                  "name": "get_company_financials description",
+                  "fill": "$body",
+                  "textGrowth": "fixed-width",
+                  "width": 400,
+                  "content": "Get annual company financial metrics, grouped for charting and matrix analysis. Supports item, date range, and latest-period filters.",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "JVZsL",
+                  "x": 568,
+                  "y": 28,
+                  "name": "get_company_financials card arrow",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "arrow-up-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#9AAABD"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "N3QoF2",
+              "x": 636,
+              "y": 376,
+              "name": "Tool card get_company_price_data",
+              "width": 612,
+              "height": 136,
+              "fill": "#FFFFFF",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$border"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#12365C0D",
+                "offset": {
+                  "x": 0,
+                  "y": 12
+                },
+                "blur": 24
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "a6g7oZ",
+                  "x": 22,
+                  "y": 20,
+                  "name": "get_company_price_data logo",
+                  "clip": true,
+                  "width": 68,
+                  "height": 68,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/tool-icons/get-company-price-data.png",
+                    "mode": "fit"
+                  },
+                  "cornerRadius": 21,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C12",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 20
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "Nqyi2",
+                  "x": 110,
+                  "y": 22,
+                  "name": "get_company_price_data name",
+                  "fill": "$navy",
+                  "content": "get_company_price_data",
+                  "fontFamily": "$font-mono",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "Ivipz",
+                  "x": 110,
+                  "y": 52,
+                  "name": "get_company_price_data description",
+                  "fill": "$body",
+                  "textGrowth": "fixed-width",
+                  "width": 400,
+                  "content": "Get historical daily OHLCV price data for a company. Returns a plain list of price rows.",
+                  "lineHeight": 1.35,
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "YRNcX",
+                  "x": 568,
+                  "y": 28,
+                  "name": "get_company_price_data card arrow",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "arrow-up-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#9AAABD"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jiNq3",
+          "x": 0,
+          "y": 1120,
+          "name": "04 Tools / Footer",
+          "width": 1440,
+          "height": 64,
+          "fill": "#FFFFFF00",
+          "layout": "none",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "Ac8Rr",
+              "x": 0,
+              "y": 0,
+              "name": "Footer separator",
+              "fill": "#DCE8F5",
+              "width": 1440,
+              "height": 1
+            },
+            {
+              "type": "text",
+              "id": "gDfgb",
+              "x": 0,
+              "y": 24,
+              "name": "Footer brand",
+              "enabled": false,
+              "fill": "$navy",
+              "content": "S&P 500 MCP",
+              "fontFamily": "$font-heading",
+              "fontSize": 14,
+              "fontWeight": "800"
+            },
+            {
+              "type": "text",
+              "id": "Jo61h",
+              "x": 220,
+              "y": 20,
+              "name": "Footer copy",
+              "fill": "#53657A",
+              "textGrowth": "fixed-width",
+              "width": 1000,
+              "content": "AI-ready S&P 500 company intelligence for MCP clients, with tools, app views, elicitation, and sampling built in.",
+              "lineHeight": 1.55,
+              "textAlign": "center",
+              "fontFamily": "Geist",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "jxesA",
+              "x": 1090,
+              "y": 25,
+              "name": "Footer Tools",
+              "enabled": false,
+              "fill": "$body",
+              "content": "Tools",
+              "fontFamily": "$font-body",
+              "fontSize": 13,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "k34aq",
+              "x": 1152,
+              "y": 25,
+              "name": "Footer MCP Server",
+              "enabled": false,
+              "fill": "$body",
+              "content": "MCP Server",
+              "fontFamily": "$font-body",
+              "fontSize": 13,
+              "fontWeight": "700"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "YeJYc",
+      "x": 3080,
+      "y": 0,
+      "name": "S&P 500 MCP Tools Page - Tool Detail Modal",
+      "width": 1440,
+      "height": 1240,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#FFFFFF",
+            "position": 0
+          },
+          {
+            "color": "#F7FBFF",
+            "position": 0.55
+          },
+          {
+            "color": "#FFFFFF",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "none",
+      "children": [
+        {
+          "id": "llRhm",
+          "type": "ref",
+          "ref": "gSSdg",
+          "x": 0
+        },
+        {
+          "type": "frame",
+          "id": "omJOi",
+          "x": 0,
+          "y": 0,
+          "name": "05 Detail / Modal overlay",
+          "width": 1440,
+          "height": 1240,
+          "fill": "#FFFFFF00",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "X7W7Oj",
+              "x": 0,
+              "y": 0,
+              "name": "Modal backdrop",
+              "width": 1440,
+              "height": 1240,
+              "fill": "#071A3373",
+              "layout": "none"
+            },
+            {
+              "type": "frame",
+              "id": "Nddjo",
+              "x": 160,
+              "y": 204,
+              "name": "Tool detail modal",
+              "width": 1120,
+              "height": 832,
+              "fill": "#FFFFFF",
+              "cornerRadius": 30,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#DCE8F5"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#071A3340",
+                "offset": {
+                  "x": 0,
+                  "y": 28
+                },
+                "blur": 58
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "wvvwb",
+                  "x": 30,
+                  "y": 28,
+                  "name": "Modal tool logo",
+                  "clip": true,
+                  "width": 66,
+                  "height": 66,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "public/tool-icons/get-company-financials.png",
+                    "mode": "fit"
+                  },
+                  "cornerRadius": 21,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#12365C18",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "aDduT",
+                  "x": 112,
+                  "y": 30,
+                  "name": "Modal title",
+                  "fill": "$navy",
+                  "content": "get_company_financials",
+                  "fontFamily": "$font-mono",
+                  "fontSize": 22,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "oLaqI",
+                  "x": 112,
+                  "y": 65,
+                  "name": "Modal description",
+                  "fill": "$body",
+                  "textGrowth": "fixed-width",
+                  "width": 646,
+                  "content": "Get annual company financial metrics, grouped for charting and matrix analysis. Supports item, date range, and latest-period filters.",
+                  "lineHeight": 1.4,
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "V3Ph9",
+                  "x": 1050,
+                  "y": 30,
+                  "name": "Modal close button",
+                  "width": 38,
+                  "height": 38,
+                  "fill": "#F5F9FF",
+                  "cornerRadius": 999,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#DCE8F5"
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "Dig2L",
+                      "x": 10,
+                      "y": 10,
+                      "name": "Modal close icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "x",
+                      "iconFontFamily": "lucide",
+                      "fill": "#7A8BA0"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "H8apE",
+                  "x": 32,
+                  "y": 126,
+                  "name": "Modal tool list label",
+                  "fill": "$muted",
+                  "content": "Tools",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "dYFfi",
+                  "x": 32,
+                  "y": 154,
+                  "name": "Modal nav get_company_info",
+                  "width": 250,
+                  "height": 50,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#EAF1F8"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    12,
+                    9
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "TfxNI",
+                      "name": "Modal nav get_company_info logo",
+                      "clip": true,
+                      "width": 28,
+                      "height": 28,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "public/tool-icons/get-company-info.png",
+                        "mode": "fit"
+                      },
+                      "cornerRadius": 9,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.5,
+                        "fill": "#DCE8F5"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "mIoor",
+                      "name": "Modal nav info text",
+                      "fill": "$navy",
+                      "content": "get_company_info",
+                      "fontFamily": "$font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "B7dHJ",
+                  "x": 32,
+                  "y": 212,
+                  "name": "Modal nav get_company_news",
+                  "width": 250,
+                  "height": 50,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#EAF1F8"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    12,
+                    9
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "PC6zo",
+                      "name": "Modal nav get_company_news logo",
+                      "clip": true,
+                      "width": 28,
+                      "height": 28,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "public/tool-icons/get-company-news.png",
+                        "mode": "fit"
+                      },
+                      "cornerRadius": 9,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.5,
+                        "fill": "#DCE8F5"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "BK090",
+                      "name": "Modal nav news text",
+                      "fill": "$navy",
+                      "content": "get_company_news",
+                      "fontFamily": "$font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "q9I0O",
+                  "x": 32,
+                  "y": 270,
+                  "name": "Modal nav get_company_officers",
+                  "width": 250,
+                  "height": 50,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#EAF1F8"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    12,
+                    9
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "PGe3B",
+                      "name": "Modal nav get_company_officers logo",
+                      "clip": true,
+                      "width": 28,
+                      "height": 28,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "public/tool-icons/get-company-officers.png",
+                        "mode": "fit"
+                      },
+                      "cornerRadius": 9,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.5,
+                        "fill": "#DCE8F5"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "x72CDR",
+                      "name": "Modal nav officers text",
+                      "fill": "$navy",
+                      "content": "get_company_officers",
+                      "fontFamily": "$font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "unuGZ",
+                  "x": 32,
+                  "y": 328,
+                  "name": "Modal nav get_company_filings",
+                  "width": 250,
+                  "height": 50,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#EAF1F8"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    12,
+                    9
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ReXdT",
+                      "name": "Modal nav get_company_filings logo",
+                      "clip": true,
+                      "width": 28,
+                      "height": 28,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "public/tool-icons/get-company-filings.png",
+                        "mode": "fit"
+                      },
+                      "cornerRadius": 9,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.5,
+                        "fill": "#DCE8F5"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "lQYzj",
+                      "name": "Modal nav filings text",
+                      "fill": "$navy",
+                      "content": "get_company_filings",
+                      "fontFamily": "$font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "mpXnl",
+                  "x": 32,
+                  "y": 386,
+                  "name": "Modal nav get_company_financials active",
+                  "width": 250,
+                  "height": 50,
+                  "fill": "$blue-soft",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BFDBFE"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    12,
+                    9
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "gWORv",
+                      "name": "Modal nav get_company_financials logo",
+                      "clip": true,
+                      "width": 28,
+                      "height": 28,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "public/tool-icons/get-company-financials.png",
+                        "mode": "fit"
+                      },
+                      "cornerRadius": 9,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.75,
+                        "fill": "#BFDBFE"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "ySaPU",
+                      "name": "Modal nav financials text",
+                      "fill": "$navy",
+                      "content": "get_company_financials",
+                      "fontFamily": "$font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "PKhW2",
+                  "x": 32,
+                  "y": 444,
+                  "name": "Modal nav get_company_price_data",
+                  "width": 250,
+                  "height": 50,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#EAF1F8"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    12,
+                    9
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "XHT1f",
+                      "name": "Modal nav get_company_price_data logo",
+                      "clip": true,
+                      "width": 28,
+                      "height": 28,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "public/tool-icons/get-company-price-data.png",
+                        "mode": "fit"
+                      },
+                      "cornerRadius": 9,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.5,
+                        "fill": "#DCE8F5"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "UWH9I",
+                      "name": "Modal nav price text",
+                      "fill": "$navy",
+                      "content": "get_company_price_data",
+                      "fontFamily": "$font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "cKmO5",
+                  "x": 34,
+                  "y": 524,
+                  "name": "Modal nav note",
+                  "fill": "$muted",
+                  "textGrowth": "fixed-width",
+                  "width": 244,
+                  "content": "Clicking any tool opens the same detail modal with its own params, sample output, and Test Call controls.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "XtgCu",
+                  "x": 310,
+                  "y": 126,
+                  "name": "Input parameters panel",
+                  "width": 356,
+                  "height": 308,
+                  "fill": "#F8FBFF",
+                  "cornerRadius": 22,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$border"
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RLz7u",
+                      "x": 18,
+                      "y": 18,
+                      "name": "Input parameters title",
+                      "fill": "$navy",
+                      "content": "Input parameters",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 20,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "me76f",
+                      "x": 18,
+                      "y": 47,
+                      "name": "Input parameters subtitle",
+                      "fill": "$muted",
+                      "content": "Schema shown from the tool definition",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nNZGt",
+                      "x": 18,
+                      "y": 76,
+                      "name": "Param query row",
+                      "width": 320,
+                      "height": 32,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 10,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#EAF1F8"
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ukMvY",
+                          "x": 12,
+                          "y": 8,
+                          "name": "Param query name",
+                          "fill": "$navy",
+                          "content": "query",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ypS8P",
+                          "x": 108,
+                          "y": 8,
+                          "name": "Param query type",
+                          "fill": "$body",
+                          "content": "string",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "PIzMs",
+                          "x": 254,
+                          "y": 8,
+                          "name": "Param query required",
+                          "fill": "$blue",
+                          "content": "required",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "U0EadF",
+                      "x": 18,
+                      "y": 114,
+                      "name": "Param items row",
+                      "width": 320,
+                      "height": 32,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 10,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#EAF1F8"
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "AFCX7",
+                          "x": 12,
+                          "y": 8,
+                          "name": "Param items name",
+                          "fill": "$navy",
+                          "content": "items",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "m6EDfY",
+                          "x": 108,
+                          "y": 8,
+                          "name": "Param items type",
+                          "fill": "$body",
+                          "content": "string[]",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "F6CZif",
+                          "x": 258,
+                          "y": 8,
+                          "name": "Param items required",
+                          "fill": "$muted",
+                          "content": "optional",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "s0I7y",
+                      "x": 18,
+                      "y": 152,
+                      "name": "Param start date row",
+                      "width": 320,
+                      "height": 32,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 10,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#EAF1F8"
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "K4FkLj",
+                          "x": 12,
+                          "y": 8,
+                          "name": "Param start date name",
+                          "fill": "$navy",
+                          "content": "start_date",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "G8ZCZ",
+                          "x": 108,
+                          "y": 8,
+                          "name": "Param start date type",
+                          "fill": "$body",
+                          "content": "string",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "mPjyB",
+                          "x": 258,
+                          "y": 8,
+                          "name": "Param start date required",
+                          "fill": "$muted",
+                          "content": "optional",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "lLeWz",
+                      "x": 18,
+                      "y": 190,
+                      "name": "Param end date row",
+                      "width": 320,
+                      "height": 32,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 10,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#EAF1F8"
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Fvq4d",
+                          "x": 12,
+                          "y": 8,
+                          "name": "Param end date name",
+                          "fill": "$navy",
+                          "content": "end_date",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "vSX7r",
+                          "x": 108,
+                          "y": 8,
+                          "name": "Param end date type",
+                          "fill": "$body",
+                          "content": "string",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "E0AKli",
+                          "x": 258,
+                          "y": 8,
+                          "name": "Param end date required",
+                          "fill": "$muted",
+                          "content": "optional",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jQPnf",
+                      "x": 18,
+                      "y": 228,
+                      "name": "Param latest only row",
+                      "width": 320,
+                      "height": 32,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 10,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#EAF1F8"
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vxEYh",
+                          "x": 12,
+                          "y": 8,
+                          "name": "Param latest only name",
+                          "fill": "$navy",
+                          "content": "latest_only",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "GTzrQ",
+                          "x": 108,
+                          "y": 8,
+                          "name": "Param latest only type",
+                          "fill": "$body",
+                          "content": "boolean",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "R3Ab0s",
+                          "x": 258,
+                          "y": 8,
+                          "name": "Param latest only required",
+                          "fill": "$muted",
+                          "content": "optional",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Vd5Wm",
+                      "x": 18,
+                      "y": 266,
+                      "name": "Param limit row",
+                      "width": 320,
+                      "height": 32,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 10,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#EAF1F8"
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "wupdc",
+                          "x": 12,
+                          "y": 8,
+                          "name": "Param limit name",
+                          "fill": "$navy",
+                          "content": "limit",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "pZ2sS",
+                          "x": 108,
+                          "y": 8,
+                          "name": "Param limit type",
+                          "fill": "$body",
+                          "content": "number",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "RCN7R",
+                          "x": 258,
+                          "y": 8,
+                          "name": "Param limit required",
+                          "fill": "$muted",
+                          "content": "optional",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "oZv9U",
+                  "x": 310,
+                  "y": 458,
+                  "name": "Test Call panel",
+                  "width": 356,
+                  "height": 322,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 22,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$border"
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Z1qBL",
+                      "x": 18,
+                      "y": 18,
+                      "name": "Test Call title",
+                      "fill": "$navy",
+                      "content": "Test Call",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 20,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Iv2Ar",
+                      "x": 18,
+                      "y": 47,
+                      "name": "Test Call subtitle",
+                      "fill": "$muted",
+                      "content": "Try the selected tool with sample inputs.",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "EYMOD",
+                      "x": 18,
+                      "y": 78,
+                      "name": "Test query field",
+                      "width": 320,
+                      "height": 54,
+                      "fill": "#F8FBFF",
+                      "cornerRadius": 14,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#EAF1F8"
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vCfTl",
+                          "x": 14,
+                          "y": 9,
+                          "name": "Test query label",
+                          "fill": "$muted",
+                          "content": "query",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "fMbWm",
+                          "x": 14,
+                          "y": 28,
+                          "name": "Test query value",
+                          "fill": "$navy",
+                          "content": "Apple",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fS3xW",
+                      "x": 18,
+                      "y": 142,
+                      "name": "Test items field",
+                      "width": 320,
+                      "height": 54,
+                      "fill": "#F8FBFF",
+                      "cornerRadius": 14,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#EAF1F8"
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "a4YSU2",
+                          "x": 14,
+                          "y": 9,
+                          "name": "Test items label",
+                          "fill": "$muted",
+                          "content": "items",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "CHjoP",
+                          "x": 14,
+                          "y": 28,
+                          "name": "Test items value",
+                          "fill": "$navy",
+                          "content": "revenue, net income",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "W3d8O",
+                      "x": 18,
+                      "y": 206,
+                      "name": "Test latest field",
+                      "width": 154,
+                      "height": 48,
+                      "fill": "#F8FBFF",
+                      "cornerRadius": 14,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#EAF1F8"
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "yMBfn",
+                          "x": 14,
+                          "y": 8,
+                          "name": "Test latest label",
+                          "fill": "$muted",
+                          "content": "latest_only",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "P2PoQi",
+                          "x": 14,
+                          "y": 26,
+                          "name": "Test latest value",
+                          "fill": "#071A33",
+                          "content": "false",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FuZJb",
+                      "x": 184,
+                      "y": 206,
+                      "name": "Test limit field",
+                      "width": 154,
+                      "height": 48,
+                      "fill": "#F8FBFF",
+                      "cornerRadius": 14,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#EAF1F8"
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "VYr49",
+                          "x": 14,
+                          "y": 8,
+                          "name": "Test limit label",
+                          "fill": "$muted",
+                          "content": "limit",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "yH8hc",
+                          "x": 14,
+                          "y": 26,
+                          "name": "Test limit value",
+                          "fill": "$navy",
+                          "content": "500",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "HMzb6",
+                      "x": 18,
+                      "y": 270,
+                      "name": "Run Test Call button",
+                      "width": 320,
+                      "height": 40,
+                      "fill": "#2563EB",
+                      "cornerRadius": 14,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#2563EB26",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "gap": 8,
+                      "padding": [
+                        16,
+                        10
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "y1VFgv",
+                          "name": "Run Test Call icon",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "play",
+                          "iconFontFamily": "lucide",
+                          "fill": "#FFFFFF"
+                        },
+                        {
+                          "type": "text",
+                          "id": "D5WXJ",
+                          "name": "Run Test Call text",
+                          "fill": "#FFFFFF",
+                          "content": "Run test call",
+                          "fontFamily": "Geist",
+                          "fontSize": 13,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "kfQG4",
+                      "x": 184,
+                      "y": 280,
+                      "name": "Test Call status",
+                      "enabled": false,
+                      "fill": "$muted",
+                      "content": "Ready to send",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "lt1Yb",
+                  "x": 698,
+                  "y": 126,
+                  "name": "Response example panel",
+                  "clip": true,
+                  "width": 390,
+                  "height": 654,
+                  "fill": "#081A2F",
+                  "cornerRadius": 22,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#173657"
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "q6gGn",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Response example header",
+                      "width": 390,
+                      "height": 58,
+                      "fill": "#0C2038",
+                      "cornerRadius": [
+                        22,
+                        22,
+                        0,
+                        0
+                      ],
+                      "layout": "none"
+                    },
+                    {
+                      "type": "text",
+                      "id": "J6lKh",
+                      "x": 18,
+                      "y": 20,
+                      "name": "Response example title",
+                      "fill": "#FFFFFF",
+                      "content": "Response example",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "c9ichg",
+                      "x": 350,
+                      "y": 20,
+                      "name": "Response copy icon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "copy",
+                      "iconFontFamily": "lucide",
+                      "fill": "#B8D7F5"
+                    },
+                    {
+                      "type": "text",
+                      "id": "kY5CD",
+                      "x": 18,
+                      "y": 78,
+                      "name": "Financials response code",
+                      "fill": "#D9EAFF",
+                      "textGrowth": "fixed-width",
+                      "width": 352,
+                      "content": "{\n  \"symbol\": \"AAPL\",\n  \"periods\": [\n    \"2025-09-30\",\n    \"2024-09-30\"\n  ],\n  \"metrics\": [\n    {\n      \"item\": \"Total Revenue\",\n      \"unit\": \"currency\",\n      \"values\": {\n        \"2025-09-30\": 416161000000,\n        \"2024-09-30\": 391035000000\n      },\n      \"changePercent\": 0.0643\n    }\n  ],\n  \"derived\": [\n    {\n      \"item\": \"Net Margin\",\n      \"unit\": \"ratio\",\n      \"values\": {\n        \"2025-09-30\": 0.2691,\n        \"2024-09-30\": 0.2397\n      }\n    }\n  ]\n}",
+                      "lineHeight": 1.42,
+                      "fontFamily": "$font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TZdxH",
+                      "x": 18,
+                      "y": 590,
+                      "name": "Response footer",
+                      "width": 354,
+                      "height": 42,
+                      "fill": "#0E2947",
+                      "cornerRadius": 14,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#244563"
+                      },
+                      "gap": 8,
+                      "padding": [
+                        12,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "H9Jk3l",
+                          "name": "Response footer icon",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "circle-check",
+                          "iconFontFamily": "lucide",
+                          "fill": "#16A34A"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Vrp09",
+                          "name": "Response footer text",
+                          "fill": "#D9EAFF",
+                          "content": "Live response received",
+                          "fontFamily": "Geist",
+                          "fontSize": 12,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "bg": {
+      "type": "color",
+      "value": "#F7FBFF"
+    },
+    "blue": {
+      "type": "color",
+      "value": "#2563EB"
+    },
+    "blue-soft": {
+      "type": "color",
+      "value": "#E8F1FF"
+    },
+    "body": {
+      "type": "color",
+      "value": "#53657A"
+    },
+    "border": {
+      "type": "color",
+      "value": "#DCE8F5"
+    },
+    "font-body": {
+      "type": "string",
+      "value": "Geist"
+    },
+    "font-heading": {
+      "type": "string",
+      "value": "Geist"
+    },
+    "font-mono": {
+      "type": "string",
+      "value": "Geist Mono"
+    },
+    "green": {
+      "type": "color",
+      "value": "#16A34A"
+    },
+    "green-soft": {
+      "type": "color",
+      "value": "#E8F8EF"
+    },
+    "muted": {
+      "type": "color",
+      "value": "#53657A"
+    },
+    "navy": {
+      "type": "color",
+      "value": "#071A33"
+    },
+    "orange": {
+      "type": "color",
+      "value": "#F59E0B"
+    },
+    "orange-soft": {
+      "type": "color",
+      "value": "#FFF4DE"
+    },
+    "purple": {
+      "type": "color",
+      "value": "#7C3AED"
+    },
+    "purple-soft": {
+      "type": "color",
+      "value": "#F0EAFF"
+    },
+    "surface": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "surface-blue": {
+      "type": "color",
+      "value": "#EEF7FF"
+    },
+    "background": {
+      "type": "color",
+      "value": "#F7FBFF"
+    },
+    "code": {
+      "type": "color",
+      "value": "#081A2F"
+    },
+    "code-blue": {
+      "type": "color",
+      "value": "#93C5FD"
+    },
+    "code-border": {
+      "type": "color",
+      "value": "#173657"
+    },
+    "code-foreground": {
+      "type": "color",
+      "value": "#D9EAFF"
+    },
+    "code-header": {
+      "type": "color",
+      "value": "#0C2038"
+    },
+    "code-line": {
+      "type": "color",
+      "value": "#5A7898"
+    },
+    "foreground": {
+      "type": "color",
+      "value": "#071A33"
+    },
+    "hero-background": {
+      "type": "color",
+      "value": "#F5F7FC"
+    }
+  },
+  "imports": {
+    "s": "pencil:shadcn.lib.pen"
+  }
+}
