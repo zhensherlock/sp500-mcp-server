@@ -3,18 +3,19 @@
 ## Scope
 
 - Shared shadcn/Tailwind UI package consumed by both `apps/web` and `apps/web-app`.
+- Also follow the root `AGENTS.md`; this file only adds shared UI package specifics.
 - Exports are controlled by `package.json`: `./components/*`, `./lib/*`, `./hooks/*`, `./globals.css`, and `./postcss.config`.
 
 ## Commands
 
 - Lint this package strictly: `pnpm --filter @workspace/ui lint`.
-- Type-check shared UI explicitly: `pnpm exec tsc -p packages/ui/tsconfig.json --noEmit`; root `pnpm type-check` does not include `packages/*`.
+- Type-check shared UI explicitly: `pnpm exec tsc -p packages/ui/tsconfig.json --noEmit`; this package has no `type-check` script and root `pnpm type-check` does not include `packages/*`.
 - Run root `pnpm lint` before finishing changes that affect consumers, because app imports may surface shared UI issues.
 
 ## Component Conventions
 
 - Put reusable primitives in `src/components`; app-specific layouts stay in the consuming app packages.
-- Components import helpers and sibling primitives through `@workspace/ui/*`, matching the package exports rather than relative paths.
+- Components import helpers and sibling primitives through `@workspace/ui/*`, matching the package exports rather than relative paths; update exports before adding a new import path.
 - Keep `class-variance-authority` variant exports beside their component when local consumers need to compose styles.
 - Recharts helpers live in `src/components/chart.tsx`; `ChartContainer` injects per-chart CSS variables from its `config`.
 

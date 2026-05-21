@@ -3,6 +3,7 @@
 ## Scope
 
 - Vite React package that builds embedded MCP App pages into single-file HTML resources consumed by `apps/web`.
+- Also follow the root `AGENTS.md`; this file only adds embedded MCP App UI specifics.
 - Package-local `@/*` imports resolve from `apps/web-app/src`; shared primitives and CSS come from `@workspace/ui/*`.
 
 ## Commands
@@ -10,14 +11,14 @@
 - Dev this app: `pnpm --filter @apps/web-app dev`.
 - Build embedded HTML resources: `pnpm --filter @apps/web-app build`.
 - Type-check this app: `pnpm exec tsc -p apps/web-app/tsconfig.json --noEmit`.
-- For live MCP calls in dev, also run the Next app on `localhost:3000`; Vite proxies `/mcp` and `/api/logo` there.
+- For live MCP calls in dev, also run the Next app on `localhost:3000`; Vite proxies `/mcp` and `/api/logo` there, not `/sse`.
 
 ## Build Model
 
 - `scripts/build-pages.js` loops over every `src/pages/*.{ts,tsx}` and invokes Vite once per page with `MCP_APP_PAGE`.
 - `vite.config.ts` creates missing root HTML entry files like `company-info.html`, then emits `dist/<page>.html` with `vite-plugin-singlefile`.
 - `dist/` is gitignored generated output; do not edit it manually, and rebuild it before testing MCP App resources from `apps/web`.
-- Root `*.html` entry files are tracked inputs for Vite; only create/update them intentionally when adding a page.
+- Root `*.html` entry files are tracked Vite inputs; only create/update them intentionally when adding a page.
 
 ## MCP App Pages
 

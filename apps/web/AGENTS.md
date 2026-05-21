@@ -3,6 +3,7 @@
 ## Scope
 
 - Next.js 16 App Router package for the public site, MCP server, web tool tester, and proxy routes.
+- Also follow the root `AGENTS.md`; this file only adds `apps/web`-specific wiring.
 - Package-local `@/*` imports resolve from `apps/web`; shared UI comes from `@workspace/ui/*` and is transpiled by `next.config.ts`.
 
 ## Commands
@@ -10,12 +11,12 @@
 - Dev this app: `pnpm --filter @apps/web dev` (serves Next on `localhost:3000`).
 - Build/type-check this app: `pnpm --filter @apps/web build`, `pnpm exec tsc -p apps/web/tsconfig.json --noEmit`.
 - Lint is root-only: `pnpm lint`.
-- MCP integration tests must run from the repo root with the dev server already up: `pnpm vitest run apps/web/tests/tools/<file>.test.ts`.
+- MCP integration tests must run from the repo root after Next is serving `localhost:3000`: `pnpm vitest run apps/web/tests/tools/<file>.test.ts`.
 
 ## MCP Server
 
 - MCP entrypoint is `app/[transport]/route.ts`; it registers tools from `app/[transport]/tools/index.ts` and configures `basePath: '/'`, `disableSse: false`, `maxDuration`, and `redisUrl`.
-- Local callers use Streamable HTTP at `/mcp`; do not revive old `/sse` assumptions in tests or proxies.
+- Local callers and the web tool tester use Streamable HTTP at `/mcp`; do not revive old `/sse` assumptions in tests or proxies.
 - Tool modules import the eager `supabase` export from `app/[transport]/utils/supabase.ts`; missing `SUPABASE_URL` or `SUPABASE_ANON_KEY` throws during import.
 - User-facing tools resolve `query` through `getCompanySymbol`; clients with elicitation choose a company, clients without it get the first search match.
 
