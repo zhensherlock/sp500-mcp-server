@@ -11,5 +11,8 @@
   },
   "dependencies": {
     "@workspace/ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@apps/web-app": "workspace:*"
   }
 }
