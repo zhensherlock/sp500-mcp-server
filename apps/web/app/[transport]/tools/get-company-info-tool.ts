@@ -1,25 +1,31 @@
 import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import { supabase } from '../utils/supabase'
 import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
 import { registerHtmlAppResource } from './app-resource'
 
 const RESOURCE_URI = 'ui://sp500/company-info.html'
 
-const getCompanyInfoParams = z.object({
+const getCompanyInfoInputSchema = {
   query: z.string().min(1),
-})
+}
+
+type GetCompanyInfoParams = {
+  query: string
+}
 
 export function registerGetCompanyInfoTool(mcpServer: McpServer) {
-  mcpServer.registerTool(
+  registerAppTool(
+    mcpServer,
     'get_company_info',
     {
       title: 'Get Company Info',
       description: 'Get complete company basic info, supports symbol and company name queries.',
-      inputSchema: getCompanyInfoParams,
+      inputSchema: getCompanyInfoInputSchema,
       _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
-    async (params: z.infer<typeof getCompanyInfoParams>) => {
+    async (params: GetCompanyInfoParams) => {
       const { query } = params
 
       const symbol = await getCompanySymbol({
@@ -45,15 +51,17 @@ export function registerGetCompanyInfoTool(mcpServer: McpServer) {
         text: JSON.stringify(data),
         mcpServer,
       })
+      const result = {
+        ...data,
+        summary,
+      }
 
       return {
+        structuredContent: result,
         content: [
           {
             type: 'text',
-            text: JSON.stringify({
-              ...data,
-              summary,
-            }),
+            text: JSON.stringify(result),
           },
         ],
       }
