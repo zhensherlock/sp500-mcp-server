@@ -49,8 +49,31 @@ function getTickerLogoUrl(symbol?: string) {
     retina: 'true',
     size: '40',
   })
+  const logoApiBaseUrl = getLogoApiBaseUrl()
 
-  return `/api/logo/ticker/${encodeURIComponent(ticker)}?${params.toString()}`
+  return `${logoApiBaseUrl}/api/logo/ticker/${encodeURIComponent(ticker)}?${params.toString()}`
+}
+
+function getLogoApiBaseUrl() {
+  const runtimeBaseUrl = getRuntimeAssetBaseUrl()
+  const configuredBaseUrl = import.meta.env.VITE_SP500_MCP_ASSET_BASE_URL
+  const baseUrl = runtimeBaseUrl || configuredBaseUrl || ''
+
+  return baseUrl.replace(/\/+$/, '')
+}
+
+function getRuntimeAssetBaseUrl() {
+  if (typeof globalThis === 'undefined') {
+    return ''
+  }
+
+  const runtimeConfig = globalThis as typeof globalThis & {
+    __SP500_MCP_ASSET_BASE_URL__?: unknown
+  }
+
+  return typeof runtimeConfig.__SP500_MCP_ASSET_BASE_URL__ === 'string'
+    ? runtimeConfig.__SP500_MCP_ASSET_BASE_URL__
+    : ''
 }
 
 function CompanyLink({ children, href }: { children: ReactNode; href: string }) {
