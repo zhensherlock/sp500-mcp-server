@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import { supabase } from '../utils/supabase'
 import { getCompanySymbol } from '@/app/[transport]/utils'
 import { registerHtmlAppResource } from './app-resource'
@@ -7,7 +8,7 @@ import { registerHtmlAppResource } from './app-resource'
 const RESOURCE_URI = 'ui://sp500/company-price-data.html'
 const PRICE_DATA_TABLE = 'company_price_data'
 
-const getCompanyPriceDataParams = z.object({
+const getCompanyPriceDataInputSchema = {
   query: z.string().min(1),
   start_date: z
     .string()
@@ -18,7 +19,14 @@ const getCompanyPriceDataParams = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/)
     .optional(),
   limit: z.number().int().min(1).max(1000).default(100),
-})
+}
+
+type GetCompanyPriceDataParams = {
+  query: string
+  start_date?: string
+  end_date?: string
+  limit: number
+}
 
 type PriceDataRow = {
   trade_date: string
@@ -90,15 +98,16 @@ async function resolvePriceDataSymbol({ mcpServer, query }: { mcpServer: McpServ
 }
 
 export function registerGetCompanyPriceDataTool(mcpServer: McpServer) {
-  mcpServer.registerTool(
+  registerAppTool(
+    mcpServer,
     'get_company_price_data',
     {
       title: 'Get Company Price Data',
       description: 'Get historical daily OHLCV price data for a company by symbol or company name.',
-      inputSchema: getCompanyPriceDataParams,
+      inputSchema: getCompanyPriceDataInputSchema,
       _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
-    async (params: z.infer<typeof getCompanyPriceDataParams>) => {
+    async (params: GetCompanyPriceDataParams) => {
       const { end_date, limit, query, start_date } = params
 
       if (start_date && end_date && start_date > end_date) {
@@ -155,25 +164,27 @@ export function registerGetCompanyPriceDataTool(mcpServer: McpServer) {
           ],
         }
       }
+      const result = {
+        symbol,
+        prices,
+        metadata: {
+          rowCount: prices.length,
+          latestTradeDate: prices[0]?.trade_date,
+          earliestTradeDate: prices.at(-1)?.trade_date,
+          filters: {
+            end_date,
+            limit,
+            start_date,
+          },
+        },
+      }
 
       return {
+        structuredContent: result,
         content: [
           {
             type: 'text',
-            text: JSON.stringify({
-              symbol,
-              prices,
-              metadata: {
-                rowCount: prices.length,
-                latestTradeDate: prices[0]?.trade_date,
-                earliestTradeDate: prices.at(-1)?.trade_date,
-                filters: {
-                  end_date,
-                  limit,
-                  start_date,
-                },
-              },
-            }),
+            text: JSON.stringify(result),
           },
         ],
       }

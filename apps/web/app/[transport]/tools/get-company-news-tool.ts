@@ -1,28 +1,36 @@
 import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import { supabase } from '../utils/supabase'
 import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
 import { registerHtmlAppResource } from './app-resource'
 
 const RESOURCE_URI = 'ui://sp500/company-news.html'
 
-const getCompanyNewsParams = z.object({
+const getCompanyNewsInputSchema = {
   query: z.string().min(1),
   sentiment: z.enum(['positive', 'negative', 'neutral']).optional(),
   limit: z.number().min(1).max(100).default(10),
-})
+}
+
+type GetCompanyNewsParams = {
+  query: string
+  sentiment?: 'positive' | 'negative' | 'neutral'
+  limit: number
+}
 
 export function registerGetCompanyNewsTool(mcpServer: McpServer) {
-  mcpServer.registerTool(
+  registerAppTool(
+    mcpServer,
     'get_company_news',
     {
       title: 'Get Company News',
       description:
         'Get recent company news with sentiment analysis, supports filtering by symbol, sentiment, and time range.',
-      inputSchema: getCompanyNewsParams,
+      inputSchema: getCompanyNewsInputSchema,
       _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
-    async (params: z.infer<typeof getCompanyNewsParams>) => {
+    async (params: GetCompanyNewsParams) => {
       const { query, sentiment, limit } = params
 
       const symbol = await getCompanySymbol({
@@ -59,16 +67,18 @@ export function registerGetCompanyNewsTool(mcpServer: McpServer) {
         }),
         mcpServer,
       })
+      const result = {
+        symbol,
+        news: data || [],
+        summary,
+      }
 
       return {
+        structuredContent: result,
         content: [
           {
             type: 'text',
-            text: JSON.stringify({
-              symbol,
-              news: data || [],
-              summary,
-            }),
+            text: JSON.stringify(result),
           },
         ],
       }

@@ -1,26 +1,33 @@
 import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import { supabase } from '../utils/supabase'
 import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
 import { registerHtmlAppResource } from './app-resource'
 
 const RESOURCE_URI = 'ui://sp500/company-officers.html'
 
-const getCompanyOfficersParams = z.object({
+const getCompanyOfficersInputSchema = {
   query: z.string().min(1),
   limit: z.number().int().min(1).max(50).default(20),
-})
+}
+
+type GetCompanyOfficersParams = {
+  query: string
+  limit: number
+}
 
 export function registerGetCompanyOfficersTool(mcpServer: McpServer) {
-  mcpServer.registerTool(
+  registerAppTool(
+    mcpServer,
     'get_company_officers',
     {
       title: 'Get Company Officers',
       description: 'Get company executive officers and their compensation info, supports filtering by symbol',
-      inputSchema: getCompanyOfficersParams,
+      inputSchema: getCompanyOfficersInputSchema,
       _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
-    async (params: z.infer<typeof getCompanyOfficersParams>) => {
+    async (params: GetCompanyOfficersParams) => {
       const { query, limit } = params
 
       const symbol = await getCompanySymbol({
@@ -48,16 +55,18 @@ export function registerGetCompanyOfficersTool(mcpServer: McpServer) {
         }),
         mcpServer,
       })
+      const result = {
+        symbol,
+        officers: data || [],
+        summary,
+      }
 
       return {
+        structuredContent: result,
         content: [
           {
             type: 'text',
-            text: JSON.stringify({
-              symbol,
-              officers: data || [],
-              summary,
-            }),
+            text: JSON.stringify(result),
           },
         ],
       }

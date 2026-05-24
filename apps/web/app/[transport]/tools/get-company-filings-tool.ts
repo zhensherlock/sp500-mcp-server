@@ -1,12 +1,13 @@
 import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import { supabase } from '../utils/supabase'
 import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
 import { registerHtmlAppResource } from './app-resource'
 
 const RESOURCE_URI = 'ui://sp500/company-filings.html'
 
-const GetCompanyFilingsParams = z.object({
+const getCompanyFilingsInputSchema = {
   query: z.string().min(1),
   filing_type: z.string().optional(),
   start_date: z
@@ -18,18 +19,27 @@ const GetCompanyFilingsParams = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/)
     .optional(),
   limit: z.number().int().min(1).max(100).default(20),
-})
+}
+
+type GetCompanyFilingsParams = {
+  query: string
+  filing_type?: string
+  start_date?: string
+  end_date?: string
+  limit: number
+}
 
 export function registerGetCompanyFilingsTool(mcpServer: McpServer) {
-  mcpServer.registerTool(
+  registerAppTool(
+    mcpServer,
     'get_company_filings',
     {
       title: 'Get Company Filings',
       description: 'Get SEC filings history for a company, supports filtering by symbol, date range, and filing type',
-      inputSchema: GetCompanyFilingsParams,
+      inputSchema: getCompanyFilingsInputSchema,
       _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
-    async (params: z.infer<typeof GetCompanyFilingsParams>) => {
+    async (params: GetCompanyFilingsParams) => {
       const { query, filing_type, start_date, end_date, limit } = params
 
       const symbol = await getCompanySymbol({
@@ -81,16 +91,18 @@ export function registerGetCompanyFilingsTool(mcpServer: McpServer) {
         }),
         mcpServer,
       })
+      const result = {
+        symbol,
+        filings: data || [],
+        summary,
+      }
 
       return {
+        structuredContent: result,
         content: [
           {
             type: 'text',
-            text: JSON.stringify({
-              symbol,
-              filings: data || [],
-              summary,
-            }),
+            text: JSON.stringify(result),
           },
         ],
       }

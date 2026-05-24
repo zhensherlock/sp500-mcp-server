@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import { supabase } from '../utils/supabase'
 import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
 import { registerHtmlAppResource } from './app-resource'
@@ -18,7 +19,7 @@ type FinancialCategory =
   | 'Industry Specific'
   | 'Other'
 
-const getCompanyFinancialsParams = z.object({
+const getCompanyFinancialsInputSchema = {
   query: z.string().min(1),
   items: z.array(z.string().min(1)).max(30).optional(),
   start_date: z
@@ -31,7 +32,16 @@ const getCompanyFinancialsParams = z.object({
     .optional(),
   latest_only: z.boolean().default(false),
   limit: z.number().int().min(1).max(1000).default(500),
-})
+}
+
+type GetCompanyFinancialsParams = {
+  query: string
+  items?: string[]
+  start_date?: string
+  end_date?: string
+  latest_only: boolean
+  limit: number
+}
 
 type FinancialUnit = 'currency' | 'per_share' | 'shares' | 'ratio' | 'raw'
 
@@ -385,16 +395,17 @@ function buildHighlights(metrics: FinancialMetric[], derived: DerivedMetric[], p
 }
 
 export function registerGetCompanyFinancialsTool(mcpServer: McpServer) {
-  mcpServer.registerTool(
+  registerAppTool(
+    mcpServer,
     'get_company_financials',
     {
       title: 'Get Company Financials',
       description:
         'Get annual company financial metrics by symbol or company name. Supports filtering by item, date range, and latest period.',
-      inputSchema: getCompanyFinancialsParams,
+      inputSchema: getCompanyFinancialsInputSchema,
       _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
-    async (params: z.infer<typeof getCompanyFinancialsParams>) => {
+    async (params: GetCompanyFinancialsParams) => {
       const { end_date, latest_only, limit, query, start_date } = params
       const items = resolveRequestedItems(params.items)
 
@@ -457,32 +468,34 @@ export function registerGetCompanyFinancialsTool(mcpServer: McpServer) {
         }),
         mcpServer,
       })
+      const result = {
+        symbol,
+        periods,
+        metrics,
+        derived,
+        highlights,
+        summary,
+        metadata: {
+          rowCount: rows.length,
+          metricCount: metrics.length,
+          latestPeriod: periods[0],
+          earliestPeriod: periods.at(-1),
+          filters: {
+            end_date,
+            items,
+            latest_only,
+            limit,
+            start_date,
+          },
+        },
+      }
 
       return {
+        structuredContent: result,
         content: [
           {
             type: 'text',
-            text: JSON.stringify({
-              symbol,
-              periods,
-              metrics,
-              derived,
-              highlights,
-              summary,
-              metadata: {
-                rowCount: rows.length,
-                metricCount: metrics.length,
-                latestPeriod: periods[0],
-                earliestPeriod: periods.at(-1),
-                filters: {
-                  end_date,
-                  items,
-                  latest_only,
-                  limit,
-                  start_date,
-                },
-              },
-            }),
+            text: JSON.stringify(result),
           },
         ],
       }
