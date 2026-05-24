@@ -15,6 +15,10 @@ export async function getCompanySymbol(options: Options): Promise<string> {
     throw new Error(`No companies found matching "${query}". Please try a different company name or symbol.`)
   }
 
+  if (companies.data.length === 1) {
+    return companies.data[0].symbol
+  }
+
   if (capabilities?.elicitation) {
     const response = await mcpServer.server.elicitInput({
       mode: 'form',
