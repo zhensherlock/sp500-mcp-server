@@ -1,5 +1,9 @@
 # S&P 500 MCP Server
 
+<p align="center">
+  <img src="assets/readme-poster.png" alt="S&P 500 MCP promotional poster" width="100%" />
+</p>
+
 An MCP (Model Context Protocol) server and Next.js web app for querying S&P 500 company data from Supabase. It exposes MCP tools for company fundamentals, annual financial metrics, historical price data, news sentiment, officers, and SEC filings, plus a web UI and embedded MCP App resources for browsing and testing those tools.
 
 ## Tools
