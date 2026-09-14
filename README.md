@@ -18,14 +18,17 @@ An MCP (Model Context Protocol) server and Next.js web app for querying S&P 500 
 | `get_company_filings`    | SEC filings history, with filing type and date filters                |
 
 `search_companies` is an internal symbol resolver, not an exposed MCP tool. User queries are resolved through `getCompanySymbol`.
+For ambiguous matches, elicitation-capable clients are asked to choose a company. Modern clients receive an `input_required`
+result; the SDK compatibility layer serves the same flow to 2025-era Streamable HTTP clients. Clients without elicitation
+support continue with the first match.
 
 ## Tech Stack
 
-- **Workspace**: pnpm 10.33.3 + Turborepo
+- **Workspace**: pnpm 10.34.5 + Turborepo
 - **Runtime**: Node 22 (`.nvmrc`)
 - **Web app**: Next.js 16 App Router, React 19, TypeScript strict mode (`apps/web`)
 - **MCP Apps**: Vite single-file React pages built from `apps/web-app` and served as tool UI resources
-- **MCP**: `mcp-handler` at `apps/web/app/[transport]/route.ts`; `/sse` is the public SSE endpoint
+- **MCP**: `mcp-handler` v2 at `apps/web/app/mcp/route.ts`; `/mcp` serves modern and legacy Streamable HTTP
 - **Database**: Supabase client at `apps/web/app/[transport]/utils/supabase.ts`
 - **UI**: shared shadcn/Tailwind primitives in `packages/ui`
 
@@ -50,12 +53,10 @@ pnpm install
 ```env
 SUPABASE_URL=your_supabase_url
 SUPABASE_ANON_KEY=your_supabase_anon_key
-MCP_MAX_DURATION=60
-REDIS_URL=your_redis_url
 LOGO_DEV_TOKEN=your_logo_dev_publishable_key
 ```
 
-`SUPABASE_URL` and `SUPABASE_ANON_KEY` are required. `REDIS_URL` is only needed for production SSE. `LOGO_DEV_TOKEN` is required for the `/api/logo/*` proxy.
+`SUPABASE_URL` and `SUPABASE_ANON_KEY` are required. `LOGO_DEV_TOKEN` is required for the `/api/logo/*` proxy.
 
 3. Build the embedded MCP App HTML resources:
 
@@ -69,7 +70,7 @@ pnpm --filter @apps/web-app build
 pnpm dev
 ```
 
-The Next.js web app runs on `http://localhost:3000`; the MCP endpoint is `http://localhost:3000/sse`. The `apps/web-app` dev server proxies `/sse` to port 3000 when run separately.
+The Next.js web app runs on `http://localhost:3000`; the MCP endpoint is `http://localhost:3000/mcp`. The `apps/web-app` dev server proxies `/mcp` to port 3000 when run separately.
 
 ## Commands
 
@@ -94,7 +95,7 @@ pnpm exec tsc -p packages/ui/tsconfig.json --noEmit
 
 ## Testing
 
-Tests are integration tests that connect a real MCP client to `http://localhost:3000/sse`, so start the dev server first:
+Tests are integration tests that connect a real MCP client to `http://localhost:3000/mcp`, so start the dev server first:
 
 ```sh
 pnpm --filter @apps/web-app build
@@ -118,9 +119,9 @@ pnpm coverage
 
 ```text
 apps/web/
-  app/[transport]/route.ts      MCP GET/POST/DELETE handler
+  app/mcp/route.ts              MCP Streamable HTTP GET/POST handler
   app/[transport]/tools/        MCP tool registrations
-  app/[transport]/utils/        Supabase, symbol resolution, summaries
+  app/[transport]/utils/        Supabase and symbol resolution
   app/api/tools/call/route.ts   HTTP proxy for the web tool tester
   app/tools/                    Tool catalog page
   components/                   App-specific UI
@@ -139,9 +140,8 @@ packages/ui/
 
 ## Vercel Deployment
 
-- Requires [Fluid compute](https://vercel.com/docs/functions/fluid-compute)
-- `MCP_MAX_DURATION` defaults to `60`; set a higher duration for long-running production calls when your Vercel plan supports it
-- SSE is enabled (`disableSse: false`); production SSE requires Redis via `REDIS_URL`
+- The `/mcp` handler is stateless and does not require Redis
+- Modern 2026-07-28 and legacy 2025 Streamable HTTP clients use the same endpoint
 
 ## Docs
 

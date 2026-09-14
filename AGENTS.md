@@ -4,7 +4,7 @@
 
 - pnpm `10.33.4` workspace on Node 22 (`.nvmrc`) with Turbo over `apps/*`: main Next.js app in `apps/web`, embedded MCP App HTML in `apps/web-app`, HyperFrames promo video project in `apps/promo-video`, shared shadcn/Tailwind primitives in `packages/ui`.
 - Nested `AGENTS.md` files in `apps/web`, `apps/web-app`, `apps/promo-video`, and `packages/ui` contain scoped instructions; read the nearest one before editing there.
-- MCP server entrypoint is `apps/web/app/[transport]/route.ts`; route config uses `basePath: '/'`, `disableSse: false`, and local tests/proxy call Streamable HTTP at `/mcp` despite older README wording around `/sse`.
+- MCP server entrypoint is `apps/web/app/mcp/route.ts`; it uses stateless `mcp-handler` v2 and serves modern and legacy Streamable HTTP at `/mcp`.
 - `apps/web-app` builds one single-file HTML resource per `src/pages/*` into `apps/web-app/dist/*.html`; `apps/web/app/[transport]/tools/app-resource.ts` reads those files via `process.cwd() + '../web-app/dist'`.
 - `apps/web-app/dist` is gitignored generated output. Rebuild it locally before testing MCP App resource reads; do not hand-edit generated HTML.
 - `apps/promo-video` is a HyperFrames HTML video composition package. Source lives in `index.html`, visual direction in `DESIGN.md`, storyboard in `storyboard.md`, reusable media under `assets/`, and generated render output under `renders/`.
@@ -25,8 +25,8 @@
 
 - `.env*` is gitignored. `apps/web/app/[transport]/utils/supabase.ts` eagerly exports `supabase = getSupabaseClient()`, so missing `SUPABASE_URL` or `SUPABASE_ANON_KEY` throws during import.
 - Vitest setup connects a real MCP client to `http://localhost:3000/mcp`; tests fail without the dev server and real Supabase data.
-- Turbo forwards these env vars to app tasks: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `MCP_MAX_DURATION`, `REDIS_URL`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `LOGO_DEV_TOKEN`.
-- `REDIS_URL` is used by `mcp-handler` for production SSE; `LOGO_DEV_TOKEN` is only required for the `/api/logo/*` proxy.
+- Turbo forwards these env vars to app tasks: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `LOGO_DEV_TOKEN`.
+- `LOGO_DEV_TOKEN` is only required for the `/api/logo/*` proxy.
 
 ## MCP Tool Wiring
 

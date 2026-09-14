@@ -15,8 +15,8 @@
 
 ## MCP Server
 
-- MCP entrypoint is `app/[transport]/route.ts`; it registers tools from `app/[transport]/tools/index.ts` and configures `basePath: '/'`, `disableSse: false`, `maxDuration`, and `redisUrl`.
-- Local callers and the web tool tester use Streamable HTTP at `/mcp`; do not revive old `/sse` assumptions in tests or proxies.
+- MCP entrypoint is `app/mcp/route.ts`; it registers tools from `app/[transport]/tools/index.ts` and uses stateless `mcp-handler` v2.
+- Local callers and the web tool tester use Streamable HTTP at `/mcp`.
 - Tool modules import the eager `supabase` export from `app/[transport]/utils/supabase.ts`; missing `SUPABASE_URL` or `SUPABASE_ANON_KEY` throws during import.
 - User-facing tools resolve `query` through `getCompanySymbol`; clients with elicitation choose a company, clients without it get the first search match.
 
