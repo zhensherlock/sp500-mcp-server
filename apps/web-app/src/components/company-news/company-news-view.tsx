@@ -31,8 +31,6 @@ export function CompanyNewsView({ result }: CompanyNewsViewProps) {
           </div>
         </header>
 
-        {result.summary ? <SummaryPanel summary={result.summary} /> : null}
-
         <section>
           <ItemGroup className="gap-4">
             {result.news.map(item => (
@@ -42,15 +40,6 @@ export function CompanyNewsView({ result }: CompanyNewsViewProps) {
         </section>
       </div>
     </main>
-  )
-}
-
-function SummaryPanel({ summary }: { summary: string }) {
-  return (
-    <section className="mb-6 rounded-2xl border border-neutral-200 bg-neutral-50 p-5">
-      <h2 className="mb-2 text-base font-semibold text-neutral-800">Summary</h2>
-      <p className="text-sm leading-relaxed text-neutral-600">{summary}</p>
-    </section>
   )
 }
 

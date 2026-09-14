@@ -1,8 +1,8 @@
 import { z } from 'zod'
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import type { McpServer } from '@modelcontextprotocol/server'
 import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import { supabase } from '../utils/supabase'
-import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
+import { getCompanySymbol } from '@/app/[transport]/utils'
 import { registerHtmlAppResource } from './app-resource'
 
 const RESOURCE_URI = 'ui://sp500/company-financials.html'
@@ -19,7 +19,7 @@ type FinancialCategory =
   | 'Industry Specific'
   | 'Other'
 
-const getCompanyFinancialsInputSchema = {
+const getCompanyFinancialsInputSchema = z.object({
   query: z.string().min(1),
   items: z.array(z.string().min(1)).max(30).optional(),
   start_date: z
@@ -32,16 +32,7 @@ const getCompanyFinancialsInputSchema = {
     .optional(),
   latest_only: z.boolean().default(false),
   limit: z.number().int().min(1).max(1000).default(500),
-}
-
-type GetCompanyFinancialsParams = {
-  query: string
-  items?: string[]
-  start_date?: string
-  end_date?: string
-  latest_only: boolean
-  limit: number
-}
+})
 
 type FinancialUnit = 'currency' | 'per_share' | 'shares' | 'ratio' | 'raw'
 
@@ -405,7 +396,7 @@ export function registerGetCompanyFinancialsTool(mcpServer: McpServer) {
       inputSchema: getCompanyFinancialsInputSchema,
       _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
-    async (params: GetCompanyFinancialsParams) => {
+    async (params, ctx) => {
       const { end_date, latest_only, limit, query, start_date } = params
       const items = resolveRequestedItems(params.items)
 
@@ -423,7 +414,9 @@ export function registerGetCompanyFinancialsTool(mcpServer: McpServer) {
       const symbol = await getCompanySymbol({
         query,
         mcpServer,
+        ctx,
       })
+      if (typeof symbol !== 'string') return symbol
 
       const { rows: rawRows } = await queryFinancialRows({
         endDate: end_date,
@@ -459,22 +452,12 @@ export function registerGetCompanyFinancialsTool(mcpServer: McpServer) {
       const metrics = buildMetrics(rows, periods)
       const derived = buildDerivedMetrics(metrics, periods)
       const highlights = buildHighlights(metrics, derived, periods)
-      const summary = await getSummary({
-        text: JSON.stringify({
-          symbol,
-          periods,
-          highlights,
-          metricCount: metrics.length,
-        }),
-        mcpServer,
-      })
       const result = {
         symbol,
         periods,
         metrics,
         derived,
         highlights,
-        summary,
         metadata: {
           rowCount: rows.length,
           metricCount: metrics.length,

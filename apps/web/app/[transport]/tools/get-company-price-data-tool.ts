@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import type { McpServer, ServerContext } from '@modelcontextprotocol/server'
 import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import { supabase } from '../utils/supabase'
 import { getCompanySymbol } from '@/app/[transport]/utils'
@@ -8,7 +8,7 @@ import { registerHtmlAppResource } from './app-resource'
 const RESOURCE_URI = 'ui://sp500/company-price-data.html'
 const PRICE_DATA_TABLE = 'company_price_data'
 
-const getCompanyPriceDataInputSchema = {
+const getCompanyPriceDataInputSchema = z.object({
   query: z.string().min(1),
   start_date: z
     .string()
@@ -19,14 +19,7 @@ const getCompanyPriceDataInputSchema = {
     .regex(/^\d{4}-\d{2}-\d{2}$/)
     .optional(),
   limit: z.number().int().min(1).max(1000).default(100),
-}
-
-type GetCompanyPriceDataParams = {
-  query: string
-  start_date?: string
-  end_date?: string
-  limit: number
-}
+})
 
 type PriceDataRow = {
   trade_date: string
@@ -84,7 +77,15 @@ async function hasPriceDataForSymbol(symbol: string) {
   return Boolean(data?.length)
 }
 
-async function resolvePriceDataSymbol({ mcpServer, query }: { mcpServer: McpServer; query: string }) {
+async function resolvePriceDataSymbol({
+  ctx,
+  mcpServer,
+  query,
+}: {
+  ctx: ServerContext
+  mcpServer: McpServer
+  query: string
+}) {
   const directSymbol = normalizeSymbol(query)
 
   if (isLikelySymbol(directSymbol) && (await hasPriceDataForSymbol(directSymbol))) {
@@ -94,6 +95,7 @@ async function resolvePriceDataSymbol({ mcpServer, query }: { mcpServer: McpServ
   return getCompanySymbol({
     query,
     mcpServer,
+    ctx,
   })
 }
 
@@ -107,7 +109,7 @@ export function registerGetCompanyPriceDataTool(mcpServer: McpServer) {
       inputSchema: getCompanyPriceDataInputSchema,
       _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
-    async (params: GetCompanyPriceDataParams) => {
+    async (params, ctx) => {
       const { end_date, limit, query, start_date } = params
 
       if (start_date && end_date && start_date > end_date) {
@@ -122,9 +124,11 @@ export function registerGetCompanyPriceDataTool(mcpServer: McpServer) {
       }
 
       const symbol = await resolvePriceDataSymbol({
+        ctx,
         mcpServer,
         query,
       })
+      if (typeof symbol !== 'string') return symbol
 
       let priceDataQuery = supabase
         .from(PRICE_DATA_TABLE)

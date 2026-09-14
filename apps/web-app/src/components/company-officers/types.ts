@@ -8,5 +8,4 @@ export type CompanyOfficer = {
 export type CompanyOfficersResult = {
   symbol: string
   officers: CompanyOfficer[]
-  summary?: string
 }

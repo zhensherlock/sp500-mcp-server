@@ -8,5 +8,4 @@ export type CompanyFiling = {
 export type CompanyFilingsResult = {
   symbol: string
   filings: CompanyFiling[]
-  summary?: string
 }

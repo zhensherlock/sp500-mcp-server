@@ -49,7 +49,6 @@ export type CompanyFinancialsResult = {
   metrics: FinancialMetric[]
   derived?: DerivedFinancialMetric[]
   highlights?: FinancialHighlight[]
-  summary?: string
   metadata?: {
     rowCount: number
     metricCount: number

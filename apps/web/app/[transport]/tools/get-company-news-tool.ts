@@ -1,23 +1,17 @@
 import { z } from 'zod'
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import type { McpServer } from '@modelcontextprotocol/server'
 import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import { supabase } from '../utils/supabase'
-import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
+import { getCompanySymbol } from '@/app/[transport]/utils'
 import { registerHtmlAppResource } from './app-resource'
 
 const RESOURCE_URI = 'ui://sp500/company-news.html'
 
-const getCompanyNewsInputSchema = {
+const getCompanyNewsInputSchema = z.object({
   query: z.string().min(1),
   sentiment: z.enum(['positive', 'negative', 'neutral']).optional(),
   limit: z.number().min(1).max(100).default(10),
-}
-
-type GetCompanyNewsParams = {
-  query: string
-  sentiment?: 'positive' | 'negative' | 'neutral'
-  limit: number
-}
+})
 
 export function registerGetCompanyNewsTool(mcpServer: McpServer) {
   registerAppTool(
@@ -30,13 +24,15 @@ export function registerGetCompanyNewsTool(mcpServer: McpServer) {
       inputSchema: getCompanyNewsInputSchema,
       _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
-    async (params: GetCompanyNewsParams) => {
+    async (params, ctx) => {
       const { query, sentiment, limit } = params
 
       const symbol = await getCompanySymbol({
         query,
         mcpServer,
+        ctx,
       })
+      if (typeof symbol !== 'string') return symbol
 
       let newsQuery = supabase
         .from('company_news_sentiment')
@@ -60,17 +56,9 @@ export function registerGetCompanyNewsTool(mcpServer: McpServer) {
         }
       }
 
-      const summary = await getSummary({
-        text: JSON.stringify({
-          symbol,
-          news: data || [],
-        }),
-        mcpServer,
-      })
       const result = {
         symbol,
         news: data || [],
-        summary,
       }
 
       return {

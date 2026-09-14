@@ -1,4 +1,4 @@
-import type { Tool } from '@modelcontextprotocol/sdk/types.js'
+import type { Tool } from '@modelcontextprotocol/client'
 
 import type { DebugTool, JsonSchemaProperty, ToolParam } from './types'
 
@@ -49,6 +49,8 @@ export function createDebugTool(tool: Tool): DebugTool {
     id: tool.name,
     label: tool.title || tool.annotations?.title || tool.name,
     mcpToolName: tool.name,
-    params: Object.entries(properties).map(([id, property]) => createParamFromSchema(id, property, requiredIds)),
+    params: Object.entries(properties).flatMap(([id, property]) =>
+      typeof property === 'object' && property !== null ? [createParamFromSchema(id, property, requiredIds)] : [],
+    ),
   }
 }

@@ -17,5 +17,4 @@ export type CompanyInfo = {
   industryKey?: string
   longBusinessSummary: string
   fullTimeEmployees: number
-  summary?: string
 }

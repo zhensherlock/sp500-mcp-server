@@ -1,13 +1,13 @@
 import { z } from 'zod'
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import type { McpServer } from '@modelcontextprotocol/server'
 import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import { supabase } from '../utils/supabase'
-import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
+import { getCompanySymbol } from '@/app/[transport]/utils'
 import { registerHtmlAppResource } from './app-resource'
 
 const RESOURCE_URI = 'ui://sp500/company-filings.html'
 
-const getCompanyFilingsInputSchema = {
+const getCompanyFilingsInputSchema = z.object({
   query: z.string().min(1),
   filing_type: z.string().optional(),
   start_date: z
@@ -19,15 +19,7 @@ const getCompanyFilingsInputSchema = {
     .regex(/^\d{4}-\d{2}-\d{2}$/)
     .optional(),
   limit: z.number().int().min(1).max(100).default(20),
-}
-
-type GetCompanyFilingsParams = {
-  query: string
-  filing_type?: string
-  start_date?: string
-  end_date?: string
-  limit: number
-}
+})
 
 export function registerGetCompanyFilingsTool(mcpServer: McpServer) {
   registerAppTool(
@@ -39,13 +31,15 @@ export function registerGetCompanyFilingsTool(mcpServer: McpServer) {
       inputSchema: getCompanyFilingsInputSchema,
       _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
-    async (params: GetCompanyFilingsParams) => {
+    async (params, ctx) => {
       const { query, filing_type, start_date, end_date, limit } = params
 
       const symbol = await getCompanySymbol({
         query,
         mcpServer,
+        ctx,
       })
+      if (typeof symbol !== 'string') return symbol
 
       let filingsQuery = supabase
         .from('company_filings')
@@ -84,17 +78,9 @@ export function registerGetCompanyFilingsTool(mcpServer: McpServer) {
         }
       }
 
-      const summary = await getSummary({
-        text: JSON.stringify({
-          symbol,
-          filings: data || [],
-        }),
-        mcpServer,
-      })
       const result = {
         symbol,
         filings: data || [],
-        summary,
       }
 
       return {

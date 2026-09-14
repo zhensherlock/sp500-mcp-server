@@ -1,21 +1,16 @@
 import { z } from 'zod'
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import type { McpServer } from '@modelcontextprotocol/server'
 import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import { supabase } from '../utils/supabase'
-import { getCompanySymbol, getSummary } from '@/app/[transport]/utils'
+import { getCompanySymbol } from '@/app/[transport]/utils'
 import { registerHtmlAppResource } from './app-resource'
 
 const RESOURCE_URI = 'ui://sp500/company-officers.html'
 
-const getCompanyOfficersInputSchema = {
+const getCompanyOfficersInputSchema = z.object({
   query: z.string().min(1),
   limit: z.number().int().min(1).max(50).default(20),
-}
-
-type GetCompanyOfficersParams = {
-  query: string
-  limit: number
-}
+})
 
 export function registerGetCompanyOfficersTool(mcpServer: McpServer) {
   registerAppTool(
@@ -27,13 +22,15 @@ export function registerGetCompanyOfficersTool(mcpServer: McpServer) {
       inputSchema: getCompanyOfficersInputSchema,
       _meta: { ui: { resourceUri: RESOURCE_URI } },
     },
-    async (params: GetCompanyOfficersParams) => {
+    async (params, ctx) => {
       const { query, limit } = params
 
       const symbol = await getCompanySymbol({
         query,
-        mcpServer: mcpServer,
+        mcpServer,
+        ctx,
       })
+      if (typeof symbol !== 'string') return symbol
 
       const { data } = await supabase
         .from('company_officers')
@@ -48,17 +45,9 @@ export function registerGetCompanyOfficersTool(mcpServer: McpServer) {
         }
       }
 
-      const summary = await getSummary({
-        text: JSON.stringify({
-          symbol,
-          officers: data || [],
-        }),
-        mcpServer,
-      })
       const result = {
         symbol,
         officers: data || [],
-        summary,
       }
 
       return {

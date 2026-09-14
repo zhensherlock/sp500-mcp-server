@@ -16,5 +16,4 @@ export type CompanyNewsItem = {
 export type CompanyNewsResult = {
   symbol: string
   news: CompanyNewsItem[]
-  summary?: string
 }
