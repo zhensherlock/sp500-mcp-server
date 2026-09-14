@@ -1,5 +1,5 @@
 const footerSlogan =
-  'AI-ready S&P 500 company intelligence for MCP clients, with tools, app views, elicitation, and sampling built in.'
+  'AI-ready S&P 500 company intelligence for MCP clients, with tools, app views, and guided elicitation built in.'
 
 export default function Footer() {
   return (

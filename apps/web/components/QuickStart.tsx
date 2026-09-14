@@ -39,8 +39,7 @@ const mcpClients = [
 ]
 
 const transportLabels = {
-  streamable: 'Streamable',
-  sse: 'SSE',
+  streamable: 'Streamable HTTP',
   stdio: 'Stdio',
 } as const
 
@@ -54,11 +53,7 @@ function getOrigin() {
   return window.location.origin
 }
 
-function getEndpoint(transport: Transport, origin = getOrigin()) {
-  if (transport === 'sse') {
-    return `${origin}/sse`
-  }
-
+function getEndpoint(origin = getOrigin()) {
   return `${origin}/mcp`
 }
 
@@ -68,7 +63,7 @@ const cherryStudioConfig = (mcpUrl: string) => ({
       name: mcpName,
       description:
         'Empower your AI to read the U.S. stock market with real-time S&P 500 company data, precise search, and total visibility.',
-      type: 'sse' as const,
+      type: 'streamableHttp' as const,
       baseUrl: mcpUrl,
       provider: 'zhensherlock',
       providerUrl: getOrigin(),
@@ -79,7 +74,7 @@ const cherryStudioConfig = (mcpUrl: string) => ({
   },
 })
 
-const httpSseConfig = (mcpUrl: string) => ({
+const httpConfig = (mcpUrl: string) => ({
   name: mcpName,
   type: 'http' as const,
   url: mcpUrl,
@@ -87,12 +82,12 @@ const httpSseConfig = (mcpUrl: string) => ({
 
 const cursorConfig = (mcpUrl: string) => ({
   name: mcpName,
-  type: 'sse' as const,
+  type: 'streamable_http' as const,
   url: mcpUrl,
 })
 
 function buildConfig(transport: Transport, origin = getOrigin()) {
-  const endpoint = getEndpoint(transport, origin)
+  const endpoint = getEndpoint(origin)
 
   if (transport === 'stdio') {
     return {
@@ -116,37 +111,36 @@ function buildConfig(transport: Transport, origin = getOrigin()) {
 }
 
 function handleLaunch(clientName: string) {
-  const sseUrl = getEndpoint('sse')
-  const streamableUrl = getEndpoint('streamable')
+  const streamableUrl = getEndpoint()
   let url: string
 
   switch (clientName) {
     case 'Cherry Studio':
-      url = installCherryStudioMCP(cherryStudioConfig(sseUrl))
+      url = installCherryStudioMCP(cherryStudioConfig(streamableUrl))
       break
     case 'Cursor':
-      url = installCursorMCP(cursorConfig(sseUrl))
+      url = installCursorMCP(cursorConfig(streamableUrl))
       break
     case 'Visual Studio Code':
-      url = installVSCodeMCP(httpSseConfig(streamableUrl))
+      url = installVSCodeMCP(httpConfig(streamableUrl))
       break
     case 'Trae':
-      url = installTraeMCP(httpSseConfig(streamableUrl))
+      url = installTraeMCP(httpConfig(streamableUrl))
       break
     case 'Trae China':
-      url = installTraeChinaMCP(httpSseConfig(streamableUrl))
+      url = installTraeChinaMCP(httpConfig(streamableUrl))
       break
     case 'Lingma':
-      url = installLingmaMCP(httpSseConfig(streamableUrl))
+      url = installLingmaMCP(httpConfig(streamableUrl))
       break
     case 'Kiro':
-      url = installKiroMCP(httpSseConfig(streamableUrl))
+      url = installKiroMCP(httpConfig(streamableUrl))
       break
     case 'Qoder':
-      url = installQoderMCP(httpSseConfig(streamableUrl))
+      url = installQoderMCP(httpConfig(streamableUrl))
       break
     case 'Antigravity':
-      url = installAntigravityMCP(httpSseConfig(streamableUrl))
+      url = installAntigravityMCP(httpConfig(streamableUrl))
       break
     default:
       return
@@ -182,13 +176,13 @@ function CodeBlock({
             <Button
               type="button"
               variant="outline"
-              className="h-7 cursor-pointer rounded-4xl border-code-border bg-code-border px-3 text-xs font-extrabold text-code-foreground shadow-[inset_0_1px_0_rgb(255_255_255/8%)] transition-all hover:border-code-blue/50 hover:bg-code-border hover:text-code-foreground hover:shadow-[0_8px_18px_rgb(0_0_0/20%)] aria-expanded:border-code-blue/60"
+              className="h-7 w-40 cursor-pointer justify-between rounded-4xl border-code-border bg-code-border px-3 text-xs font-extrabold text-code-foreground shadow-[inset_0_1px_0_rgb(255_255_255/8%)] transition-all hover:border-code-blue/50 hover:bg-code-border hover:text-code-foreground hover:shadow-[0_8px_18px_rgb(0_0_0/20%)] aria-expanded:border-code-blue/60"
             >
               {transportLabels[transport]}
               <ChevronDown data-icon="inline-end" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-31.5 rounded-[14px] border-border bg-card p-1.5 shadow-(--shadow-card-strong)">
+          <DropdownMenuContent className="w-40 rounded-[14px] border-border bg-card p-1.5 shadow-(--shadow-card-strong)">
             <DropdownMenuRadioGroup
               value={transport}
               onValueChange={value => {

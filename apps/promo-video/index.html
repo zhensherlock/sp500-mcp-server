@@ -829,8 +829,8 @@
             <div class="install-command">{
   "mcpServers": {
     "SP500-MCP": {
-      "transport": "sse",
-      "url": "https://sp500-mcp.vercel.app/sse"
+      "transport": "streamable-http",
+      "url": "https://sp500-mcp.vercel.app/mcp"
     }
   }
 }</div>
@@ -860,7 +860,7 @@
           <div class="final-panel">
             <div class="eyebrow">get started</div>
             <h2 class="headline">把分散的市场数据，<br />变成一个 MCP 入口</h2>
-            <div class="install-command">$ pnpm dev<br />POST /mcp · GET /sse</div>
+            <div class="install-command">$ pnpm dev<br />GET/POST /mcp · Streamable HTTP</div>
             <div class="url-footer">
               <span>https://sp500-mcp.vercel.app/</span>
               <span>https://github.com/zhensherlock/sp500-mcp-server</span>

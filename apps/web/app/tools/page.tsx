@@ -3,14 +3,13 @@
 import { useRef, useState } from 'react'
 import {
   AppWindow,
-  Brain,
   Check,
   MessageCircleQuestionMark,
   MousePointerClick,
   PanelTop,
   PanelsTopLeft,
   Route,
-  Sparkles,
+  Radio,
 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -34,12 +33,12 @@ const capabilities = [
     pillWidthClassName: 'min-[520px]:w-[164px]',
   },
   {
-    label: 'AI-assisted',
-    caption: 'Think',
-    icon: Brain,
-    artworkIcon: Sparkles,
-    artworkLabel: 'Sampling',
-    captionIcon: Brain,
+    label: 'Modern transport',
+    caption: 'Connect',
+    icon: Radio,
+    artworkIcon: Radio,
+    artworkLabel: 'Streamable HTTP',
+    captionIcon: Radio,
     iconClassName: 'text-[#16A34A]',
     surfaceClassName: 'border-[#DCFCE7] bg-[#E8F8EF]',
     cardBorderClassName: 'border-[#DCFCE7]',

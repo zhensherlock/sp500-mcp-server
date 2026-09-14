@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { AppWindow, Brain, Database, MessageCircleQuestion } from 'lucide-react'
+import { AppWindow, Database, MessageCircleQuestion, Radio } from 'lucide-react'
 import { useScrollStagger } from '@/hooks/useEntranceAnimation'
 import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
 
@@ -19,9 +19,9 @@ const features = [
     iconClassName: 'bg-success-soft text-success',
   },
   {
-    icon: Brain,
-    title: 'Sampling',
-    description: 'Summarize and analyze data with AI-powered sampling capabilities.',
+    icon: Radio,
+    title: 'Streamable HTTP',
+    description: 'Connect modern and legacy Streamable HTTP clients through one stateless endpoint.',
     iconClassName: 'bg-violet-soft text-violet',
   },
   {
