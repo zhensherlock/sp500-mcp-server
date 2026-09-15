@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.1.1",
-    "autoprefixer": "^10.6.0",
+    "autoprefixer": "^10.6.1",
     "vite": "^8.3.0",
     "vite-plugin-singlefile": "^2.3.3"
   },

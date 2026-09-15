@@ -7,7 +7,7 @@
     "lint": "eslint . --max-warnings 0"
   },
   "devDependencies": {
-    "autoprefixer": "^10.6.0"
+    "autoprefixer": "^10.6.1"
   },
   "exports": {
     "./globals.css": "./src/styles/globals.css",
