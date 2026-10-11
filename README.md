@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/zhensherlock-sp500-mcp-server-badge.png)](https://mseep.ai/app/zhensherlock-sp500-mcp-server)
+
 # S&P 500 MCP Server
 
 <p align="center">
