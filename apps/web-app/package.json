@@ -9,10 +9,10 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^6.1.1",
-    "autoprefixer": "^10.6.1",
-    "vite": "^8.3.0",
-    "vite-plugin-singlefile": "^2.3.3"
+    "@vitejs/plugin-react": "^6.1.2",
+    "autoprefixer": "^10.6.2",
+    "vite": "^8.3.5",
+    "vite-plugin-singlefile": "^2.3.4"
   },
   "dependencies": {
     "@workspace/ui": "workspace:*",
