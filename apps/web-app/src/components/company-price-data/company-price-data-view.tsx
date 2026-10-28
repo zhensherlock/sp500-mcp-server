@@ -1,11 +1,19 @@
-import type { CompanyPriceDataRow, CompanyPriceDataResult } from './types'
+import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
+import { Spinner } from '@workspace/ui/components/spinner'
+import { ToggleGroup, ToggleGroupItem } from '@workspace/ui/components/toggle-group'
+
+import type { CompanyPriceDataRow, CompanyPriceDataResult, RequestCompanyPrices } from './types'
+import { useCompanyPriceRange } from './use-company-price-range'
 import { formatDate, formatPrice, formatVolume } from './utils'
 
 type CompanyPriceDataViewProps = {
   result: CompanyPriceDataResult
+  requestPrices?: RequestCompanyPrices
 }
 
-export function CompanyPriceDataView({ result }: CompanyPriceDataViewProps) {
+export function CompanyPriceDataView({ result: initialResult, requestPrices }: CompanyPriceDataViewProps) {
+  const { error, pendingRange, result, selectedRange, selectRange } = useCompanyPriceRange(initialResult, requestPrices)
+  const isLoading = pendingRange !== null
   const sortedPrices = [...result.prices].sort((a, b) => a.trade_date.localeCompare(b.trade_date))
   const latestPrice = result.prices[0]
   const previousPrice = result.prices[1]
@@ -35,29 +43,62 @@ export function CompanyPriceDataView({ result }: CompanyPriceDataViewProps) {
           </div>
         </header>
 
-        <PriceChart prices={sortedPrices} />
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <ToggleGroup
+            aria-label="Price date range"
+            disabled={!requestPrices || isLoading}
+            onValueChange={value => {
+              if (value === 'month' || value === 'year') void selectRange(value)
+            }}
+            type="single"
+            value={pendingRange ?? selectedRange ?? ''}
+            variant="outline"
+          >
+            <ToggleGroupItem value="month">Past month</ToggleGroupItem>
+            <ToggleGroupItem value="year">Past year</ToggleGroupItem>
+          </ToggleGroup>
+          <p aria-live="polite" className="flex min-h-5 items-center gap-2 text-sm text-muted-foreground" role="status">
+            {isLoading ? (
+              <>
+                <Spinner aria-hidden="true" role="presentation" />
+                Loading prices for the past {pendingRange === 'month' ? 'month' : 'year'}…
+              </>
+            ) : null}
+          </p>
+        </div>
 
-        <section className="overflow-hidden rounded-lg border border-neutral-200 bg-white">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-184 border-collapse text-sm">
-              <thead className="bg-neutral-50 text-left text-xs uppercase tracking-wide text-neutral-500">
-                <tr>
-                  <th className="px-4 py-3 font-semibold">Date</th>
-                  <th className="px-4 py-3 text-right font-semibold">Open</th>
-                  <th className="px-4 py-3 text-right font-semibold">High</th>
-                  <th className="px-4 py-3 text-right font-semibold">Low</th>
-                  <th className="px-4 py-3 text-right font-semibold">Close</th>
-                  <th className="px-4 py-3 text-right font-semibold">Volume</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-neutral-200 text-neutral-800">
-                {result.prices.map(price => (
-                  <PriceRow key={`${result.symbol}-${price.trade_date}`} price={price} />
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
+        {error ? (
+          <Alert className="mb-4" variant="destructive">
+            <AlertTitle>Could not update prices</AlertTitle>
+            <AlertDescription>{error} Showing previous data. Select a date range to retry.</AlertDescription>
+          </Alert>
+        ) : null}
+
+        <div aria-busy={isLoading} className={isLoading ? 'opacity-50' : undefined}>
+          <PriceChart prices={sortedPrices} />
+
+          <section className="overflow-hidden rounded-lg border border-neutral-200 bg-white">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-184 border-collapse text-sm">
+                <thead className="bg-neutral-50 text-left text-xs uppercase tracking-wide text-neutral-500">
+                  <tr>
+                    <th className="px-4 py-3 font-semibold">Date</th>
+                    <th className="px-4 py-3 text-right font-semibold">Open</th>
+                    <th className="px-4 py-3 text-right font-semibold">High</th>
+                    <th className="px-4 py-3 text-right font-semibold">Low</th>
+                    <th className="px-4 py-3 text-right font-semibold">Close</th>
+                    <th className="px-4 py-3 text-right font-semibold">Volume</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-neutral-200 text-neutral-800">
+                  {result.prices.map(price => (
+                    <PriceRow key={`${result.symbol}-${price.trade_date}`} price={price} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
       </div>
     </main>
   )

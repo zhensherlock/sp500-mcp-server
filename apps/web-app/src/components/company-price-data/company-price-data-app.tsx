@@ -4,7 +4,7 @@ import { CompanyPriceDataView } from './company-price-data-view'
 import { useCompanyPriceDataApp } from './use-company-price-data-app'
 
 export function CompanyPriceDataApp() {
-  const { error, query, result, status } = useCompanyPriceDataApp()
+  const { app, error, isConnected, query, result, status } = useCompanyPriceDataApp()
 
   return (
     <ToolAppShell
@@ -17,7 +17,16 @@ export function CompanyPriceDataApp() {
       status={status}
       waitingTitle="Waiting for company price data"
     >
-      {result ? <CompanyPriceDataView result={result} /> : null}
+      {result ? (
+        <CompanyPriceDataView
+          requestPrices={
+            app && isConnected
+              ? arguments_ => app.callServerTool({ name: 'get_company_price_data', arguments: arguments_ })
+              : undefined
+          }
+          result={result}
+        />
+      ) : null}
     </ToolAppShell>
   )
 }
