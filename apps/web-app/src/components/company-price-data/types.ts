@@ -7,6 +7,17 @@ export type CompanyPriceDataRow = {
   volume: number
 }
 
+export type CompanyPriceRange = 'month' | 'year'
+
+export type CompanyPriceDataArguments = {
+  query: string
+  start_date: string
+  end_date: string
+  limit: number
+}
+
+export type RequestCompanyPrices = (arguments_: CompanyPriceDataArguments) => Promise<unknown>
+
 export type CompanyPriceDataResult = {
   symbol: string
   prices: CompanyPriceDataRow[]

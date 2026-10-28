@@ -1,5 +1,23 @@
 import { parseToolResult } from '@/components/tool-app/parse-tool-result'
-import type { CompanyPriceDataResult } from './types'
+import type { CompanyPriceDataArguments, CompanyPriceDataResult, CompanyPriceRange } from './types'
+
+export function getPriceRangeArguments(
+  symbol: string,
+  range: CompanyPriceRange,
+  now = new Date(),
+): CompanyPriceDataArguments {
+  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
+  const start = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth() - (range === 'month' ? 1 : 12), 1))
+  const lastDayOfMonth = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + 1, 0)).getUTCDate()
+  start.setUTCDate(Math.min(end.getUTCDate(), lastDayOfMonth))
+
+  return {
+    query: symbol,
+    start_date: start.toISOString().slice(0, 10),
+    end_date: end.toISOString().slice(0, 10),
+    limit: 1000,
+  }
+}
 
 export function parseCompanyPriceDataFromToolResult(result: unknown): CompanyPriceDataResult {
   return parseToolResult<CompanyPriceDataResult>(result)
