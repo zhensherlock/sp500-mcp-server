@@ -27,7 +27,7 @@ export function useMcpToolApp<Result>({ appName, parseResult }: UseMcpToolAppOpt
     [parseResult],
   )
 
-  const { isConnected, error } = useApp({
+  const { app, isConnected, error } = useApp({
     appInfo: { name: appName, version: '1.0.0' },
     capabilities: {},
     onAppCreated: app => {
@@ -52,6 +52,7 @@ export function useMcpToolApp<Result>({ appName, parseResult }: UseMcpToolAppOpt
   const status: AppStatus = error || parseError ? 'error' : isConnected ? 'ready' : 'connecting'
 
   return {
+    app,
     error: error?.message ?? parseError,
     hostContext,
     isConnected,
