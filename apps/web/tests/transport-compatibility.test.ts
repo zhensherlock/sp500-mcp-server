@@ -26,4 +26,15 @@ describe('MCP transport compatibility', () => {
       await client.close()
     }
   })
+
+  test('acknowledges tool list subscriptions', async () => {
+    const subscription = await global.client.listen({ toolsListChanged: true })
+
+    try {
+      expect(subscription.honoredFilter.toolsListChanged).toBe(true)
+      expect((await global.client.listTools()).tools).toHaveLength(6)
+    } finally {
+      await subscription.close()
+    }
+  })
 })

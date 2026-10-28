@@ -23,7 +23,6 @@ const mcpHandler = createMcpHandler(
       name: 'SP500-mcp',
       version: '2.0.0',
     },
-    maxSubscriptions: 0,
     verboseLogs: false,
   },
 )
