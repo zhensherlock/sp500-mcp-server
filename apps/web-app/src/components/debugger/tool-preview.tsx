@@ -10,8 +10,15 @@ import { CompanyOfficersView } from '@/components/company-officers/company-offic
 import { parseCompanyOfficersFromToolResult } from '@/components/company-officers/utils'
 import { CompanyPriceDataView } from '@/components/company-price-data/company-price-data-view'
 import { parseCompanyPriceDataFromToolResult } from '@/components/company-price-data/utils'
+import type { RequestCompanyPrices } from '@/components/company-price-data/types'
 
+import { getMcpClient } from './mcp-client'
 import type { DebugTool } from './types'
+
+const requestCompanyPrices: RequestCompanyPrices = async arguments_ => {
+  const client = await getMcpClient()
+  return client.callTool({ name: 'get_company_price_data', arguments: arguments_ })
+}
 
 type ToolPreviewProps = {
   resultText: string
@@ -34,7 +41,14 @@ export function renderToolPreview({ resultText, tool }: ToolPreviewProps) {
       case 'get_company_officers':
         return { content: <CompanyOfficersView result={parseCompanyOfficersFromToolResult(result)} /> }
       case 'get_company_price_data':
-        return { content: <CompanyPriceDataView result={parseCompanyPriceDataFromToolResult(result)} /> }
+        return {
+          content: (
+            <CompanyPriceDataView
+              requestPrices={requestCompanyPrices}
+              result={parseCompanyPriceDataFromToolResult(result)}
+            />
+          ),
+        }
       default:
         return {
           content: (
