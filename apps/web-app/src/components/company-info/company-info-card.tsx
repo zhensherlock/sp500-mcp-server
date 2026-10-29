@@ -10,7 +10,7 @@ type CompanyInfoCardProps = {
 
 export function CompanyInfoCard({ company }: CompanyInfoCardProps) {
   return (
-    <main className="min-h-screen bg-white p-8 font-sans">
+    <main className="min-h-screen bg-background p-8 font-sans">
       <div className="mx-auto max-w-3xl">
         <CompanyHeader company={company} />
         <InfoGrid company={company} />

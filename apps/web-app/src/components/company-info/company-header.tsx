@@ -11,7 +11,7 @@ export function CompanyHeader({ company }: CompanyHeaderProps) {
     <header className="mb-6 flex items-center justify-between gap-4">
       <div className="flex min-w-0 items-center gap-3">
         <CompanyAvatar company={company} />
-        <h1 className="truncate text-2xl font-semibold text-neutral-800">{company.shortName}</h1>
+        <h1 className="truncate text-2xl font-semibold text-foreground">{company.shortName}</h1>
       </div>
 
       <div className="flex shrink-0 gap-2">
@@ -27,9 +27,9 @@ function CompanyAvatar({ company }: { company: CompanyInfo }) {
   const logoUrl = getTickerLogoUrl(company.symbol)
 
   return (
-    <Avatar aria-label={`${company.shortName} logo`} className="bg-background shadow-sm" role="img" size="lg">
+    <Avatar aria-label={`${company.shortName} logo`} className="bg-logo-background shadow-sm" role="img" size="lg">
       {logoUrl ? (
-        <AvatarImage alt="" className="bg-background object-contain p-1.5" decoding="async" src={logoUrl} />
+        <AvatarImage alt="" className="bg-logo-background object-contain p-1.5" decoding="async" src={logoUrl} />
       ) : null}
       <AvatarFallback>{fallback || '?'}</AvatarFallback>
     </Avatar>
@@ -79,7 +79,7 @@ function getRuntimeAssetBaseUrl() {
 function CompanyLink({ children, href }: { children: ReactNode; href: string }) {
   return (
     <a
-      className="rounded-lg border border-neutral-300 bg-white px-3 py-1.5 text-sm font-medium text-neutral-800 shadow-sm transition-colors hover:border-neutral-400 hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400"
+      className="rounded-lg border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground shadow-sm transition-colors hover:border-ring hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       href={href}
       rel="noopener noreferrer"
       target="_blank"

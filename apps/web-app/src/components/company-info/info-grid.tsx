@@ -17,9 +17,9 @@ export function InfoGrid({ company }: InfoGridProps) {
 
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="cursor-default rounded-2xl bg-neutral-100 p-5 transition-all hover:scale-[1.02] hover:shadow-md">
-      <p className="mb-1 text-sm text-neutral-500">{label}</p>
-      <p className="text-base font-medium text-neutral-800">{value}</p>
+    <div className="cursor-default rounded-2xl bg-secondary p-5 transition-all hover:scale-[1.02] hover:shadow-md">
+      <p className="mb-1 text-sm text-muted-foreground">{label}</p>
+      <p className="text-base font-medium text-foreground">{value}</p>
     </div>
   )
 }
