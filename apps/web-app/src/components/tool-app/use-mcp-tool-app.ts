@@ -1,7 +1,8 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useLayoutEffect, useState } from 'react'
 import { useApp, type McpUiHostContext } from '@modelcontextprotocol/ext-apps/react'
 
 import type { AppStatus } from './types'
+import { applyAppTheme } from './app-theme'
 
 type UseMcpToolAppOptions<Result> = {
   appName: string
@@ -38,8 +39,8 @@ export function useMcpToolApp<Result>({ appName, parseResult }: UseMcpToolAppOpt
 
       app.ontoolresult = handleToolResult
 
-      app.onhostcontextchanged = context => {
-        setHostContext(previous => ({ ...previous, ...context }))
+      app.onhostcontextchanged = () => {
+        setHostContext(app.getHostContext())
       }
 
       app.onerror = event => {
@@ -49,12 +50,19 @@ export function useMcpToolApp<Result>({ appName, parseResult }: UseMcpToolAppOpt
     },
   })
 
+  const currentHostContext = hostContext ?? app?.getHostContext()
+  const theme = currentHostContext?.theme ?? 'light'
+
+  useLayoutEffect(() => {
+    applyAppTheme(theme)
+  }, [theme])
+
   const status: AppStatus = error || parseError ? 'error' : isConnected ? 'ready' : 'connecting'
 
   return {
     app,
     error: error?.message ?? parseError,
-    hostContext,
+    hostContext: currentHostContext,
     isConnected,
     query,
     result,
