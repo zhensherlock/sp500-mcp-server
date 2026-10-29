@@ -13,7 +13,7 @@ export function isCompanyNotFoundError(error?: string | null) {
 
 export function CompanyNotFoundEmpty({ className, message }: CompanyNotFoundEmptyProps) {
   return (
-    <Empty className={cn('max-w-md border border-neutral-200 bg-neutral-50', className)}>
+    <Empty className={cn('max-w-md border border-border bg-muted', className)}>
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <SearchXIcon />

@@ -33,17 +33,17 @@ export function ToolAppShell({
     return <>{children}</>
   }
 
-  const panelBorderClassName = showPendingBorder ? 'border border-neutral-200' : ''
+  const panelBorderClassName = showPendingBorder ? 'border border-border' : ''
   const isCompanyNotFound = status === 'error' && isCompanyNotFoundError(error)
 
   return (
-    <main className="min-h-screen bg-white p-8 font-sans text-neutral-800">
+    <main className="min-h-screen bg-background p-8 font-sans text-foreground">
       {isCompanyNotFound ? (
         <CompanyNotFoundEmpty className={cn('mx-auto', maxWidthClassName)} message={error ?? 'No company found.'} />
       ) : (
-        <div className={cn('mx-auto rounded-2xl bg-neutral-50 p-5', panelBorderClassName, maxWidthClassName)}>
+        <div className={cn('mx-auto rounded-2xl bg-muted p-5', panelBorderClassName, maxWidthClassName)}>
           <p className="text-sm font-medium">{status === 'error' ? failedTitle : waitingTitle}</p>
-          <p className="mt-2 text-sm text-neutral-500">{error ?? (query ? `Querying ${query}` : emptyMessage)}</p>
+          <p className="mt-2 text-sm text-muted-foreground">{error ?? (query ? `Querying ${query}` : emptyMessage)}</p>
         </div>
       )}
     </main>
