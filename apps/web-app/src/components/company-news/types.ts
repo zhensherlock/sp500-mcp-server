@@ -17,3 +17,5 @@ export type CompanyNewsResult = {
   symbol: string
   news: CompanyNewsItem[]
 }
+
+export type SendNewsAnalysis = (text: string) => Promise<{ isError?: boolean }>
