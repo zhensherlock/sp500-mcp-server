@@ -17,14 +17,14 @@ type CompanyOfficersViewProps = {
 
 export function CompanyOfficersView({ result }: CompanyOfficersViewProps) {
   return (
-    <main className="min-h-screen bg-white p-8 font-sans">
+    <main className="min-h-screen bg-background p-8 font-sans">
       <div className="mx-auto max-w-4xl">
         <header className="mb-6 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">Executive Officers</p>
-            <h1 className="mt-1 text-2xl font-semibold text-neutral-900">{result.symbol}</h1>
+            <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">Executive Officers</p>
+            <h1 className="mt-1 text-2xl font-semibold text-foreground">{result.symbol}</h1>
           </div>
-          <div className="rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-sm text-neutral-600">
+          <div className="rounded-full border border-border bg-muted px-3 py-1 text-sm text-muted-foreground">
             {result.officers.length} officers
           </div>
         </header>
@@ -44,7 +44,7 @@ export function CompanyOfficersView({ result }: CompanyOfficersViewProps) {
 function OfficerCard({ officer }: { officer: CompanyOfficer }) {
   return (
     <Item
-      className="items-start gap-x-3 gap-y-4 rounded-2xl bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+      className="items-start gap-x-3 gap-y-4 rounded-2xl bg-background p-5 shadow-sm transition-shadow hover:shadow-md"
       role="listitem"
       variant="outline"
     >
@@ -54,8 +54,8 @@ function OfficerCard({ officer }: { officer: CompanyOfficer }) {
         </Avatar>
       </ItemMedia>
       <ItemContent className="min-w-0">
-        <ItemTitle className="w-full truncate text-lg font-semibold text-neutral-900">{officer.name}</ItemTitle>
-        <ItemDescription className="line-clamp-none text-sm leading-relaxed text-neutral-600">
+        <ItemTitle className="w-full truncate text-lg font-semibold text-foreground">{officer.name}</ItemTitle>
+        <ItemDescription className="line-clamp-none text-sm leading-relaxed text-muted-foreground">
           {officer.title}
         </ItemDescription>
       </ItemContent>
@@ -71,9 +71,9 @@ function OfficerCard({ officer }: { officer: CompanyOfficer }) {
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl bg-neutral-50 p-3">
-      <dt className="text-xs font-medium uppercase tracking-wide text-neutral-500">{label}</dt>
-      <dd className="mt-1 text-sm font-semibold text-neutral-800">{value}</dd>
+    <div className="rounded-xl bg-muted p-3">
+      <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</dt>
+      <dd className="mt-1 text-sm font-semibold text-foreground">{value}</dd>
     </div>
   )
 }
