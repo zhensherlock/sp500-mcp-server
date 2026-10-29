@@ -55,6 +55,10 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-link: var(--link);
+  --color-logo-background: var(--logo-background);
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
