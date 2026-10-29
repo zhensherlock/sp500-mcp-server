@@ -1,8 +1,17 @@
+import { useLayoutEffect, useState } from 'react'
+
+import { applyAppTheme, type AppTheme } from '@/components/tool-app/app-theme'
 import { ResultPanel } from './result-panel'
 import { ToolSidebar } from './tool-sidebar'
 import { useDebuggerApp } from './use-debugger-app'
 
 export function DebugApp() {
+  const [theme, setTheme] = useState<AppTheme>('light')
+
+  useLayoutEffect(() => {
+    applyAppTheme(theme)
+  }, [theme])
+
   const {
     activeResultTab,
     activeResultText,
@@ -24,8 +33,8 @@ export function DebugApp() {
 
   if (isLoadingTools) {
     return (
-      <main className="grid min-h-screen place-items-center bg-neutral-100 font-sans text-neutral-900">
-        <div className="rounded-lg border border-neutral-200 bg-white p-5 text-sm text-neutral-600">
+      <main className="grid min-h-screen place-items-center bg-secondary font-sans text-foreground">
+        <div className="rounded-lg border border-border bg-background p-5 text-sm text-muted-foreground">
           Loading MCP tools...
         </div>
       </main>
@@ -34,8 +43,8 @@ export function DebugApp() {
 
   if (toolLoadError || !selectedTool) {
     return (
-      <main className="grid min-h-screen place-items-center bg-neutral-100 font-sans text-neutral-900">
-        <div className="max-w-md rounded-lg border border-red-200 bg-red-50 p-5 text-sm text-red-800">
+      <main className="grid min-h-screen place-items-center bg-secondary font-sans text-foreground">
+        <div className="max-w-md rounded-lg border border-destructive/25 bg-destructive/10 p-5 text-sm text-destructive">
           <p className="font-semibold">Cannot load MCP tools</p>
           <p className="mt-1">{toolLoadError ?? 'The MCP server did not return any tools.'}</p>
         </div>
@@ -44,7 +53,7 @@ export function DebugApp() {
   }
 
   return (
-    <main className="min-h-screen bg-neutral-100 font-sans text-neutral-900 lg:h-dvh lg:min-h-0 lg:overflow-hidden">
+    <main className="min-h-screen bg-secondary font-sans text-foreground lg:h-dvh lg:min-h-0 lg:overflow-hidden">
       <div className="grid min-h-screen lg:h-full lg:min-h-0 lg:grid-cols-[24rem_minmax(0,1fr)]">
         <ToolSidebar
           executionError={executionError}
@@ -54,10 +63,12 @@ export function DebugApp() {
           }}
           onInputValuesChange={setToolInputValuesById}
           onSelectedToolIdChange={setSelectedToolId}
+          onThemeChange={setTheme}
           selectedTool={selectedTool}
           toolArguments={toolArguments}
           toolInputValues={toolInputValues}
           tools={tools}
+          theme={theme}
         />
         <ResultPanel
           activeResultTab={activeResultTab}

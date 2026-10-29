@@ -23,17 +23,17 @@ export function ResultPanel({
   const preview = activeResultTool ? renderToolPreview({ resultText: activeResultText, tool: activeResultTool }) : null
 
   return (
-    <section className="min-w-0 bg-white lg:h-full lg:min-h-0 lg:overflow-hidden" aria-label="Execution preview">
+    <section className="min-w-0 bg-background lg:h-full lg:min-h-0 lg:overflow-hidden" aria-label="Execution preview">
       {activeResultTool ? (
         <Tabs
           value={activeResultTab}
           onValueChange={onActiveResultTabChange}
           className="min-h-screen gap-0 lg:h-full lg:min-h-0"
         >
-          <div className="flex shrink-0 items-center justify-between gap-3 border-b border-neutral-200 bg-neutral-50 px-5 py-3">
+          <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border bg-muted px-5 py-3">
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold">{activeResultTool.label}</p>
-              <p className="mt-0.5 truncate font-mono text-xs text-neutral-500">{activeResultTool.mcpToolName}</p>
+              <p className="mt-0.5 truncate font-mono text-xs text-muted-foreground">{activeResultTool.mcpToolName}</p>
             </div>
             <TabsList>
               <TabsTrigger value="app">MCP App</TabsTrigger>
@@ -52,7 +52,7 @@ export function ResultPanel({
                 </div>
               ) : (
                 <div className="p-8">
-                  <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+                  <div className="rounded-lg border border-destructive/25 bg-destructive/10 p-4 text-sm text-destructive">
                     <p className="font-semibold">Cannot render preview</p>
                     <p className="mt-1">{preview.error}</p>
                   </div>
@@ -65,10 +65,10 @@ export function ResultPanel({
 
           <TabsContent
             value="result"
-            className="m-0 flex min-h-[calc(100dvh-3.75rem)] flex-col bg-neutral-50 p-5 lg:min-h-0 lg:overflow-hidden"
+            className="m-0 flex min-h-[calc(100dvh-3.75rem)] flex-col bg-muted p-5 lg:min-h-0 lg:overflow-hidden"
           >
             <textarea
-              className="h-[calc(100dvh-6.5rem)] min-h-0 w-full resize-none rounded-lg border border-neutral-300 bg-white p-3 font-mono text-xs leading-relaxed outline-none focus:border-neutral-500 lg:h-auto lg:flex-1"
+              className="h-[calc(100dvh-6.5rem)] min-h-0 w-full resize-none rounded-lg border border-input bg-background p-3 font-mono text-xs leading-relaxed outline-none focus:border-ring lg:h-auto lg:flex-1"
               onChange={event =>
                 onResultTextChange(previous => ({
                   ...previous,
@@ -82,7 +82,7 @@ export function ResultPanel({
         </Tabs>
       ) : (
         <div className="grid min-h-screen place-items-center p-8 lg:h-full lg:min-h-0">
-          <Empty className="max-w-md border border-neutral-200 bg-neutral-50">
+          <Empty className="max-w-md border border-border bg-muted">
             <EmptyHeader>
               <EmptyTitle>Ready to preview a tool</EmptyTitle>
               <EmptyDescription>

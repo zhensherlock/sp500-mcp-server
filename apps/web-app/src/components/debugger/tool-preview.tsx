@@ -53,7 +53,7 @@ export function renderToolPreview({ resultText, tool }: ToolPreviewProps) {
         return {
           content: (
             <div className="p-8">
-              <pre className="max-h-[calc(100vh-4rem)] overflow-auto rounded-lg border border-neutral-200 bg-neutral-50 p-4 font-mono text-xs leading-relaxed text-neutral-700">
+              <pre className="max-h-[calc(100vh-4rem)] overflow-auto rounded-lg border border-border bg-muted p-4 font-mono text-xs leading-relaxed text-foreground">
                 {resultText}
               </pre>
             </div>
