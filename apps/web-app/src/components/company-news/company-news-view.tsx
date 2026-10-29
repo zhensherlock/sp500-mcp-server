@@ -19,14 +19,14 @@ type CompanyNewsViewProps = {
 
 export function CompanyNewsView({ result }: CompanyNewsViewProps) {
   return (
-    <main className="min-h-screen bg-white p-8 font-sans">
+    <main className="min-h-screen bg-background p-8 font-sans">
       <div className="mx-auto max-w-4xl">
         <header className="mb-6 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">Company News</p>
-            <h1 className="mt-1 text-2xl font-semibold text-neutral-900">{result.symbol}</h1>
+            <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">Company News</p>
+            <h1 className="mt-1 text-2xl font-semibold text-foreground">{result.symbol}</h1>
           </div>
-          <div className="rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-sm text-neutral-600">
+          <div className="rounded-full border border-border bg-muted px-3 py-1 text-sm text-muted-foreground">
             {result.news.length} articles
           </div>
         </header>
@@ -46,11 +46,11 @@ export function CompanyNewsView({ result }: CompanyNewsViewProps) {
 function NewsCard({ item }: { item: CompanyNewsItem }) {
   return (
     <Item
-      className="items-start gap-x-4 gap-y-2 rounded-2xl bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+      className="items-start gap-x-4 gap-y-2 rounded-2xl bg-background p-5 shadow-sm transition-shadow hover:shadow-md"
       role="listitem"
       variant="outline"
     >
-      <ItemHeader className="justify-start text-xs text-neutral-500">
+      <ItemHeader className="justify-start text-xs text-muted-foreground">
         <span>{item.provider}</span>
         <span aria-hidden="true">•</span>
         <time dateTime={item.pubDate}>{formatDate(item.pubDate)}</time>
@@ -59,12 +59,12 @@ function NewsCard({ item }: { item: CompanyNewsItem }) {
         </Badge>
       </ItemHeader>
       <ItemContent className="min-w-0 gap-2">
-        <ItemTitle className="line-clamp-none w-full text-lg leading-snug font-semibold text-neutral-900">
-          <a className="hover:text-neutral-600" href={item.url} rel="noopener noreferrer" target="_blank">
+        <ItemTitle className="line-clamp-none w-full text-lg leading-snug font-semibold text-foreground">
+          <a className="hover:text-muted-foreground" href={item.url} rel="noopener noreferrer" target="_blank">
             {item.title}
           </a>
         </ItemTitle>
-        <ItemDescription className="line-clamp-none text-sm leading-relaxed text-neutral-600">
+        <ItemDescription className="line-clamp-none text-sm leading-relaxed text-muted-foreground">
           {item.summary}
         </ItemDescription>
       </ItemContent>

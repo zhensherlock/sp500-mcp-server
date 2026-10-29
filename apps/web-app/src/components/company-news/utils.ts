@@ -22,10 +22,10 @@ export function formatDate(value: string) {
 export function getSentimentClass(sentiment: NewsSentiment) {
   switch (sentiment) {
     case 'positive':
-      return 'border-emerald-200 bg-emerald-50 text-emerald-700'
+      return 'border-positive/25 bg-positive/10 text-positive'
     case 'negative':
-      return 'border-rose-200 bg-rose-50 text-rose-700'
+      return 'border-negative/25 bg-negative/10 text-negative'
     default:
-      return 'border-neutral-200 bg-neutral-100 text-neutral-600'
+      return 'border-border bg-secondary text-muted-foreground'
   }
 }
