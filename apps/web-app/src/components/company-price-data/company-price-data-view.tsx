@@ -1,6 +1,7 @@
 import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
 import { Spinner } from '@workspace/ui/components/spinner'
 import { ToggleGroup, ToggleGroupItem } from '@workspace/ui/components/toggle-group'
+import { cn } from '@workspace/ui/lib/utils'
 
 import type { CompanyPriceDataRow, CompanyPriceDataResult, RequestCompanyPrices } from './types'
 import { useCompanyPriceRange } from './use-company-price-range'
@@ -22,12 +23,12 @@ export function CompanyPriceDataView({ result: initialResult, requestPrices }: C
     latestChange !== undefined && previousPrice?.close ? latestChange / previousPrice.close : undefined
 
   return (
-    <main className="min-h-screen bg-white p-8 font-sans">
+    <main className="min-h-screen bg-background p-8 font-sans">
       <div className="mx-auto max-w-6xl">
         <header className="mb-6 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">Daily OHLCV</p>
-            <h1 className="mt-1 text-2xl font-semibold text-neutral-900">{result.symbol}</h1>
+            <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">Daily OHLCV</p>
+            <h1 className="mt-1 text-2xl font-semibold text-foreground">{result.symbol}</h1>
           </div>
           <div className="grid gap-2 text-right sm:grid-cols-2 sm:text-left">
             <MetricLabel label="Latest close" value={latestPrice ? `$${formatPrice(latestPrice.close)}` : '-'} />
@@ -77,10 +78,10 @@ export function CompanyPriceDataView({ result: initialResult, requestPrices }: C
         <div aria-busy={isLoading} className={isLoading ? 'opacity-50' : undefined}>
           <PriceChart prices={sortedPrices} />
 
-          <section className="overflow-hidden rounded-lg border border-neutral-200 bg-white">
+          <section className="overflow-hidden rounded-lg border border-border bg-background">
             <div className="overflow-x-auto">
               <table className="w-full min-w-184 border-collapse text-sm">
-                <thead className="bg-neutral-50 text-left text-xs uppercase tracking-wide text-neutral-500">
+                <thead className="bg-muted text-left text-xs uppercase tracking-wide text-muted-foreground">
                   <tr>
                     <th className="px-4 py-3 font-semibold">Date</th>
                     <th className="px-4 py-3 text-right font-semibold">Open</th>
@@ -90,7 +91,7 @@ export function CompanyPriceDataView({ result: initialResult, requestPrices }: C
                     <th className="px-4 py-3 text-right font-semibold">Volume</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-neutral-200 text-neutral-800">
+                <tbody className="divide-y divide-border text-foreground">
                   {result.prices.map(price => (
                     <PriceRow key={`${result.symbol}-${price.trade_date}`} price={price} />
                   ))}
@@ -114,12 +115,12 @@ function MetricLabel({
   value: string
 }) {
   const toneClassName =
-    tone === 'positive' ? 'text-emerald-700' : tone === 'negative' ? 'text-rose-700' : 'text-neutral-900'
+    tone === 'positive' ? 'text-positive' : tone === 'negative' ? 'text-negative' : 'text-foreground'
 
   return (
-    <div className="rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2">
-      <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">{label}</p>
-      <p className={`mt-1 whitespace-nowrap text-sm font-semibold tabular-nums ${toneClassName}`}>{value}</p>
+    <div className="rounded-lg border border-border bg-muted px-3 py-2">
+      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+      <p className={cn('mt-1 whitespace-nowrap text-sm font-semibold tabular-nums', toneClassName)}>{value}</p>
     </div>
   )
 }
@@ -154,37 +155,44 @@ function PriceChart({ prices }: { prices: CompanyPriceDataRow[] }) {
   const dateTicks = getDateTicks(prices)
 
   return (
-    <section className="mb-6 rounded-lg border border-neutral-200 bg-white p-4">
+    <section className="mb-6 rounded-lg border border-border bg-background p-4">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-base font-semibold text-neutral-900">Candlestick Chart</h2>
-          <p className="mt-1 text-sm text-neutral-500">
+          <h2 className="text-base font-semibold text-foreground">Candlestick Chart</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
             {formatDate(prices[0].trade_date)} to {formatDate(prices.at(-1)?.trade_date ?? prices[0].trade_date)}
           </p>
         </div>
-        <div className="flex items-center gap-4 text-xs font-medium text-neutral-500">
-          <LegendSwatch className="bg-emerald-600" label="Up" />
-          <LegendSwatch className="bg-rose-600" label="Down" />
-          <LegendSwatch className="bg-neutral-300" label="Volume" />
+        <div className="flex items-center gap-4 text-xs font-medium text-muted-foreground">
+          <LegendSwatch className="bg-positive" label="Up" />
+          <LegendSwatch className="bg-negative" label="Down" />
+          <LegendSwatch className="bg-muted-foreground" label="Volume" />
         </div>
       </div>
 
       <div className="overflow-x-auto">
         <svg
           aria-label={`${prices.length} daily candlesticks with volume`}
-          className="block h-auto min-w-[44rem] text-neutral-500"
+          className="block h-auto min-w-[44rem] text-muted-foreground"
           role="img"
           viewBox={`0 0 ${width} ${height}`}
         >
-          <rect fill="#ffffff" height={height} width={width} x={0} y={0} />
+          <rect fill="var(--background)" height={height} width={width} x={0} y={0} />
 
           {priceTicks.map(tick => {
             const y = yForPrice(tick)
 
             return (
               <g key={tick}>
-                <line stroke="#e5e5e5" strokeWidth="1" x1={padding.left} x2={width - padding.right} y1={y} y2={y} />
-                <text fill="#737373" fontSize="12" textAnchor="start" x={width - padding.right + 10} y={y + 4}>
+                <line
+                  stroke="var(--border)"
+                  strokeWidth="1"
+                  x1={padding.left}
+                  x2={width - padding.right}
+                  y1={y}
+                  y2={y}
+                />
+                <text fill="currentColor" fontSize="12" textAnchor="start" x={width - padding.right + 10} y={y + 4}>
                   {formatPrice(tick)}
                 </text>
               </g>
@@ -192,7 +200,7 @@ function PriceChart({ prices }: { prices: CompanyPriceDataRow[] }) {
           })}
 
           <line
-            stroke="#d4d4d4"
+            stroke="var(--border)"
             strokeWidth="1"
             x1={padding.left}
             x2={width - padding.right}
@@ -200,7 +208,7 @@ function PriceChart({ prices }: { prices: CompanyPriceDataRow[] }) {
             y2={priceBottom}
           />
           <line
-            stroke="#e5e5e5"
+            stroke="var(--border)"
             strokeWidth="1"
             x1={padding.left}
             x2={width - padding.right}
@@ -211,7 +219,7 @@ function PriceChart({ prices }: { prices: CompanyPriceDataRow[] }) {
           {prices.map((price, index) => {
             const x = xForIndex(index)
             const isUp = price.close >= price.open
-            const color = isUp ? '#059669' : '#e11d48'
+            const color = isUp ? 'var(--positive)' : 'var(--negative)'
             const wickHigh = Math.max(price.high, price.open, price.close)
             const wickLow = Math.min(price.low, price.open, price.close)
             const yHigh = yForPrice(wickHigh)
@@ -227,7 +235,7 @@ function PriceChart({ prices }: { prices: CompanyPriceDataRow[] }) {
                 <line stroke={color} strokeLinecap="round" strokeWidth="1.5" x1={x} x2={x} y1={yHigh} y2={yLow} />
                 <rect fill={color} height={bodyHeight} rx="1.5" width={candleWidth} x={x - candleWidth / 2} y={bodyY} />
                 <rect
-                  fill={isUp ? '#a7f3d0' : '#fecdd3'}
+                  fill={isUp ? 'var(--positive-volume)' : 'var(--negative-volume)'}
                   height={volumeBarHeight}
                   width={Math.max(1.5, candleWidth * 0.78)}
                   x={x - Math.max(1.5, candleWidth * 0.78) / 2}
@@ -242,8 +250,8 @@ function PriceChart({ prices }: { prices: CompanyPriceDataRow[] }) {
 
             return (
               <g key={`${index}-${label}`}>
-                <line stroke="#e5e5e5" strokeWidth="1" x1={x} x2={x} y1={priceBottom} y2={volumeBottom} />
-                <text fill="#737373" fontSize="12" textAnchor="middle" x={x} y={height - 4}>
+                <line stroke="var(--border)" strokeWidth="1" x1={x} x2={x} y1={priceBottom} y2={volumeBottom} />
+                <text fill="currentColor" fontSize="12" textAnchor="middle" x={x} y={height - 4}>
                   {label}
                 </text>
               </g>
@@ -258,7 +266,7 @@ function PriceChart({ prices }: { prices: CompanyPriceDataRow[] }) {
 function LegendSwatch({ className, label }: { className: string; label: string }) {
   return (
     <span className="inline-flex items-center gap-1.5">
-      <span className={`h-2.5 w-2.5 rounded-sm ${className}`} />
+      <span className={cn('size-2.5 rounded-sm', className)} />
       {label}
     </span>
   )
@@ -267,12 +275,12 @@ function LegendSwatch({ className, label }: { className: string; label: string }
 function PriceRow({ price }: { price: CompanyPriceDataRow }) {
   return (
     <tr>
-      <td className="whitespace-nowrap px-4 py-3 font-medium text-neutral-900">{formatDate(price.trade_date)}</td>
+      <td className="whitespace-nowrap px-4 py-3 font-medium text-foreground">{formatDate(price.trade_date)}</td>
       <td className="px-4 py-3 text-right tabular-nums">{formatPrice(price.open)}</td>
       <td className="px-4 py-3 text-right tabular-nums">{formatPrice(price.high)}</td>
       <td className="px-4 py-3 text-right tabular-nums">{formatPrice(price.low)}</td>
       <td className="px-4 py-3 text-right tabular-nums">{formatPrice(price.close)}</td>
-      <td className="px-4 py-3 text-right tabular-nums text-neutral-600">{formatVolume(price.volume)}</td>
+      <td className="px-4 py-3 text-right tabular-nums text-muted-foreground">{formatVolume(price.volume)}</td>
     </tr>
   )
 }
