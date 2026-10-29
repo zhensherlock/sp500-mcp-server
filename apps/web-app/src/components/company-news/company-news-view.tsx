@@ -1,5 +1,11 @@
+import { useId } from 'react'
+import { SparklesIcon } from 'lucide-react'
+
+import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
 import { Badge } from '@workspace/ui/components/badge'
 import { Button } from '@workspace/ui/components/button'
+import { Checkbox } from '@workspace/ui/components/checkbox'
+import { Field, FieldLabel, FieldLegend, FieldSet } from '@workspace/ui/components/field'
 import {
   Item,
   ItemActions,
@@ -10,14 +16,20 @@ import {
   ItemTitle,
 } from '@workspace/ui/components/item'
 import { cn } from '@workspace/ui/lib/utils'
-import type { CompanyNewsItem, CompanyNewsResult } from './types'
+import { Spinner } from '@workspace/ui/components/spinner'
+import type { CompanyNewsItem, CompanyNewsResult, SendNewsAnalysis } from './types'
+import { useNewsAnalysis } from './use-news-analysis'
 import { formatDate, getSentimentClass } from './utils'
 
 type CompanyNewsViewProps = {
   result: CompanyNewsResult
+  sendAnalysis?: SendNewsAnalysis
 }
 
-export function CompanyNewsView({ result }: CompanyNewsViewProps) {
+export function CompanyNewsView({ result, sendAnalysis }: CompanyNewsViewProps) {
+  const { selectedUrls, status, error, selectArticle, analyzeSelected } = useNewsAnalysis(result, sendAnalysis)
+  const canAnalyze = Boolean(sendAnalysis)
+
   return (
     <main className="min-h-screen bg-background p-8 font-sans">
       <div className="mx-auto max-w-4xl">
@@ -31,19 +43,77 @@ export function CompanyNewsView({ result }: CompanyNewsViewProps) {
           </div>
         </header>
 
-        <section>
+        <FieldSet>
+          <FieldLegend className="sr-only">Company news articles</FieldLegend>
+          {canAnalyze ? (
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm text-muted-foreground">
+                  Select articles to analyze their summaries in this conversation.
+                </p>
+                <Button
+                  aria-busy={status === 'sending'}
+                  disabled={!selectedUrls.length || status === 'sending' || status === 'sent'}
+                  onClick={() => void analyzeSelected()}
+                  type="button"
+                >
+                  {status === 'sending' ? (
+                    <Spinner data-icon="inline-start" />
+                  ) : (
+                    <SparklesIcon data-icon="inline-start" />
+                  )}
+                  {status === 'sending' ? 'Sending…' : `Analyze selected (${selectedUrls.length})`}
+                </Button>
+              </div>
+              {status === 'sent' ? (
+                <Alert role="status">
+                  <AlertTitle>Sent to conversation</AlertTitle>
+                  <AlertDescription>View the AI analysis in this conversation.</AlertDescription>
+                </Alert>
+              ) : null}
+              {error ? (
+                <Alert variant="destructive">
+                  <AlertTitle>Could not send analysis request</AlertTitle>
+                  <AlertDescription>{error} Select Analyze selected to retry.</AlertDescription>
+                </Alert>
+              ) : null}
+            </div>
+          ) : null}
           <ItemGroup className="gap-4">
             {result.news.map(item => (
-              <NewsCard item={item} key={item.url} />
+              <NewsCard
+                item={item}
+                key={item.url}
+                selection={
+                  canAnalyze
+                    ? {
+                        checked: selectedUrls.includes(item.url),
+                        disabled: status === 'sending',
+                        onCheckedChange: checked => selectArticle(item.url, checked),
+                      }
+                    : undefined
+                }
+              />
             ))}
           </ItemGroup>
-        </section>
+        </FieldSet>
       </div>
     </main>
   )
 }
 
-function NewsCard({ item }: { item: CompanyNewsItem }) {
+type NewsCardProps = {
+  item: CompanyNewsItem
+  selection?: {
+    checked: boolean
+    disabled: boolean
+    onCheckedChange: (checked: boolean) => void
+  }
+}
+
+function NewsCard({ item, selection }: NewsCardProps) {
+  const selectionId = useId()
+
   return (
     <Item
       className="items-start gap-x-4 gap-y-2 rounded-2xl bg-background p-5 shadow-sm transition-shadow hover:shadow-md"
@@ -51,6 +121,19 @@ function NewsCard({ item }: { item: CompanyNewsItem }) {
       variant="outline"
     >
       <ItemHeader className="justify-start text-xs text-muted-foreground">
+        {selection ? (
+          <Field className="w-auto" data-disabled={selection.disabled} orientation="horizontal">
+            <Checkbox
+              checked={selection.checked}
+              disabled={selection.disabled}
+              id={selectionId}
+              onCheckedChange={checked => selection.onCheckedChange(checked === true)}
+            />
+            <FieldLabel className="sr-only" htmlFor={selectionId}>
+              Select {item.title}
+            </FieldLabel>
+          </Field>
+        ) : null}
         <span>{item.provider}</span>
         <span aria-hidden="true">•</span>
         <time dateTime={item.pubDate}>{formatDate(item.pubDate)}</time>

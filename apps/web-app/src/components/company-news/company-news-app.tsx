@@ -3,7 +3,7 @@ import { CompanyNewsView } from './company-news-view'
 import { useCompanyNewsApp } from './use-company-news-app'
 
 export function CompanyNewsApp() {
-  const { error, query, result, status } = useCompanyNewsApp()
+  const { error, query, result, status, sendAnalysis } = useCompanyNewsApp()
 
   return (
     <ToolAppShell
@@ -15,7 +15,7 @@ export function CompanyNewsApp() {
       status={status}
       waitingTitle="Waiting for company news"
     >
-      {result ? <CompanyNewsView result={result} /> : null}
+      {result ? <CompanyNewsView result={result} sendAnalysis={sendAnalysis} /> : null}
     </ToolAppShell>
   )
 }
