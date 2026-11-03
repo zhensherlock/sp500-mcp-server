@@ -11,7 +11,7 @@ export default function PlaygroundPage() {
   return (
     <div className="flex h-dvh min-h-0 flex-col overflow-hidden">
       <div className="shrink-0">
-        <Header />
+        <Header variant="workspace" />
       </div>
       <Playground />
     </div>
