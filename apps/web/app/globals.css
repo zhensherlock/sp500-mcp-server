@@ -1,0 +1,3 @@
+@import '@workspace/ui/globals.css';
+
+@source "../node_modules/streamdown/dist/*.js";

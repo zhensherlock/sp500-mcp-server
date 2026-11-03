@@ -28,9 +28,19 @@ export default function Header() {
           data-header-entrance
         >
           <Image src="/logo.png" alt="S&P 500 MCP" width={38} height={38} className="size-9.5" priority />
-          <span className="font-heading text-[18px] font-bold leading-5.75 text-[#071A33]">S&amp;P 500 MCP</span>
+          <span className="font-heading hidden text-[18px] font-bold leading-5.75 text-[#071A33] min-[480px]:inline">
+            S&amp;P 500 MCP
+          </span>
         </Link>
         <nav className="flex shrink-0 items-center gap-4 sm:gap-8">
+          <Link
+            href="/playground"
+            aria-current={pathname === '/playground' ? 'page' : undefined}
+            className="animate-on-load inline-flex min-h-11 items-center rounded-sm text-sm font-bold text-[#53657A] no-underline outline-none hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/30 aria-[current=page]:text-primary"
+            data-header-entrance
+          >
+            Playground
+          </Link>
           <Link
             href="/tools"
             aria-current={isToolsPage ? 'page' : undefined}
