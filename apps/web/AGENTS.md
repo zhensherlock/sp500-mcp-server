@@ -5,6 +5,7 @@
 - Next.js 16 App Router package for the public site, MCP server, web tool tester, and proxy routes.
 - Also follow the root `AGENTS.md`; this file only adds `apps/web`-specific wiring.
 - Package-local `@/*` imports resolve from `apps/web`; shared UI comes from `@workspace/ui/*` and is transpiled by `next.config.ts`.
+- Before modifying Playground-related code, read [PLAYGROUND.md](./PLAYGROUND.md) for setup, architecture, session behavior, and validation instructions.
 
 ## Commands
 

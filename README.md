@@ -25,18 +25,19 @@ support continue with the first match.
 ## Tech Stack
 
 - **Workspace**: pnpm 10.34.5 + Turborepo
-- **Runtime**: Node 22 (`.nvmrc`)
+- **Runtime**: Node 24 (`.nvmrc`; required by Eve)
 - **Web app**: Next.js 16 App Router, React 19, TypeScript strict mode (`apps/web`)
 - **MCP Apps**: Vite single-file React pages built from `apps/web-app` and served as tool UI resources
 - **MCP**: `mcp-handler` v2 at `apps/web/app/mcp/route.ts`; `/mcp` serves modern and legacy Streamable HTTP
 - **Database**: Supabase client at `apps/web/app/[transport]/utils/supabase.ts`
 - **UI**: shared shadcn/Tailwind primitives in `packages/ui`
+- **Agent playground**: Eve, direct OpenAI access, and interactive MCP Apps at `/playground`; see [setup and architecture](apps/web/PLAYGROUND.md)
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 22
+- Node.js 24
 - pnpm 10
 - Supabase project with the S&P 500 data tables used by the tools
 
