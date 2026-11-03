@@ -5,14 +5,23 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "eve build && next build",
+    "build:agent": "eve build",
     "start": "next start",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@workspace/ui": "workspace:*"
+    "@ai-sdk/mcp": "2.0.88",
+    "@ai-sdk/openai": "4.0.108",
+    "@ai-sdk/react": "4.0.163",
+    "@workspace/ui": "workspace:*",
+    "ai": "7.0.159",
+    "eve": "1.0.0-rc.1",
+    "streamdown": "^2.7.1",
+    "undici": "7.30.1"
   },
   "devDependencies": {
-    "@apps/web-app": "workspace:*"
+    "@apps/web-app": "workspace:*",
+    "just-bash": "^3.6.0"
   }
 }

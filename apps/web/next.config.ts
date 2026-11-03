@@ -1,11 +1,13 @@
 import type { NextConfig } from 'next'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { withEve } from 'eve/next'
 
 const appDir = dirname(fileURLToPath(import.meta.url))
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  agentRules: false,
   images: {
     unoptimized: true,
   },
@@ -16,4 +18,4 @@ const nextConfig: NextConfig = {
   transpilePackages: ['@workspace/ui'],
 }
 
-export default nextConfig
+export default withEve(nextConfig)

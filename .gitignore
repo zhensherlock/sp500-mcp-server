@@ -54,3 +54,7 @@ apps/*/renders/
 # Codex
 .codex/
 .codex-design/
+# eve generates its runtime and workflow checkpoints locally.
+**/.eve/
+**/.output/
+**/.vercel/

@@ -10,7 +10,15 @@ import globals from 'globals'
 
 export default defineConfig(
   {
-    ignores: ['**/.next/**', 'node_modules/**', '**/dist/**', '**/next-env.d.ts'],
+    ignores: [
+      '**/.next/**',
+      'node_modules/**',
+      '**/dist/**',
+      '**/.eve/**',
+      '**/.output/**',
+      '**/.vercel/**',
+      '**/next-env.d.ts',
+    ],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,

@@ -4,18 +4,71 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "renders/**", ".thumbnails/**"],
-      "env": ["SUPABASE_URL", "SUPABASE_ANON_KEY", "LOGO_DEV_TOKEN"]
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**",
+        "renders/**",
+        ".thumbnails/**",
+        ".eve/builds/**",
+        ".output/**"
+      ],
+      "env": [
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "LOGO_DEV_TOKEN",
+        "OPENAI_API_KEY",
+        "OPENAI_MODEL",
+        "OPENAI_PROXY_URL",
+        "SP500_MCP_URL",
+        "PLAYGROUND_SESSION_SECRET",
+        "NEXT_PUBLIC_APP_URL",
+        "VERCEL_AUTOMATION_BYPASS_SECRET",
+        "VERCEL",
+        "VERCEL_URL",
+        "VERCEL_PROJECT_PRODUCTION_URL",
+        "MCP_APP_ASSET_BASE_URL"
+      ]
     },
     "dev": {
       "persistent": true,
       "cache": false,
-      "env": ["SUPABASE_URL", "SUPABASE_ANON_KEY", "LOGO_DEV_TOKEN"]
+      "env": [
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "LOGO_DEV_TOKEN",
+        "OPENAI_API_KEY",
+        "OPENAI_MODEL",
+        "OPENAI_PROXY_URL",
+        "SP500_MCP_URL",
+        "PLAYGROUND_SESSION_SECRET",
+        "NEXT_PUBLIC_APP_URL",
+        "VERCEL_AUTOMATION_BYPASS_SECRET",
+        "VERCEL",
+        "VERCEL_URL",
+        "VERCEL_PROJECT_PRODUCTION_URL",
+        "MCP_APP_ASSET_BASE_URL"
+      ]
     },
     "start": {
       "persistent": true,
       "cache": false,
-      "env": ["SUPABASE_URL", "SUPABASE_ANON_KEY", "LOGO_DEV_TOKEN"]
+      "env": [
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "LOGO_DEV_TOKEN",
+        "OPENAI_API_KEY",
+        "OPENAI_MODEL",
+        "OPENAI_PROXY_URL",
+        "SP500_MCP_URL",
+        "PLAYGROUND_SESSION_SECRET",
+        "NEXT_PUBLIC_APP_URL",
+        "VERCEL_AUTOMATION_BYPASS_SECRET",
+        "VERCEL",
+        "VERCEL_URL",
+        "VERCEL_PROJECT_PRODUCTION_URL",
+        "MCP_APP_ASSET_BASE_URL"
+      ]
     },
     "type-check": {
       "persistent": true,
