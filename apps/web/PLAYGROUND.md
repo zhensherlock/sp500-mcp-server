@@ -46,9 +46,18 @@ The default Eve sandbox is not used by these HTTP-only tools. Eve may install it
 
 ## Deploy in the existing Vercel project
 
-Keep the existing project root/build workflow and use Node 24. `pnpm build` builds the embedded HTML, Eve runtime, and Next app. `withEve` routes `/eve/v1/*` to the Eve service in the same deployment and leaves Next to serve the website and `/mcp`.
+Use Node 24 and these project Build and Deployment settings:
 
-Configure `OPENAI_API_KEY`, `OPENAI_MODEL` (optional), and `PLAYGROUND_SESSION_SECRET` in the project environment. `SP500_MCP_URL` overrides the MCP target; otherwise `NEXT_PUBLIC_APP_URL`, the deployment's `VERCEL_URL`, or local port 3000 supplies the origin. For protected preview deployments, configure `VERCEL_AUTOMATION_BYPASS_SECRET` for the server's MCP self-requests. Keep the existing Supabase and logo environment variables.
+- Root Directory: `apps/web`.
+- Build Command override: `cd ../.. && pnpm build`.
+- Output Directory: framework default, with the override disabled.
+- Include source files outside of the Root Directory: enabled.
+
+The build command builds the embedded HTML, Eve runtime, and Next app from the workspace root. The Vercel project root must match the Next app root so Eve's generated `.eve/vercel-services/eve` service directory resolves correctly. `withEve` routes `/eve/v1/*` to the Eve service in the same deployment and leaves Next to serve the website and `/mcp`.
+
+Configure `OPENAI_API_KEY`, `OPENAI_MODEL` (optional), and `PLAYGROUND_SESSION_SECRET` in the project environment. `SP500_MCP_URL` overrides the MCP target; otherwise `NEXT_PUBLIC_APP_URL`, the deployment's `VERCEL_URL`, or local port 3000 supplies the origin. Keep the existing Supabase and logo environment variables.
+
+Protected previews use Vercel's default same-project Trusted Sources rule and Secure Backend Access with OIDC Federation. Internal MCP calls, App resource reads, the tool tester, and the Eve proxy resolve a short-lived token through `@vercel/oidc` and send `x-vercel-trusted-oidc-idp-token`. No additional bypass secret or public preview access is required. An explicitly configured `VERCEL_AUTOMATION_BYPASS_SECRET` remains supported. Both credentials are restricted to HTTPS origins listed in Vercel's project deployment URL variables and are never sent to an arbitrary remote `SP500_MCP_URL`. Resolve credentials inside each request/workflow step; do not persist them in workflow results.
 
 For self-hosting, `pnpm start` starts Next and the built Eve sidecar. Local Eve workflow checkpoints live under `.eve`; preserve them when session recovery across process restarts is required. Vercel uses its managed workflow storage. Eve is pinned to `1.0.0-rc.1` because the integration APIs are still evolving.
 
