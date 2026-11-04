@@ -29,6 +29,7 @@ export function ToolCard({
   keepMounted?: boolean
 }) {
   const [expanded, setExpanded] = useState(false)
+  const [hasExpanded, setHasExpanded] = useState(false)
   const running = status === 'running'
   const line = (
     <TraceLine status={status}>
@@ -43,11 +44,17 @@ export function ToolCard({
       {running ? (
         <div role="status">{line}</div>
       ) : (
-        <TraceCollapsible open={expanded} onOpenChange={setExpanded}>
+        <TraceCollapsible
+          open={expanded}
+          onOpenChange={open => {
+            setExpanded(open)
+            if (open) setHasExpanded(true)
+          }}
+        >
           <TraceCollapsibleTrigger aria-label={`${expanded ? 'Collapse' : 'Expand'} ${title}`}>
             {line}
           </TraceCollapsibleTrigger>
-          <TraceCollapsibleContent forceMount={keepMounted ? true : undefined} hidden={!expanded}>
+          <TraceCollapsibleContent forceMount={keepMounted && hasExpanded ? true : undefined} hidden={!expanded}>
             {children}
           </TraceCollapsibleContent>
         </TraceCollapsible>
