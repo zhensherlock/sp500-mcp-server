@@ -1,4 +1,5 @@
 import { createMCPClient, mcpAppClientCapabilities } from '@ai-sdk/mcp'
+import { deploymentProtectionHeaders } from '../deployment-protection'
 import { inputRequiredSchema, mcpToolResultSchema, type CompanyToolName, type McpInputResponse } from './contracts'
 
 export function getMcpUrl() {
@@ -10,19 +11,17 @@ export function getMcpUrl() {
   return new URL('/mcp', origin).toString()
 }
 
-function requestHeaders() {
-  const headers: Record<string, string> = {
+async function requestHeaders(url: string) {
+  return {
     'Content-Type': 'application/json',
     Accept: 'application/json, text/event-stream',
+    ...(await deploymentProtectionHeaders(url)),
   }
-  if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET)
-    headers['x-vercel-protection-bypass'] = process.env.VERCEL_AUTOMATION_BYPASS_SECRET
-  return headers
 }
 
-export function createAppsClient(url = getMcpUrl()) {
+export async function createAppsClient(url = getMcpUrl()) {
   return createMCPClient({
-    transport: { type: 'http', url, headers: requestHeaders() },
+    transport: { type: 'http', url, headers: await requestHeaders(url) },
     capabilities: mcpAppClientCapabilities,
   })
 }
@@ -62,7 +61,7 @@ export async function callMcpTool(
   const response = await fetch(url, {
     method: 'POST',
     headers: {
-      ...requestHeaders(),
+      ...(await requestHeaders(url)),
       'MCP-Protocol-Version': '2026-07-28',
       'Mcp-Method': 'tools/call',
       'Mcp-Name': name,

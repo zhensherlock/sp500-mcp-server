@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { deploymentProtectionHeaders } from '@/lib/deployment-protection'
 import {
   ownsSession,
   proxyProof,
@@ -42,9 +43,8 @@ async function proxy(request: Request, context: { params: Promise<{ path: string
     'x-sp500-proxy': proxyProof(visitorId, target.pathname),
   })
   if (request.headers.has('content-type')) headers.set('content-type', request.headers.get('content-type')!)
-  if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET)
-    headers.set('x-vercel-protection-bypass', process.env.VERCEL_AUTOMATION_BYPASS_SECRET)
   try {
+    for (const [name, value] of Object.entries(await deploymentProtectionHeaders(target))) headers.set(name, value)
     const upstream = await fetch(target, {
       method: request.method,
       headers,

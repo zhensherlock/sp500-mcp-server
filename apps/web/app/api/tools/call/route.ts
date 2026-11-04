@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { deploymentProtectionHeaders } from '@/lib/deployment-protection'
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,6 +16,7 @@ export async function POST(request: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json, text/event-stream',
+        ...(await deploymentProtectionHeaders(mcpUrl)),
       },
       body: JSON.stringify({
         method: 'tools/call',
@@ -25,6 +27,7 @@ export async function POST(request: NextRequest) {
         jsonrpc: '2.0',
         id: 1,
       }),
+      redirect: 'error',
     })
 
     if (!response.ok) {

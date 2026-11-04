@@ -167,6 +167,9 @@ importers:
       '@ai-sdk/react':
         specifier: 4.0.163
         version: 4.0.163(react@19.3.1)(zod@4.6.7)
+      '@vercel/oidc':
+        specifier: 3.2.0
+        version: 3.2.0
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui
