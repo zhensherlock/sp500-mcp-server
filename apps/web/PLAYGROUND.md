@@ -33,6 +33,7 @@ Open `http://localhost:3000/playground`. When using another port, set `SP500_MCP
 
 ## Execution and display
 
+- Light-mode workspace surfaces use a white canvas, a pale neutral sidebar, muted user bubbles, and neutral borders, with brand blue retained for actions and selection. The `data-workspace="playground"` page marker scopes these tokens to this route, including portaled panels and the mobile sidebar.
 - `agent/agent.ts` chooses the direct OpenAI model, medium reasoning, and a per-session usage window of 200,000 new input tokens or 20,000 output tokens. There is no fixed tool-call count cutoff. Eve surfaces its budget interaction when the window is reached.
 - Six `defineWorkflowTool` wrappers call the existing MCP endpoint. Independent model-selected calls can run together. Company elicitation is saved as plain workflow data, displayed through `ctx.ask`, and resumed using the selected enum value.
 - `toModelOutput` sends the model the MCP data. The full tool result and App resource URI remain in Eve's events for the frontend.

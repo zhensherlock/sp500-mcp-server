@@ -137,6 +137,16 @@
   --shadow-blue: 0 18px 36px rgb(37 99 235 / 16%);
 }
 
+/* Root scope also covers the workspace's portaled menus and mobile sidebar. */
+:root:not(.dark):has([data-workspace='playground']) {
+  --background: #ffffff;
+  --muted: #f1f5f9;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --sidebar: #f8fafc;
+  --sidebar-border: #e2e8f0;
+}
+
 .dark {
   --background: #061425;
   --foreground: #f7fbff;

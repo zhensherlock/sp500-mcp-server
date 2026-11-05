@@ -60,7 +60,7 @@ export function ConversationSidebar({
             </SidebarGroupLabel>
             <CollapsibleContent>
               <SidebarGroupContent>
-                <SidebarMenu aria-label="Recent conversations">
+                <SidebarMenu className="gap-1" aria-label="Recent conversations">
                   {sessions.map(item => (
                     <SidebarMenuItem
                       key={item.id}

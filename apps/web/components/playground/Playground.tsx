@@ -522,7 +522,7 @@ function Message({
     return (
       <ConversationMessage align="end">
         <MessageContent>
-          <Bubble variant="outline" align="end">
+          <Bubble variant="muted" align="end">
             <BubbleContent asChild>
               <article className="whitespace-pre-wrap">
                 {message.parts.map((part, index) =>

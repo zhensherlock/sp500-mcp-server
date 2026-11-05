@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PlaygroundPage() {
   return (
-    <div className="flex h-dvh min-h-0 flex-col overflow-hidden">
+    <div data-workspace="playground" className="flex h-dvh min-h-0 flex-col overflow-hidden">
       <div className="shrink-0">
         <Header variant="workspace" />
       </div>
