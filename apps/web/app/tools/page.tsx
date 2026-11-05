@@ -30,7 +30,6 @@ const capabilities = [
     surfaceClassName: 'border-[#D9E9FA] bg-[#E8F1FF]',
     cardBorderClassName: 'border-[#D9E9FA]',
     artworkBorderClassName: 'border-[#BFDBFE]',
-    pillWidthClassName: 'min-[520px]:w-[164px]',
   },
   {
     label: 'Modern transport',
@@ -43,7 +42,6 @@ const capabilities = [
     surfaceClassName: 'border-[#DCFCE7] bg-[#E8F8EF]',
     cardBorderClassName: 'border-[#DCFCE7]',
     artworkBorderClassName: 'border-[#BBF7D0]',
-    pillWidthClassName: 'min-[520px]:w-[174px]',
   },
   {
     label: 'Interactive UI',
@@ -56,7 +54,6 @@ const capabilities = [
     surfaceClassName: 'border-[#E9D5FF] bg-[#F0EAFF]',
     cardBorderClassName: 'border-[#E9D5FF]',
     artworkBorderClassName: 'border-[#DDD6FE]',
-    pillWidthClassName: 'min-[520px]:w-[176px]',
   },
 ]
 
@@ -97,16 +94,16 @@ export default function ToolsPage() {
                 S&amp;P 500 data tools designed for richer MCP workflows: ask users for context, request model
                 reasoning, and render interactive app views.
               </p>
-              <div className="mt-8 grid grid-cols-1 gap-4 min-[520px]:flex min-[520px]:flex-wrap min-[520px]:items-center min-[960px]:max-w-110 xl:max-w-none xl:gap-5">
+              <div className="mt-8 flex flex-wrap items-center gap-4 min-[960px]:max-w-110 xl:max-w-none xl:gap-5">
                 {capabilities.map(capability => {
                   const Icon = capability.icon
                   return (
                     <div
                       key={capability.label}
-                      className={`animate-on-load ${capability.pillWidthClassName} ${capability.surfaceClassName} flex h-11 w-full items-center rounded-full border px-2.5 text-[14px] font-extrabold leading-4.25 text-[#071A33]`}
+                      className={`animate-on-load ${capability.surfaceClassName} inline-flex h-11 w-fit max-w-full items-center gap-2 rounded-full border px-3 text-[14px] font-extrabold leading-4.25 text-[#071A33]`}
                       data-tools-entrance
                     >
-                      <Icon className={`mr-2.25 size-4.5 shrink-0 ${capability.iconClassName}`} aria-hidden="true" />
+                      <Icon className={`size-4.5 shrink-0 ${capability.iconClassName}`} aria-hidden="true" />
                       {capability.label}
                     </div>
                   )
@@ -126,25 +123,25 @@ export default function ToolsPage() {
                 <p className="mt-1.5 max-w-2xl text-[13px] font-normal leading-[1.42] text-[#53657A]">
                   Guided, model-assisted, and interactive market workflows.
                 </p>
-                <div className="mt-9 grid gap-3.5 sm:grid-cols-3 min-[960px]:gap-3 xl:gap-3.75">
+                <div className="mt-9 grid gap-3.5 sm:grid-cols-[minmax(0,1fr)_minmax(max-content,1fr)_minmax(0,1fr)] min-[960px]:gap-3 xl:gap-3.75">
                   {capabilities.map(capability => {
                     const ArtworkIcon = capability.artworkIcon
                     const CaptionIcon = capability.captionIcon
                     return (
                       <div
                         key={capability.artworkLabel}
-                        className={`flex min-h-0 min-w-0 items-center gap-3 rounded-[20px] border bg-white p-4 text-left shadow-[0_12px_22px_rgba(18,54,92,0.07)] sm:min-h-36.5 sm:flex-col sm:items-start sm:gap-0 sm:p-4.5 min-[960px]:p-4 xl:p-4.5 ${capability.cardBorderClassName}`}
+                        className={`grid min-h-0 min-w-0 grid-cols-[auto_minmax(0,1fr)] items-start gap-x-3 gap-y-2 rounded-[20px] border bg-white p-4 text-left shadow-[0_12px_22px_rgba(18,54,92,0.07)] sm:min-h-36.5 sm:grid-cols-1 sm:gap-0 sm:p-4.5 min-[960px]:p-4 xl:p-4.5 ${capability.cardBorderClassName}`}
                       >
                         <div
-                          className={`${capability.surfaceClassName} flex size-10 items-center justify-center rounded-xl`}
+                          className={`${capability.surfaceClassName} row-span-2 flex size-7 items-center justify-center self-center rounded-xl min-[360px]:size-10 sm:row-span-1 sm:self-start`}
                         >
                           <ArtworkIcon className={`size-5.5 ${capability.iconClassName}`} aria-hidden="true" />
                         </div>
-                        <h3 className="min-w-0 flex-1 truncate font-heading text-[16px] font-extrabold leading-5.5 text-[#071A33] sm:mt-3 sm:flex-none sm:text-[clamp(1rem,1.45vw,1.0625rem)]">
+                        <h3 className="min-w-0 wrap-break-word font-heading text-[16px] font-extrabold leading-5.5 text-[#071A33] sm:mt-3 sm:text-[clamp(1rem,1.45vw,1.0625rem)]">
                           {capability.artworkLabel}
                         </h3>
                         <div
-                          className={`ml-auto inline-flex h-7.5 max-w-full shrink-0 items-center rounded-full border px-2.25 text-[12px] font-extrabold leading-3.5 text-[#071A33] sm:ml-0 sm:mt-3 ${capability.surfaceClassName} ${capability.artworkBorderClassName}`}
+                          className={`col-start-2 inline-flex h-7.5 max-w-full items-center justify-self-start rounded-full border px-2.25 text-[12px] font-extrabold leading-3.5 text-[#071A33] sm:col-start-auto sm:mt-3 ${capability.surfaceClassName} ${capability.artworkBorderClassName}`}
                         >
                           <CaptionIcon
                             className={`mr-1.5 size-3.5 shrink-0 ${capability.iconClassName}`}
