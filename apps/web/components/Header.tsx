@@ -8,11 +8,15 @@ import { ArrowRight } from 'lucide-react'
 import { cn } from '@workspace/ui/lib/utils'
 import { useLoadStagger } from '@/hooks/useEntranceAnimation'
 
+const navigationLinks = [
+  { href: '/playground', label: 'Playground' },
+  { href: '/tools', label: 'Tools' },
+]
+
 export default function Header({ variant = 'site' }: { variant?: 'site' | 'workspace' }) {
   const isWorkspace = variant === 'workspace'
   const pathname = usePathname()
   const headerRef = useRef<HTMLElement>(null)
-  const isToolsPage = pathname === '/tools'
 
   useLoadStagger(headerRef, {
     selector: '[data-header-entrance]',
@@ -42,29 +46,21 @@ export default function Header({ variant = 'site' }: { variant?: 'site' | 'works
             S&amp;P 500 MCP
           </span>
         </Link>
-        <nav className="flex shrink-0 items-center gap-4 sm:gap-8">
-          <Link
-            href="/playground"
-            aria-current={pathname === '/playground' ? 'page' : undefined}
-            className={cn(
-              'inline-flex min-h-11 items-center rounded-sm text-sm font-bold text-[#53657A] no-underline outline-none hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/30 aria-[current=page]:text-primary',
-              !isWorkspace && 'animate-on-load',
-            )}
-            data-header-entrance={isWorkspace ? undefined : true}
-          >
-            Playground
-          </Link>
-          <Link
-            href="/tools"
-            aria-current={isToolsPage ? 'page' : undefined}
-            className={cn(
-              'inline-flex h-10.5 items-center rounded-sm px-2 text-[15px] font-extrabold leading-4.5 text-[#53657A] no-underline transition-colors outline-none hover:text-[#071A33] focus-visible:text-[#071A33] focus-visible:ring-3 focus-visible:ring-[#2563EB]/30 aria-[current=page]:text-[#071A33]',
-              !isWorkspace && 'animate-on-load',
-            )}
-            data-header-entrance={isWorkspace ? undefined : true}
-          >
-            Tools
-          </Link>
+        <nav className="flex shrink-0 items-center gap-2 sm:gap-8">
+          {navigationLinks.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              aria-current={pathname === href ? 'page' : undefined}
+              className={cn(
+                'inline-flex min-h-11 items-center rounded-sm px-2 text-[15px] font-extrabold leading-4.5 text-muted-foreground no-underline transition-colors outline-none hover:text-primary focus-visible:text-primary focus-visible:ring-3 focus-visible:ring-ring/30 aria-[current=page]:text-primary',
+                !isWorkspace && 'animate-on-load',
+              )}
+              data-header-entrance={isWorkspace ? undefined : true}
+            >
+              {label}
+            </Link>
+          ))}
           <Link
             href="/#quick-start"
             aria-label="Get Started"
