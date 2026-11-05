@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { modelContextWindow } from '@/lib/playground/model-context'
 import {
   createVisitorToken,
   isSameOriginRequest,
@@ -10,10 +11,12 @@ import {
 export async function POST(request: Request) {
   if (!isSameOriginRequest(request))
     return NextResponse.json({ error: 'Cross-origin requests are not allowed.' }, { status: 403 })
+  const model = process.env.OPENAI_MODEL ?? 'gpt-6-luna'
   const response = NextResponse.json({
     configured: Boolean(process.env.OPENAI_API_KEY),
-    model: process.env.OPENAI_MODEL ?? 'gpt-6-luna',
+    model,
     engine: 'eve',
+    contextWindow: modelContextWindow(model, process.env.OPENAI_CONTEXT_WINDOW),
   })
   response.headers.set('Cache-Control', 'no-store')
   if (!visitorFromRequest(request)) {
