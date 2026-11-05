@@ -2,8 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { MCPAppRenderer, type MCPAppResource, type MCPAppBridgeHandlers } from '@ai-sdk/react'
-import { AlertCircle, Check, LoaderCircle, RefreshCw } from 'lucide-react'
+import { AlertCircle, Check, RefreshCw } from 'lucide-react'
 import { Button } from '@workspace/ui/components/button'
+import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
+import { Spinner } from '@workspace/ui/components/spinner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@workspace/ui/components/tabs'
 import {
   companyChoice,
@@ -13,6 +15,7 @@ import {
   type McpInputResponse,
 } from '@/lib/mcp-apps/contracts'
 import { ToolCard, ToolData } from './ToolCard'
+import { CompanyChoice } from './CompanyChoice'
 
 async function fetchJson(url: string, init?: RequestInit) {
   const response = await fetch(url, init)
@@ -134,43 +137,37 @@ export function McpAppCard({
         </TabsList>
         <TabsContent value="app" className="min-h-40">
           {selection && (
-            <div className="border-y bg-muted/50 p-4">
+            <div className="flex flex-col gap-3 py-3">
               {Object.entries(selection.pending.inputRequests).map(([key, request]) => (
-                <div key={key}>
-                  <p className="mb-3 text-sm font-medium">{request.params.message}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {companyChoice(request).options.map(option => (
-                      <Button
-                        key={option}
-                        variant="outline"
-                        onClick={() =>
-                          selection.answer({
-                            [key]: { action: 'accept', content: { [companyChoice(request).field]: option } },
-                          })
-                        }
-                      >
-                        {option}
-                      </Button>
-                    ))}
-                    <Button variant="ghost" onClick={() => selection.answer({ [key]: { action: 'cancel' } })}>
-                      Cancel
-                    </Button>
-                  </div>
-                </div>
+                <CompanyChoice
+                  key={key}
+                  prompt={request.params.message}
+                  options={companyChoice(request).options.map(option => ({ id: option, label: option }))}
+                  onChoose={option =>
+                    selection.answer({
+                      [key]: { action: 'accept', content: { [companyChoice(request).field]: option } },
+                    })
+                  }
+                  onCancel={() => selection.answer({ [key]: { action: 'cancel' } })}
+                />
               ))}
             </div>
           )}
           {error ? (
-            <div role="alert" className="p-5 text-sm">
-              <p className="mb-3 text-destructive">{error}</p>
-              <Button variant="outline" onClick={() => setRetry(value => value + 1)}>
-                <RefreshCw data-icon="inline-start" />
-                Retry app
-              </Button>
-            </div>
+            <Alert variant="destructive">
+              <AlertCircle />
+              <AlertTitle>Could not load the interactive app</AlertTitle>
+              <AlertDescription>
+                <p>{error}</p>
+                <Button variant="outline" size="sm" onClick={() => setRetry(value => value + 1)}>
+                  <RefreshCw data-icon="inline-start" />
+                  Retry app
+                </Button>
+              </AlertDescription>
+            </Alert>
           ) : !resource ? (
             <div className="flex items-center gap-2 p-6 text-sm text-muted-foreground">
-              <LoaderCircle className="size-4 animate-spin" />
+              <Spinner aria-hidden="true" />
               Loading interactive app…
             </div>
           ) : (

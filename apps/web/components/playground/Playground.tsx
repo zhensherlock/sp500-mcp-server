@@ -1,22 +1,18 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
-import { useEveAgent, type EveMessage, type UseEveAgentSnapshot } from 'eve/react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useEveAgent, type EveMessage } from 'eve/react'
 import { activeTurn, activity, idle, openInteractions } from 'eve/events'
 import { Streamdown } from 'streamdown'
-import {
-  ArrowRight,
-  ArrowUp,
-  Check,
-  ChevronRight,
-  Circle,
-  History,
-  LoaderCircle,
-  Plus,
-  Square,
-  Trash2,
-} from 'lucide-react'
+import { ArrowRight, ArrowUp, Check, Circle, AlertCircle, Info, Square } from 'lucide-react'
 import { Button } from '@workspace/ui/components/button'
+import { Alert, AlertAction, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
+import { Bubble, BubbleContent } from '@workspace/ui/components/bubble'
+import { Message as ConversationMessage, MessageContent } from '@workspace/ui/components/message'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@workspace/ui/components/sidebar'
+import { Skeleton } from '@workspace/ui/components/skeleton'
+import { Spinner } from '@workspace/ui/components/spinner'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@workspace/ui/components/tooltip'
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from '@workspace/ui/components/empty'
 import { Field, FieldGroup, FieldLabel } from '@workspace/ui/components/field'
 import { InputGroup, InputGroupAddon, InputGroupTextarea } from '@workspace/ui/components/input-group'
@@ -28,21 +24,20 @@ import {
   MessageScrollerItem,
   MessageScrollerProvider,
   MessageScrollerViewport,
+  useMessageScroller,
 } from '@workspace/ui/components/message-scroller'
 import { companyTools, isMcpAppToolOutput } from '@/lib/mcp-apps/contracts'
 import { messagesInEventOrder } from '@/lib/playground/message-order'
+import { saveConversation, sessionPosition, type SavedSession } from '@/lib/playground/history'
+import { sessionUnavailable } from '@/lib/playground/session-status'
+import { CompanyChoice } from './CompanyChoice'
+import { ConversationContext } from './ConversationContext'
+import { ConversationSidebar } from './ConversationSidebar'
 import { McpAppCard } from './McpAppCard'
 import { Reasoning } from './Reasoning'
 import { ToolCard, ToolData } from './ToolCard'
 
-type SavedSession = {
-  id: string
-  title: string
-  updated: number
-  session: NonNullable<UseEveAgentSnapshot['session']>
-  events: UseEveAgentSnapshot['events']
-}
-type Configuration = { configured: boolean; model: string; engine: string }
+type Configuration = { configured: boolean; model: string; engine: string; contextWindow?: number }
 const STORAGE = 'sp500-research-sessions-v1'
 const examples = [
   {
@@ -70,7 +65,14 @@ export function Playground() {
   const [activeId, setActiveId] = useState<string>()
   const [selected, setSelected] = useState<SavedSession>()
   const [key, setKey] = useState('new')
+  const [draft, setDraft] = useState('')
   const [storageError, setStorageError] = useState<string>()
+  const startNew = useCallback((draft = '') => {
+    setDraft(draft)
+    setSelected(undefined)
+    setActiveId(undefined)
+    setKey(crypto.randomUUID())
+  }, [])
   const bootstrap = useCallback(() => {
     setError(undefined)
     fetch('/api/playground/session', { method: 'POST' })
@@ -100,11 +102,11 @@ export function Playground() {
     }
   }, [bootstrap])
 
-  const persist = useCallback((item: SavedSession) => {
-    const next = [item, ...savedRef.current.filter(entry => entry.id !== item.id)].slice(0, 12)
+  const persist = useCallback((item: SavedSession, activate: boolean) => {
+    const next = saveConversation(savedRef.current, item)
     savedRef.current = next
     setSaved(next)
-    setActiveId(item.id)
+    if (activate) setActiveId(item.id)
     try {
       localStorage.setItem(STORAGE, JSON.stringify(next))
     } catch {
@@ -113,113 +115,93 @@ export function Playground() {
   }, [])
 
   return (
-    <div className="grid min-h-0 w-full flex-1 grid-cols-[minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)] lg:grid-cols-[256px_minmax(0,1fr)] lg:grid-rows-1">
-      <aside className="min-h-0 min-w-0 overflow-y-auto border-b border-border bg-background px-4 py-4 lg:border-r lg:border-b-0 lg:py-6">
-        <Button
-          variant="outline"
-          className="h-11 w-full justify-start"
-          onClick={() => {
-            setSelected(undefined)
-            setActiveId(undefined)
-            setKey(crypto.randomUUID())
+    <TooltipProvider>
+      <SidebarProvider className="relative min-h-0 flex-1">
+        <ConversationSidebar
+          sessions={saved}
+          activeId={activeId}
+          onNew={() => startNew()}
+          onSelect={item => {
+            if (activeId === item.id) return
+            setDraft('')
+            setSelected(item)
+            setKey(item.id)
+            setActiveId(item.id)
           }}
-        >
-          <Plus data-icon="inline-start" />
-          New research
-        </Button>
-        <details className="mt-6 group" open>
-          <summary className="flex cursor-pointer list-none items-center gap-2 text-xs font-medium text-muted-foreground">
-            <History className="size-3.5" />
-            Recent conversations
-            <ChevronRight className="ml-auto size-3 transition-transform group-open:rotate-90" />
-          </summary>
-          <div className="mt-3 flex gap-1 overflow-auto lg:max-h-[50vh] lg:flex-col">
-            {saved.length ? (
-              saved.map(item => (
-                <div key={item.id} className="group/item relative min-w-40 lg:min-w-0">
-                  <button
-                    type="button"
-                    aria-current={activeId === item.id ? 'true' : undefined}
-                    data-active={activeId === item.id}
-                    title={item.title}
-                    className="w-full min-w-0 rounded-lg px-3 py-2.5 pr-11 text-left text-sm text-muted-foreground outline-none transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring/50 data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground"
-                    onClick={() => {
-                      setSelected(item)
-                      setKey(item.id)
-                      setActiveId(item.id)
-                    }}
-                  >
-                    <span className="block truncate">{item.title}</span>
-                  </button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label={`Remove ${item.title} from this browser`}
-                    className="absolute inset-y-0 right-1 my-auto transition-opacity active:not-aria-[haspopup]:translate-y-0 [@media(hover:hover)]:opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100"
-                    onClick={() => {
-                      const next = saved.filter(entry => entry.id !== item.id)
-                      savedRef.current = next
-                      setSaved(next)
-                      try {
-                        localStorage.setItem(STORAGE, JSON.stringify(next))
-                      } catch {
-                        setStorageError('Could not update browser storage.')
-                      }
-                      if (activeId === item.id) {
-                        setSelected(undefined)
-                        setActiveId(undefined)
-                        setKey(crypto.randomUUID())
-                      }
-                    }}
-                  >
-                    <Trash2 />
-                  </Button>
-                </div>
-              ))
-            ) : (
-              <p className="hidden px-1 py-2 text-xs leading-5 text-muted-foreground lg:block">
-                Your research will appear here.
-                <br />
-                Saved in this browser.
-              </p>
-            )}
+          onRemove={id => {
+            const next = savedRef.current.filter(entry => entry.id !== id)
+            savedRef.current = next
+            setSaved(next)
+            try {
+              localStorage.setItem(STORAGE, JSON.stringify(next))
+            } catch {
+              setStorageError('Could not update browser storage.')
+            }
+            if (activeId === id) {
+              startNew()
+            }
+          }}
+        />
+        <SidebarInset className="min-h-0 min-w-0">
+          <div className="flex shrink-0 items-center gap-2 border-b px-3 py-2 md:hidden">
+            <SidebarTrigger />
+            <span className="text-sm text-muted-foreground">Conversations</span>
           </div>
-        </details>
-      </aside>
-      <main className="flex min-h-0 min-w-0 flex-col bg-card">
-        {error ? (
-          <div role="alert" className="m-4 rounded-lg border border-destructive/30 bg-card p-4 text-sm">
-            <p>{error}</p>
-            <Button variant="outline" className="mt-3" onClick={bootstrap}>
-              Reconnect
-            </Button>
-          </div>
-        ) : !config ? (
-          <div className="flex items-center gap-2 p-8 text-sm text-muted-foreground">
-            <LoaderCircle className="size-4 animate-spin" />
-            Preparing workspace…
-          </div>
-        ) : (
-          <ResearchSession key={key} initial={selected} config={config} persist={persist} />
-        )}
-        {storageError && (
-          <p role="status" className="px-4 py-3 text-xs text-destructive">
-            {storageError}
-          </p>
-        )}
-      </main>
-    </div>
+          {error ? (
+            <Alert variant="destructive" className="m-4 w-auto">
+              <AlertCircle />
+              <AlertTitle>Could not connect to the workspace</AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+              <AlertAction>
+                <Button variant="outline" size="sm" onClick={bootstrap}>
+                  Retry
+                </Button>
+              </AlertAction>
+            </Alert>
+          ) : !config ? (
+            <div
+              role="status"
+              aria-label="Preparing workspace"
+              className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center gap-5 px-8"
+            >
+              <Skeleton className="h-10 w-3/4" />
+              <Skeleton className="h-5 w-full" />
+              <Skeleton className="h-36 w-full rounded-2xl" />
+            </div>
+          ) : (
+            <ResearchSession
+              key={key}
+              initial={selected}
+              initialInput={draft}
+              config={config}
+              persist={persist}
+              onStartNew={startNew}
+            />
+          )}
+          {storageError && (
+            <Alert variant="destructive" className="mx-4 mb-3 w-auto">
+              <AlertCircle />
+              <AlertDescription>{storageError}</AlertDescription>
+            </Alert>
+          )}
+        </SidebarInset>
+      </SidebarProvider>
+    </TooltipProvider>
   )
 }
 
 function ResearchSession({
   initial,
+  initialInput,
   config,
   persist,
+  onStartNew,
 }: {
   initial?: SavedSession
+  initialInput: string
   config: Configuration
-  persist: (item: SavedSession) => void
+  persist: (item: SavedSession, activate: boolean) => void
+  onStartNew: (draft: string) => void
 }) {
   const agent = useEveAgent({
     baseUrl: '/api/playground',
@@ -228,14 +210,17 @@ function ResearchSession({
     resume: Boolean(initial),
     followWhile: view => !idle(view) || activeTurn(view) !== undefined,
   })
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState(initialInput)
   const inputRef = useRef<HTMLTextAreaElement>(null)
-  const [commandError, setCommandError] = useState<string>()
+  const [commandError, setCommandError] = useState<Error>()
   const [context, setContext] = useState<unknown>()
   const messages = useMemo(() => messagesInEventOrder(agent.messages, agent.events), [agent.messages, agent.events])
+  const latestUserMessageId = messages.findLast(message => message.role === 'user')?.id
   const currentTurn = activeTurn(agent.view)
   const interactions = openInteractions(agent.view)
-  const busy = agent.status !== 'idle' || Boolean(currentTurn)
+  const restoring = agent.status === 'resuming'
+  const unavailable = sessionUnavailable(agent.view, agent.error, commandError)
+  const busy = !restoring && !unavailable && (agent.status !== 'idle' || Boolean(currentTurn))
   const thinking = activity(agent.view).kind === 'thinking'
   const streamingContent = messages
     .at(-1)
@@ -247,16 +232,12 @@ function ResearchSession({
     busy &&
     !streamingContent &&
     !pendingTool &&
-    (thinking && !interactions.length && agent.status !== 'resuming' ? (
+    (thinking && !interactions.length ? (
       <Reasoning text="" running />
     ) : (
       <div role="status" className="flex items-center gap-2 text-sm leading-6 text-muted-foreground">
-        <LoaderCircle className="size-4 animate-spin motion-reduce:animate-none" />
-        {interactions.length
-          ? 'Waiting for your choice'
-          : agent.status === 'resuming'
-            ? 'Restoring conversation…'
-            : 'Research in progress…'}
+        <Spinner aria-hidden="true" />
+        {interactions.length ? 'Waiting for your choice' : 'Research in progress…'}
       </div>
     ))
   const hasMessages = messages.length > 0
@@ -270,33 +251,36 @@ function ResearchSession({
   snapshot.current = { session: agent.session, events: agent.events, title }
 
   useEffect(() => {
-    let savedPosition = ''
+    let savedPosition = sessionPosition(initial)
+    let mounted = true
     const save = () => {
       const { session, events, title } = snapshot.current
       if (!session || !events.length) return
-      const position = `${session.sessionId}:${session.streamIndex}:${events.length}`
+      const position = sessionPosition({ session, events, title })
       if (position === savedPosition) return
       savedPosition = position
-      persist({ id: session.sessionId, title, session, events, updated: Date.now() })
+      persist({ id: session.sessionId, title, session, events, updated: Date.now() }, !initial && mounted)
     }
     const timer = setInterval(save, 1000)
     window.addEventListener('pagehide', save)
     return () => {
       clearInterval(timer)
       window.removeEventListener('pagehide', save)
+      mounted = false
+      save()
     }
-  }, [persist])
+  }, [persist, initial])
 
   const send = useCallback(
     (text: string) => {
-      if (!text.trim() || !config.configured) return
+      if (!text.trim() || !config.configured || restoring || busy || unavailable) return
       setCommandError(undefined)
       agent
         .send(text.trim(), context ? { clientContext: { appSelection: JSON.stringify(context) } } : undefined)
         .then(() => setInput(''))
-        .catch(error => setCommandError(error.message))
+        .catch(error => setCommandError(error))
     },
-    [agent, config.configured, context],
+    [agent, config.configured, context, restoring, busy, unavailable],
   )
   const onContext = useCallback((value: unknown) => setContext(value), [])
   const composer = (
@@ -319,7 +303,7 @@ function ResearchSession({
               value={input}
               onChange={event => setInput(event.target.value)}
               maxLength={16000}
-              disabled={!config.configured || agent.status === 'resuming'}
+              disabled={!config.configured}
               className="min-h-24 resize-none px-5 pt-5"
               onKeyDown={event => {
                 if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
@@ -329,26 +313,33 @@ function ResearchSession({
               }}
             />
             <InputGroupAddon align="block-end" className="justify-end px-4 pb-4">
-              {busy ? (
-                <Button
-                  type="button"
-                  size="icon-lg"
-                  variant="outline"
-                  aria-label="Stop research"
-                  onClick={() => agent.cancel().catch(error => setCommandError(error.message))}
-                >
-                  <Square />
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  size="icon-lg"
-                  aria-label="Send question"
-                  disabled={!input.trim() || !config.configured}
-                >
-                  <ArrowUp />
-                </Button>
-              )}
+              <SessionSyncStatus active={restoring} />
+              <ConversationContext view={agent.view} model={config.model} contextWindow={config.contextWindow} />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  {busy ? (
+                    <Button
+                      type="button"
+                      size="icon-lg"
+                      variant="outline"
+                      aria-label="Stop research"
+                      onClick={() => agent.cancel().catch(error => setCommandError(error))}
+                    >
+                      <Square />
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      size="icon-lg"
+                      aria-label="Send question"
+                      disabled={!input.trim() || !config.configured || restoring || unavailable}
+                    >
+                      <ArrowUp />
+                    </Button>
+                  )}
+                </TooltipTrigger>
+                <TooltipContent>{busy ? 'Stop research' : 'Send question'}</TooltipContent>
+              </Tooltip>
             </InputGroupAddon>
           </InputGroup>
         </Field>
@@ -373,13 +364,14 @@ function ResearchSession({
           >
             {!config.configured && (
               <MessageScrollerItem>
-                <div role="status" className="rounded-xl border border-border bg-card p-4 text-sm leading-6">
-                  <p className="font-medium">Connect a model to start researching</p>
-                  <p className="text-muted-foreground">
+                <Alert>
+                  <Info />
+                  <AlertTitle>Connect a model to start researching</AlertTitle>
+                  <AlertDescription>
                     Add <code className="text-xs">OPENAI_API_KEY</code> to the server environment, then restart the app.
                     Your key stays on the server.
-                  </p>
-                </div>
+                  </AlertDescription>
+                </Alert>
               </MessageScrollerItem>
             )}
             {!hasMessages ? (
@@ -429,7 +421,7 @@ function ResearchSession({
                   message.role !== 'user' &&
                   !message.parts.length &&
                   !(message === messages.at(-1) && pending) ? null : (
-                    <MessageScrollerItem key={message.id} messageId={message.id} scrollAnchor={message.role === 'user'}>
+                    <MessageScrollerItem key={message.id} messageId={message.id}>
                       <Message
                         message={message}
                         onMessage={send}
@@ -443,39 +435,41 @@ function ResearchSession({
             )}
             {interactions.map(interaction => (
               <MessageScrollerItem key={interaction.interactionId} messageId={interaction.interactionId}>
-                <div className="rounded-xl border border-primary/30 bg-card p-5">
-                  <p className="mb-3 text-sm font-medium">{interaction.request.prompt}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {interaction.request.options?.map(option => (
-                      <Button
-                        key={option.id}
-                        variant="outline"
-                        disabled={agent.status === 'resuming'}
-                        onClick={() =>
-                          agent
-                            .respond([{ interactionId: interaction.interactionId, optionId: option.id }])
-                            .catch(error => setCommandError(error.message))
-                        }
-                      >
-                        {option.label}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
+                <CompanyChoice
+                  prompt={interaction.request.prompt}
+                  options={interaction.request.options ?? []}
+                  disabled={restoring || unavailable}
+                  onChoose={optionId => agent.respond([{ interactionId: interaction.interactionId, optionId }])}
+                />
               </MessageScrollerItem>
             ))}
-            {(agent.error || commandError) && (
+            {(unavailable || agent.error || commandError) && (
               <MessageScrollerItem>
-                <div role="alert" className="rounded-lg border border-destructive/30 p-4 text-sm text-destructive">
-                  <p>{commandError ?? agent.error?.message}</p>
-                  <Button
-                    variant="outline"
-                    className="mt-3 text-foreground"
-                    onClick={() => agent.resume().catch(error => setCommandError(error.message))}
-                  >
-                    Reconnect session
-                  </Button>
-                </div>
+                <Alert variant={unavailable ? 'default' : 'destructive'}>
+                  <AlertCircle />
+                  <AlertTitle>{unavailable ? 'Conversation ended' : 'Connection interrupted'}</AlertTitle>
+                  <AlertDescription>
+                    <p>
+                      {unavailable
+                        ? 'Previous messages remain available here. Start a new conversation to continue; your draft will be kept.'
+                        : (commandError ?? agent.error)?.message}
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        if (unavailable) {
+                          onStartNew(input)
+                          return
+                        }
+                        setCommandError(undefined)
+                        agent.resume().catch(error => setCommandError(error))
+                      }}
+                    >
+                      {unavailable ? 'Start new conversation' : 'Reconnect session'}
+                    </Button>
+                  </AlertDescription>
+                </Alert>
               </MessageScrollerItem>
             )}
             {pending && messages.at(-1)?.role !== 'assistant' && <MessageScrollerItem>{pending}</MessageScrollerItem>}
@@ -493,8 +487,24 @@ function ResearchSession({
           </div>
         </div>
       )}
+      <FollowLatestMessage messageId={latestUserMessageId} />
     </MessageScrollerProvider>
   )
+}
+
+function FollowLatestMessage({ messageId }: { messageId?: string }) {
+  const { scrollToEnd } = useMessageScroller()
+  const previousMessageId = useRef(messageId)
+
+  useLayoutEffect(() => {
+    if (previousMessageId.current === messageId) return
+    previousMessageId.current = messageId
+    // Start following a new question without the spacer used by scrollAnchor.
+    // Streaming updates then use the scroller's native follow/pause behavior.
+    if (messageId) scrollToEnd({ behavior: 'auto' })
+  }, [messageId, scrollToEnd])
+
+  return null
 }
 
 function Message({
@@ -510,62 +520,94 @@ function Message({
 }) {
   if (message.role === 'user')
     return (
-      <article className="ml-auto max-w-[90%] rounded-2xl border border-border bg-card px-5 py-3 text-sm leading-6 whitespace-pre-wrap">
-        {message.parts.map((part, index) => (part.type === 'text' ? <span key={index}>{part.text}</span> : null))}
-      </article>
+      <ConversationMessage align="end">
+        <MessageContent>
+          <Bubble variant="outline" align="end">
+            <BubbleContent asChild>
+              <article className="whitespace-pre-wrap">
+                {message.parts.map((part, index) =>
+                  part.type === 'text' ? <span key={index}>{part.text}</span> : null,
+                )}
+              </article>
+            </BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </ConversationMessage>
     )
   return (
-    <article aria-label="Assistant response" className="flex min-w-0 flex-col gap-3 text-sm leading-7">
-      {message.parts.map((part, index) => {
-        if (part.type === 'text')
-          return (
-            <Streamdown key={part.id ?? index} isAnimating={part.state === 'streaming'}>
-              {part.text}
-            </Streamdown>
-          )
-        if (part.type === 'reasoning')
-          return <Reasoning key={part.id ?? index} text={part.text} running={part.state === 'streaming'} />
-        if (part.type === 'tool') {
-          if (part.state === 'completed' && isMcpAppToolOutput(part.output))
-            return (
-              <McpAppCard
-                key={part.callId}
-                callId={part.callId}
-                input={part.input}
-                output={part.output}
-                onMessage={onMessage}
-                onContext={onContext}
-              />
-            )
-          const failed = part.state === 'failed'
-          const running = !['completed', 'failed', 'rejected', 'cancelled'].includes(part.state)
-          const title =
-            Object.entries(companyTools).find(([name]) => name === part.name)?.[1].title || part.label || part.name
-          return (
-            <ToolCard
-              key={part.callId}
-              title={title}
-              icon={
-                failed ? (
-                  <Circle />
-                ) : part.state === 'completed' ? (
-                  <Check />
-                ) : !running ? (
-                  <Circle />
-                ) : (
-                  <LoaderCircle className="animate-spin motion-reduce:animate-none" />
+    <ConversationMessage>
+      <MessageContent>
+        <article aria-label="Assistant response" className="flex min-w-0 flex-col gap-3 leading-7">
+          {message.parts.map((part, index) => {
+            if (part.type === 'text')
+              return (
+                <Streamdown key={part.id ?? index} isAnimating={part.state === 'streaming'}>
+                  {part.text}
+                </Streamdown>
+              )
+            if (part.type === 'reasoning')
+              return <Reasoning key={part.id ?? index} text={part.text} running={part.state === 'streaming'} />
+            if (part.type === 'tool') {
+              if (part.state === 'completed' && isMcpAppToolOutput(part.output))
+                return (
+                  <McpAppCard
+                    key={part.callId}
+                    callId={part.callId}
+                    input={part.input}
+                    output={part.output}
+                    onMessage={onMessage}
+                    onContext={onContext}
+                  />
                 )
-              }
-              status={failed ? 'error' : running ? 'running' : undefined}
-              description={!running ? <span className="capitalize">{part.state}</span> : undefined}
-            >
-              <ToolData value={part.error ?? part.output ?? part.input ?? part.inputText} error={failed} />
-            </ToolCard>
-          )
-        }
-        return null
-      })}
-      {pending}
-    </article>
+              const failed = part.state === 'failed'
+              const running = !['completed', 'failed', 'rejected', 'cancelled'].includes(part.state)
+              const title =
+                Object.entries(companyTools).find(([name]) => name === part.name)?.[1].title || part.label || part.name
+              return (
+                <ToolCard
+                  key={part.callId}
+                  title={title}
+                  icon={
+                    failed ? (
+                      <Circle />
+                    ) : part.state === 'completed' ? (
+                      <Check />
+                    ) : !running ? (
+                      <Circle />
+                    ) : (
+                      <Spinner aria-hidden="true" />
+                    )
+                  }
+                  status={failed ? 'error' : running ? 'running' : undefined}
+                  description={!running ? <span className="capitalize">{part.state}</span> : undefined}
+                >
+                  <ToolData value={part.error ?? part.output ?? part.input ?? part.inputText} error={failed} />
+                </ToolCard>
+              )
+            }
+            return null
+          })}
+          {pending}
+        </article>
+      </MessageContent>
+    </ConversationMessage>
   )
+}
+
+function SessionSyncStatus({ active }: { active: boolean }) {
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    if (!active) {
+      setVisible(false)
+      return
+    }
+    const timer = setTimeout(() => setVisible(true), 500)
+    return () => clearTimeout(timer)
+  }, [active])
+  return active && visible ? (
+    <span role="status" className="mr-auto flex items-center gap-2 text-xs text-muted-foreground">
+      <Spinner aria-hidden="true" />
+      Syncing conversation…
+    </span>
+  ) : null
 }

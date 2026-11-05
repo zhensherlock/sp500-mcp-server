@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { CircleCheck, LoaderCircle } from 'lucide-react'
+import { CircleCheck } from 'lucide-react'
+import { Spinner } from '@workspace/ui/components/spinner'
 import { Streamdown } from 'streamdown'
 import {
   Trace,
@@ -17,9 +18,7 @@ export function Reasoning({ text, running }: { text: string; running: boolean })
   const [open, setOpen] = useState<boolean>()
   const line = (
     <TraceLine status={running ? 'running' : undefined}>
-      <TraceIcon>
-        {running ? <LoaderCircle className="animate-spin motion-reduce:animate-none" /> : <CircleCheck />}
-      </TraceIcon>
+      <TraceIcon>{running ? <Spinner aria-hidden="true" /> : <CircleCheck />}</TraceIcon>
       <TraceTitle>{running ? 'Thinking' : 'Thought'}</TraceTitle>
     </TraceLine>
   )
