@@ -6,6 +6,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// GSAP runs the setup only while at least one condition matches.
+// Keep mobile users without reduced motion covered as well.
+const entranceMediaQueries = {
+  all: 'all',
+  isDesktop: '(min-width: 768px)',
+  reduceMotion: '(prefers-reduced-motion: reduce)',
+}
+
 type EntranceConditions = {
   isDesktop?: boolean
   reduceMotion?: boolean
@@ -53,10 +61,7 @@ export function useLoadStagger(
     const mm = gsap.matchMedia()
 
     mm.add(
-      {
-        isDesktop: '(min-width: 768px)',
-        reduceMotion: '(prefers-reduced-motion: reduce)',
-      },
+      entranceMediaQueries,
       context => {
         const { isDesktop, reduceMotion } = getConditions(context)
         const targets = query(selector)
@@ -103,10 +108,7 @@ export function useHeroEntrance(containerRef: RefObject<HTMLElement | null>) {
     const mm = gsap.matchMedia()
 
     mm.add(
-      {
-        isDesktop: '(min-width: 768px)',
-        reduceMotion: '(prefers-reduced-motion: reduce)',
-      },
+      entranceMediaQueries,
       context => {
         const { isDesktop, reduceMotion } = getConditions(context)
         const copy = query('[data-hero-entrance]')
@@ -212,10 +214,7 @@ export function useScrollStagger(
     const mm = gsap.matchMedia()
 
     mm.add(
-      {
-        isDesktop: '(min-width: 768px)',
-        reduceMotion: '(prefers-reduced-motion: reduce)',
-      },
+      entranceMediaQueries,
       context => {
         const { isDesktop, reduceMotion } = getConditions(context)
         const items = query(itemSelector)
