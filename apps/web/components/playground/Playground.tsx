@@ -304,7 +304,7 @@ function ResearchSession({
               onChange={event => setInput(event.target.value)}
               maxLength={16000}
               disabled={!config.configured}
-              className="min-h-24 resize-none px-5 pt-5"
+              className="min-h-24 resize-none px-5 pt-5 text-wrap"
               onKeyDown={event => {
                 if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
                   event.preventDefault()

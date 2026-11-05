@@ -16,7 +16,6 @@ interface ContextSchema {
 
 const ContextContext = createContext<ContextSchema | null>(null)
 const compact = new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 })
-const number = new Intl.NumberFormat('en-US')
 const percent = new Intl.NumberFormat('en-US', { style: 'percent', maximumFractionDigits: 1 })
 
 function useContextValue() {
@@ -87,26 +86,25 @@ export function ContextTrigger({ children, ...props }: ComponentProps<typeof But
 }
 
 export function ContextContent({ className, ...props }: ComponentProps<typeof HoverCardContent>) {
-  return <HoverCardContent className={cn('min-w-60 divide-y overflow-hidden p-0', className)} {...props} />
+  return <HoverCardContent className={cn('flex flex-col gap-3', className)} {...props} />
 }
 
 export function ContextContentHeader({ children, className, ...props }: ComponentProps<'div'>) {
   const value = useContextValue()
   const fraction = utilization(value)
   return (
-    <div className={cn('flex w-full flex-col gap-2 p-3', className)} {...props}>
+    <div className={cn('flex w-full flex-col gap-3', className)} {...props}>
       {children ?? (
         <>
-          <div className="flex items-center justify-between gap-3 text-xs">
-            <span>Context</span>
+          <div className="flex items-center justify-between gap-3 text-sm">
+            <span className="font-medium">Context</span>
             {value.usedTokens !== undefined ? (
-              <span className="font-mono">
-                {number.format(value.usedTokens)}
-                {fraction !== undefined && value.maxTokens !== undefined && ` / ${number.format(value.maxTokens)}`}{' '}
-                tokens
+              <span className="text-muted-foreground tabular-nums">
+                {compact.format(value.usedTokens)}
+                {fraction !== undefined && value.maxTokens !== undefined && ` / ${compact.format(value.maxTokens)}`}
               </span>
             ) : value.maxTokens !== undefined ? (
-              <span className="font-mono">{number.format(value.maxTokens)} token limit</span>
+              <span className="text-muted-foreground tabular-nums">{compact.format(value.maxTokens)} token limit</span>
             ) : null}
           </div>
           {fraction !== undefined && <Progress aria-label="Context window used" value={fraction * 100} />}
@@ -117,7 +115,7 @@ export function ContextContentHeader({ children, className, ...props }: Componen
 }
 
 export function ContextContentBody({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cn('flex w-full flex-col gap-2 p-3', className)} {...props} />
+  return <div className={cn('flex w-full flex-col gap-2', className)} {...props} />
 }
 
 export function ContextContentFooter({ className, ...props }: ComponentProps<'div'>) {
@@ -132,9 +130,9 @@ export function ContextContentFooter({ className, ...props }: ComponentProps<'di
 function UsageRow({ label, tokens }: { label: string; tokens?: number }) {
   if (tokens === undefined) return null
   return (
-    <div className="flex items-center justify-between gap-4 text-xs">
+    <div className="flex items-center justify-between gap-4 text-sm">
       <span className="text-muted-foreground">{label}</span>
-      <span className="font-mono tabular-nums">{number.format(tokens)}</span>
+      <span className="tabular-nums">{compact.format(tokens)}</span>
     </div>
   )
 }
