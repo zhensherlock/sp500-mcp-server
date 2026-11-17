@@ -12,6 +12,15 @@ export function useCompanyNewsApp() {
   const { app, isConnected } = state
   const supportsTextMessages = isConnected && Boolean(app?.getHostCapabilities()?.message?.text)
 
+  async function openArticle(url: string) {
+    if (!app || !isConnected) {
+      throw new Error('The MCP host is disconnected.')
+    }
+
+    const { isError } = await app.openLink({ url }, { timeout: 15_000 })
+    if (isError) throw new Error('The MCP host could not open the article.')
+  }
+
   async function sendAnalysis(text: string) {
     if (!app || !isConnected || !app.getHostCapabilities()?.message?.text) {
       throw new Error('This host does not support sending text messages.')
@@ -20,5 +29,5 @@ export function useCompanyNewsApp() {
     return app.sendMessage({ role: 'user', content: [{ type: 'text', text }] }, { timeout: 15_000 })
   }
 
-  return { ...state, sendAnalysis: supportsTextMessages ? sendAnalysis : undefined }
+  return { ...state, openArticle, sendAnalysis: supportsTextMessages ? sendAnalysis : undefined }
 }

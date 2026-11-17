@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useId, useState, type MouseEvent } from 'react'
 import { SparklesIcon } from 'lucide-react'
 
 import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
@@ -22,11 +22,12 @@ import { useNewsAnalysis } from './use-news-analysis'
 import { formatDate, getSentimentClass } from './utils'
 
 type CompanyNewsViewProps = {
+  openArticle?: (url: string) => Promise<void>
   result: CompanyNewsResult
   sendAnalysis?: SendNewsAnalysis
 }
 
-export function CompanyNewsView({ result, sendAnalysis }: CompanyNewsViewProps) {
+export function CompanyNewsView({ openArticle, result, sendAnalysis }: CompanyNewsViewProps) {
   const { selectedUrls, status, error, selectArticle, analyzeSelected } = useNewsAnalysis(result, sendAnalysis)
   const canAnalyze = Boolean(sendAnalysis)
 
@@ -84,6 +85,7 @@ export function CompanyNewsView({ result, sendAnalysis }: CompanyNewsViewProps) 
               <NewsCard
                 item={item}
                 key={item.url}
+                openArticle={openArticle}
                 selection={
                   canAnalyze
                     ? {
@@ -104,6 +106,7 @@ export function CompanyNewsView({ result, sendAnalysis }: CompanyNewsViewProps) 
 
 type NewsCardProps = {
   item: CompanyNewsItem
+  openArticle?: CompanyNewsViewProps['openArticle']
   selection?: {
     checked: boolean
     disabled: boolean
@@ -111,8 +114,21 @@ type NewsCardProps = {
   }
 }
 
-function NewsCard({ item, selection }: NewsCardProps) {
+function NewsCard({ item, openArticle, selection }: NewsCardProps) {
   const selectionId = useId()
+  const [linkFailed, setLinkFailed] = useState(false)
+
+  async function handleArticleClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (!openArticle) return
+
+    event.preventDefault()
+    setLinkFailed(false)
+    try {
+      await openArticle(event.currentTarget.href)
+    } catch {
+      setLinkFailed(true)
+    }
+  }
 
   return (
     <Item
@@ -143,7 +159,13 @@ function NewsCard({ item, selection }: NewsCardProps) {
       </ItemHeader>
       <ItemContent className="min-w-0 gap-2">
         <ItemTitle className="line-clamp-none w-full text-lg leading-snug font-semibold text-foreground">
-          <a className="hover:text-muted-foreground" href={item.url} rel="noopener noreferrer" target="_blank">
+          <a
+            className="hover:text-muted-foreground"
+            href={item.url}
+            onClick={handleArticleClick}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             {item.title}
           </a>
         </ItemTitle>
@@ -153,11 +175,16 @@ function NewsCard({ item, selection }: NewsCardProps) {
       </ItemContent>
       <ItemActions className="hidden shrink-0 self-start sm:flex">
         <Button asChild size="sm" variant="outline">
-          <a href={item.url} rel="noopener noreferrer" target="_blank">
+          <a href={item.url} onClick={handleArticleClick} rel="noopener noreferrer" target="_blank">
             Read
           </a>
         </Button>
       </ItemActions>
+      {linkFailed ? (
+        <p className="basis-full text-sm text-destructive" role="alert">
+          Could not open the article. Copy the link to open it in your browser.
+        </p>
+      ) : null}
     </Item>
   )
 }
