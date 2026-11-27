@@ -1,5 +1,5 @@
 import { isInputRequiredResult } from '@modelcontextprotocol/client'
-import type { CompanyProfile } from './company-info.js'
+import { readCompanyChoice, type CompanyProfile } from './company-info.js'
 import { callMcpTool } from './mcp.js'
 
 const revenueItem = 'Total Revenue'
@@ -26,7 +26,12 @@ async function loadSection<T>(
   read: (data: Record<string, unknown>) => T,
 ): Promise<Section<T>> {
   try {
-    const result = await callMcpTool(name, { ...args, query: symbol })
+    const toolArgs = { ...args, query: symbol }
+    let result = await callMcpTool(name, toolArgs)
+    if (isInputRequiredResult(result)) {
+      const { symbols, requestState } = readCompanyChoice(symbol, result)
+      if (symbols.includes(symbol)) result = await callMcpTool(name, toolArgs, { symbol, requestState })
+    }
     if (isInputRequiredResult(result) || result.isError) throw new Error('Tool did not complete successfully.')
 
     const data = asRecord(result.structuredContent)

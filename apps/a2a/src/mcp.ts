@@ -1,10 +1,4 @@
-import {
-  Client,
-  specTypeSchemas,
-  StreamableHTTPClientTransport,
-  withInputRequired,
-  type InputResponses,
-} from '@modelcontextprotocol/client'
+import { Client, specTypeSchemas, StreamableHTTPClientTransport, withInputRequired } from '@modelcontextprotocol/client'
 
 const mcpUrl = new URL(process.env.SP500_MCP_URL || 'http://localhost:3000/mcp')
 const timeout = 10_000
@@ -13,7 +7,7 @@ const resultSchema = withInputRequired(specTypeSchemas.CallToolResult)
 export async function callMcpTool(
   name: 'get_company_info' | 'get_company_financials' | 'get_company_news',
   args: Record<string, unknown>,
-  continuation?: { requestState?: string; inputResponses: InputResponses },
+  selection?: { symbol: string; requestState?: string },
 ) {
   const client = new Client(
     { name: 'sp500-a2a', version: '0.1.0' },
@@ -23,6 +17,11 @@ export async function callMcpTool(
       inputRequired: { autoFulfill: false },
     },
   )
+
+  const continuation = selection && {
+    requestState: selection.requestState,
+    inputResponses: { company: { action: 'accept' as const, content: { companyName: selection.symbol } } },
+  }
 
   try {
     await client.connect(new StreamableHTTPClientTransport(mcpUrl), { timeout })

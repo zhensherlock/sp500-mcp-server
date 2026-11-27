@@ -10,30 +10,23 @@ export type CompanyChoice = {
   requestState?: string
 }
 
-function readCompanyChoice(query: string, result: InputRequiredResult): CompanyChoice {
+export function readCompanyChoice(query: string, result: InputRequiredResult): CompanyChoice {
   const request = result.inputRequests?.company
   if (request?.method !== 'elicitation/create' || !('requestedSchema' in request.params)) {
-    throw new Error('get_company_info requested an unsupported form.')
+    throw new Error('MCP tool requested an unsupported company selection form.')
   }
 
   const field = request.params.requestedSchema.properties?.companyName
   const symbols = field && 'enum' in field ? field.enum : undefined
   if (!Array.isArray(symbols) || !symbols.length || !symbols.every(symbol => typeof symbol === 'string')) {
-    throw new Error('get_company_info did not provide valid company choices.')
+    throw new Error('MCP tool did not provide valid company choices.')
   }
 
   return { query, prompt: request.params.message, symbols, requestState: result.requestState }
 }
 
 export async function getCompanyInfo(query: string, selection?: { symbol: string; requestState?: string }) {
-  const result = await callMcpTool(
-    'get_company_info',
-    { query },
-    selection && {
-      requestState: selection.requestState,
-      inputResponses: { company: { action: 'accept', content: { companyName: selection.symbol } } },
-    },
-  )
+  const result = await callMcpTool('get_company_info', { query }, selection)
   if (isInputRequiredResult(result)) return { kind: 'choose' as const, choice: readCompanyChoice(query, result) }
   if (result.isError) {
     if (result._meta?.['sp500/companyLookupError'] === 'not_found') return { kind: 'not_found' as const }
