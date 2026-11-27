@@ -37,6 +37,8 @@ Open `/a2a-playground` to request a company brief from the A2A agent. The standa
 
 For deployment, set `SP500_A2A_URL` to the origin of a running A2A server reachable from Next.js. Set `PLAYGROUND_SESSION_SECRET` to sign browser sessions when you run the A2A page without an OpenAI key. Restarting the A2A server resets its in-memory tasks. Saved transcripts remain visible, and a new brief starts a fresh task.
 
+For a separate Vercel A2A Preview, set `SP500_A2A_URL` to its exact deployment origin so Agent Card and JSON-RPC requests use the same host. Add the Web project in the A2A project's Trusted Sources and allow Preview to Preview access. The Web Preview sends Vercel OIDC credentials only to that configured origin and waits for the completed short brief in the same request.
+
 ## Execution and display
 
 - Light-mode workspace surfaces use a white canvas, a pale neutral sidebar, muted user bubbles, and neutral borders, with brand blue retained for actions and selection. The `data-workspace="playground"` page marker scopes these tokens to this route, including portaled panels and the mobile sidebar.

@@ -1,7 +1,13 @@
 import { timingSafeEqual } from 'node:crypto'
 import { Message, TaskState, type Part } from '@a2a-js/sdk'
-import { ClientFactory, ClientFactoryOptions, DefaultAgentCardResolver } from '@a2a-js/sdk/client'
+import {
+  ClientFactory,
+  ClientFactoryOptions,
+  DefaultAgentCardResolver,
+  JsonRpcTransportFactory,
+} from '@a2a-js/sdk/client'
 import { TaskNotFoundError } from '@a2a-js/sdk/errors'
+import { getVercelOidcToken } from '@vercel/oidc'
 import { NextResponse } from 'next/server'
 import { a2aMessageSchema, a2aProgressSchema, type A2AReply } from '@/lib/a2a-playground/contracts'
 import {
@@ -46,12 +52,22 @@ export async function POST(request: Request) {
 
   try {
     const visitorToken = existingVisitor ? undefined : createVisitorToken(visitor)
-    const signal = AbortSignal.any([request.signal, AbortSignal.timeout(10_000)])
+    const origin = new URL(agentUrl)
+    const isVercelPreview =
+      process.env.VERCEL_ENV === 'preview' && origin.protocol === 'https:' && origin.hostname.endsWith('.vercel.app')
+    const signal = AbortSignal.any([request.signal, AbortSignal.timeout(isVercelPreview ? 55_000 : 10_000)])
+    const token = isVercelPreview ? await getVercelOidcToken() : undefined
+    const fetchAgent: typeof fetch = (input, init) => {
+      const url = new URL(input instanceof Request ? input.url : input)
+      if (token && url.origin !== origin.origin) throw new Error('The A2A endpoint is outside the configured origin.')
+      const headers = new Headers(init?.headers ?? (input instanceof Request ? input.headers : undefined))
+      if (token) headers.set('x-vercel-trusted-oidc-idp-token', token)
+      return fetch(input, { ...init, headers, signal, cache: 'no-store', redirect: 'error' })
+    }
     const factory = new ClientFactory(
       ClientFactoryOptions.createFrom(ClientFactoryOptions.default, {
-        cardResolver: new DefaultAgentCardResolver({
-          fetchImpl: (input, init) => fetch(input, { ...init, signal, cache: 'no-store' }),
-        }),
+        cardResolver: new DefaultAgentCardResolver({ fetchImpl: fetchAgent }),
+        transports: [new JsonRpcTransportFactory({ fetchImpl: fetchAgent })],
       }),
     )
     const client = await factory.createFromUrl(agentUrl)
@@ -68,7 +84,8 @@ export async function POST(request: Request) {
               }),
               tenant: '',
               configuration: {
-                returnImmediately: true,
+                // A hosted preview returns short briefs in the same invocation.
+                returnImmediately: !isVercelPreview,
                 historyLength: 0,
                 acceptedOutputModes: [],
                 taskPushNotificationConfig: undefined,
