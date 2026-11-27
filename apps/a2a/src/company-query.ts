@@ -33,10 +33,8 @@ const dispatcher = apiKey && proxy ? new ProxyAgent(proxy) : undefined
 const model = apiKey
   ? createOpenAI({
       apiKey,
-      // Node's fetch types describe its bundled Undici version.
-      fetch: dispatcher
-        ? (input, init) => fetch(input, { ...init, dispatcher: dispatcher as unknown as RequestInit['dispatcher'] })
-        : undefined,
+      // Node accepts an Undici dispatcher even when the shared fetch types omit it.
+      fetch: dispatcher ? (input, init) => fetch(input, { ...init, dispatcher } as unknown as RequestInit) : undefined,
     }).responses(process.env.OPENAI_MODEL ?? localSettings.OPENAI_MODEL ?? 'gpt-6-luna')
   : undefined
 
