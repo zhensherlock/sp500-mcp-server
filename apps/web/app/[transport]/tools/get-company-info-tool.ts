@@ -2,7 +2,7 @@ import { z } from 'zod'
 import type { McpServer } from '@modelcontextprotocol/server'
 import { registerAppTool } from '@modelcontextprotocol/ext-apps/server'
 import { supabase } from '../utils/supabase'
-import { getCompanySymbol } from '@/app/[transport]/utils'
+import { CompanyNotFoundError, getCompanySymbol } from '@/app/[transport]/utils'
 import { registerHtmlAppResource } from './app-resource'
 
 const RESOURCE_URI = 'ui://sp500/company-info.html'
@@ -10,6 +10,14 @@ const RESOURCE_URI = 'ui://sp500/company-info.html'
 const getCompanyInfoInputSchema = z.object({
   query: z.string().min(1),
 })
+
+function companyNotFound(text: string) {
+  return {
+    isError: true,
+    _meta: { 'sp500/companyLookupError': 'not_found' },
+    content: [{ type: 'text' as const, text }],
+  }
+}
 
 export function registerGetCompanyInfoTool(mcpServer: McpServer) {
   registerAppTool(
@@ -24,26 +32,22 @@ export function registerGetCompanyInfoTool(mcpServer: McpServer) {
     async (params, ctx) => {
       const { query } = params
 
-      const symbol = await getCompanySymbol({
-        query,
-        mcpServer,
-        ctx,
+      const symbol = await getCompanySymbol({ query, mcpServer, ctx }).catch((error: unknown) => {
+        if (error instanceof CompanyNotFoundError) return companyNotFound(error.message)
+        throw error
       })
       if (typeof symbol !== 'string') return symbol
 
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('company_info')
         .select(
           'symbol, shortName, longName, displayName, quoteType, address, city, zip, country, phone, website, irWebsite, sector, sectorKey, industry, industryKey, longBusinessSummary, fullTimeEmployees',
         )
         .eq('symbol', symbol)
-        .single()
+        .maybeSingle()
 
-      if (!data) {
-        return {
-          content: [{ type: 'text', text: `No company info found for ${symbol}.` }],
-        }
-      }
+      if (error) throw new Error('Could not load company info.', { cause: error })
+      if (!data) return companyNotFound(`No company info found for ${symbol}.`)
 
       const result = data
 

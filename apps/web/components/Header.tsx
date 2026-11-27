@@ -10,6 +10,7 @@ import { useLoadStagger } from '@/hooks/useEntranceAnimation'
 
 const navigationLinks = [
   { href: '/playground', label: 'Playground' },
+  { href: '/a2a-playground', label: 'A2A', accessibleName: 'A2A Playground' },
   { href: '/tools', label: 'Tools' },
 ]
 
@@ -47,10 +48,11 @@ export default function Header({ variant = 'site' }: { variant?: 'site' | 'works
           </span>
         </Link>
         <nav className="flex shrink-0 items-center gap-2 sm:gap-8">
-          {navigationLinks.map(({ href, label }) => (
+          {navigationLinks.map(({ href, label, accessibleName }) => (
             <Link
               key={href}
               href={href}
+              aria-label={accessibleName}
               aria-current={pathname === href ? 'page' : undefined}
               className={cn(
                 'inline-flex min-h-11 items-center rounded-sm px-2 text-[15px] font-extrabold leading-4.5 text-muted-foreground no-underline transition-colors outline-none hover:text-primary focus-visible:text-primary focus-visible:ring-3 focus-visible:ring-ring/30 aria-[current=page]:text-primary',

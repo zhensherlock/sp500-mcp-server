@@ -13,6 +13,12 @@ import { z } from 'zod'
 
 const COMPANY_INPUT_KEY = 'company'
 
+export class CompanyNotFoundError extends Error {
+  constructor(query: string) {
+    super(`No companies found matching "${query}". Please try a different company name or symbol.`)
+  }
+}
+
 type Options = {
   query: string
   mcpServer: McpServer
@@ -21,14 +27,12 @@ type Options = {
 
 export async function getCompanySymbol(options: Options): Promise<string | InputRequiredResult> {
   const { ctx, query, mcpServer } = options
-  const companies = await searchCompanies(query)
+  const companies = await searchCompanies(query.trim())
 
-  if (!companies.success) {
-    throw new Error(`No companies found matching "${query}". Please try a different company name or symbol.`)
-  }
+  if (!companies.length) throw new CompanyNotFoundError(query)
 
-  if (companies.data.length === 1) {
-    return companies.data[0].symbol
+  if (companies.length === 1) {
+    return companies[0].symbol
   }
 
   const response = inputResponse(ctx.mcpReq.inputResponses, COMPANY_INPUT_KEY)
@@ -36,7 +40,7 @@ export async function getCompanySymbol(options: Options): Promise<string | Input
     throw new Error('User cancelled the query')
   }
 
-  const symbols = companies.data.map(company => company.symbol) as [string, ...string[]]
+  const symbols = companies.map(company => company.symbol) as [string, ...string[]]
   const selectionSchema = z.object({
     companyName: z.enum(symbols).meta({ title: 'Company' }),
   })
@@ -56,7 +60,12 @@ export async function getCompanySymbol(options: Options): Promise<string | Input
   )
 
   if (supportsFormElicitation) {
-    const choices = companies.data.map(company => `${company.symbol} — ${company.longName}`).join('\n')
+    const choices = companies
+      .map(({ symbol, longName, displayName, shortName }) => {
+        const name = longName?.trim() || displayName?.trim() || shortName?.trim()
+        return name ? `${symbol} — ${name}` : symbol
+      })
+      .join('\n')
 
     return inputRequired({
       inputRequests: {
@@ -68,5 +77,5 @@ export async function getCompanySymbol(options: Options): Promise<string | Input
     })
   }
 
-  return companies.data[0].symbol
+  return companies[0].symbol
 }

@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "erasableSyntaxOnly": true
+  },
+  "include": ["src/**/*.ts", "tsdown.config.ts"]
+}

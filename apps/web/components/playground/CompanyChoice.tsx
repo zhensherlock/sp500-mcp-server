@@ -42,7 +42,9 @@ export function CompanyChoice({
   return (
     <Card size="sm">
       <CardHeader>
-        <CardTitle id={labelId}>{prompt}</CardTitle>
+        <CardTitle id={labelId} className="whitespace-pre-line">
+          {prompt}
+        </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         <ToggleGroup

@@ -1,33 +1,25 @@
 import { supabase } from './supabase'
 
-interface CompanySearchResult {
-  symbol: string
-  shortName: string
-  longName: string
-  displayName: string
-}
+const companyFields = 'symbol, shortName, longName, displayName'
 
-interface SearchCompaniesResponse {
-  success: boolean
-  data: CompanySearchResult[]
-}
+export async function searchCompanies(query: string, limit = 5) {
+  if (!query) return []
 
-export async function searchCompanies(query: string, limit: number = 5): Promise<SearchCompaniesResponse> {
-  try {
-    const searchPattern = `%${query}%`
-    const { data } = await supabase
-      .from('company_info')
-      .select('symbol, shortName, longName, displayName, sector, industry')
-      .or(
-        `symbol.ilike.${searchPattern},shortName.ilike.${searchPattern},longName.ilike.${searchPattern},displayName.ilike.${searchPattern}`,
-      )
-      .limit(limit)
-    if (!data?.length) {
-      return { success: false, data: [] }
-    }
-
-    return { success: true, data }
-  } catch {
-    return { success: false, data: [] }
+  if (/^[a-z0-9][a-z0-9.-]*$/i.test(query)) {
+    const { data, error } = await supabase.from('company_info').select(companyFields).eq('symbol', query.toUpperCase())
+    if (error) throw new Error('Could not search for companies.', { cause: error })
+    if (data.length) return data
   }
+
+  // Escape SQL LIKE wildcards, then quote the value for the PostgREST OR filter.
+  const literal = query.replace(/[\\%_*]/g, '\\$&').replace(/[\\"]/g, '\\$&')
+  const pattern = `"%${literal}%"`
+  const { data, error } = await supabase
+    .from('company_info')
+    .select(companyFields)
+    .or(`symbol.ilike.${pattern},shortName.ilike.${pattern},longName.ilike.${pattern},displayName.ilike.${pattern}`)
+    .order('symbol')
+    .limit(limit)
+  if (error) throw new Error('Could not search for companies.', { cause: error })
+  return data
 }

@@ -31,6 +31,12 @@ pnpm --filter @apps/web dev
 
 Open `http://localhost:3000/playground`. When using another port, set `SP500_MCP_URL` to that server's `/mcp` endpoint before starting Next. The server also accepts a configured remote MCP endpoint through this variable; visitors cannot change it.
 
+## A2A Playground
+
+Open `/a2a-playground` to request a company brief from the A2A agent. The standalone page uses the same conversation layout and keeps its own browser history. Start both the web app and `@apps/a2a` with the root `pnpm dev`. The Next.js route uses the local A2A Agent Card at `http://127.0.0.1:4100` by default in development. It starts each turn with non-streaming `SendMessage` and polls `GetTask` to display the agent's company lookup, financials, and news steps. Send `Bank`, then choose `BAC` to continue the same task and receive the brief. Expand the completed agent trace to review its steps.
+
+For deployment, set `SP500_A2A_URL` to the origin of a running A2A server reachable from Next.js. Set `PLAYGROUND_SESSION_SECRET` to sign browser sessions when you run the A2A page without an OpenAI key. Restarting the A2A server resets its in-memory tasks. Saved transcripts remain visible, and a new brief starts a fresh task.
+
 ## Execution and display
 
 - Light-mode workspace surfaces use a white canvas, a pale neutral sidebar, muted user bubbles, and neutral borders, with brand blue retained for actions and selection. The `data-workspace="playground"` page marker scopes these tokens to this route, including portaled panels and the mobile sidebar.

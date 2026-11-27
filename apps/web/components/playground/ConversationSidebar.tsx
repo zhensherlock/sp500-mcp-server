@@ -17,20 +17,21 @@ import {
   useSidebar,
 } from '@workspace/ui/components/sidebar'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip'
-import type { SavedSession } from '@/lib/playground/history'
 
-export function ConversationSidebar({
+export function ConversationSidebar<Session extends { id: string; title: string }>({
   sessions,
   activeId,
   onNew,
   onSelect,
   onRemove,
+  newLabel = 'New research',
 }: {
-  sessions: SavedSession[]
+  sessions: Session[]
   activeId?: string
   onNew: () => void
-  onSelect: (session: SavedSession) => void
+  onSelect: (session: Session) => void
   onRemove: (id: string) => void
+  newLabel?: string
 }) {
   const { setOpenMobile } = useSidebar()
   return (
@@ -45,7 +46,7 @@ export function ConversationSidebar({
           }}
         >
           <Plus data-icon="inline-start" />
-          New research
+          {newLabel}
         </Button>
       </SidebarHeader>
       <SidebarContent>
