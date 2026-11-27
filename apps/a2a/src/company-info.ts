@@ -29,7 +29,14 @@ export async function getCompanyInfo(query: string, selection?: { symbol: string
   const result = await callMcpTool('get_company_info', { query }, selection)
   if (isInputRequiredResult(result)) return { kind: 'choose' as const, choice: readCompanyChoice(query, result) }
   if (result.isError) {
-    if (result._meta?.['sp500/companyLookupError'] === 'not_found') return { kind: 'not_found' as const }
+    // The deployed MCP may report a missing company as text without the error code.
+    const noMatchText = `No companies found matching "${query}". Please try a different company name or symbol.`
+    if (
+      result._meta?.['sp500/companyLookupError'] === 'not_found' ||
+      result.content.some(part => part.type === 'text' && part.text === noMatchText)
+    ) {
+      return { kind: 'not_found' as const }
+    }
     throw new Error('get_company_info returned an error.')
   }
 
